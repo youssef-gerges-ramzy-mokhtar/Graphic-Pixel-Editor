@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class Display /*implements ActionListener*/{
     //private JLabel label;
     
-    public Display(){
+    public Display() {
         JFrame frame = new JFrame();
         frame.setTitle("I want to kermit sewer slide");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,13 +52,17 @@ public class Display /*implements ActionListener*/{
 
 
         /*left panel -- creates panel and assigns all creation details*/
-        JPanel leftpanel = new JPanel();        
+        OurCanvas leftpanel = new OurCanvas();
         leftpanel.setBackground(Color.WHITE);
+        // JPanel leftpanel = new JPanel();        
+        // leftpanel.setBackground(Color.WHITE);
         leftpanel.setBounds(204, 104, 900, 800);
         
         frame.add(mainpanel);
         frame.add(secondpanel);
         frame.add(leftpanel); 
         frame.setVisible(true);
+    
+        PenGui initial_pen = new PenGui(leftpanel);
     }
 }
