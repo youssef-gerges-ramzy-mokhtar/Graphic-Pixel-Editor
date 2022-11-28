@@ -6,6 +6,7 @@ public class Display extends JFrame /*implements ActionListener*/{
     //private JLabel label;
     OurCanvas canvas;    
     PenGui penGui;
+    ColorGui colorGui;
 
     public Display() {
         setTitle("I want to kermit sewer slide");
@@ -27,7 +28,8 @@ public class Display extends JFrame /*implements ActionListener*/{
         // contentPane.add(canvas, BorderLayout.CENTER);        
         penGui = new PenGui(this);
         penGui.addComponentsToFrame();
-    
+        
+        colorGui = new ColorGui();    
         // Updated Code //
 
         JPanel secondpanel = new JPanel();        //creates panel
@@ -38,7 +40,6 @@ public class Display extends JFrame /*implements ActionListener*/{
         
         //Icon fillImage = new ImageIcon("Icons/Fill");
         JButton fill = new JButton("Fill");
-        JButton color = new JButton("Color");
         //Icon eyedropImage = new ImageIcon("Icons/eyedropper");
         JButton eyedrop = new JButton("Eyedrop");
         //Icon sprayImage = new ImageIcon("Icons/Spray");
@@ -48,7 +49,7 @@ public class Display extends JFrame /*implements ActionListener*/{
         
         secondpanel.add(penGui.getPenBtn());
         secondpanel.add(penGui.getEraserBtn());
-        secondpanel.add(color);
+        secondpanel.add(colorGui.getBtn());
         secondpanel.add(fill);
         secondpanel.add(eyedrop);
         secondpanel.add(airbrush);
@@ -72,7 +73,6 @@ public class Display extends JFrame /*implements ActionListener*/{
     }
 
     public Color getColor() {
-        // return colorGui.getColor();
-        return Color.black;
+        return colorGui.getColor();
     }
 }
