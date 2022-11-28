@@ -5,25 +5,36 @@ import java.awt.image.*;
 
 class OurCanvas extends JPanel {
 	private BufferedImage image;
+	private Color col;
 
 	public OurCanvas() {
-		repaint();
-		setBackground(Color.white);
+		col = Color.white;
+		setBackground(col);
 	}
 
 	public void paintComponent(Graphics g) {
-		if (image == null)
+		super.paintComponent(g);
+		if (image == null) {
 			image = (BufferedImage) createImage(getSize().width, getSize().height);
+			
+			Graphics2D imgGraphics = image.createGraphics();
+			imgGraphics.setBackground(getBackground());
+			imgGraphics.clearRect(0, 0, getSize().width, getSize().height);
+		}
 
 		g.drawImage(image, 0, 0, null);
 	}
 
-	void updateCanvas(SpecificGraphic g) {
+	public void updateCanvas(SpecificGraphic g) {
 		g.draw();
 		repaint();
 	}
 
-	Graphics getCanvasGraphics() {
-		return image.getGraphics();
+	public Graphics2D getCanvasGraphics() {
+		return (Graphics2D) image.getGraphics();
+	}
+
+	public Color getCanvasColor() {
+		return col;
 	}
 }
