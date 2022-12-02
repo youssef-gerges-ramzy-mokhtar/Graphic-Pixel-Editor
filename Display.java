@@ -7,8 +7,10 @@ public class Display extends JFrame /*implements ActionListener*/{
     OurCanvas canvas;    
     PenGui penGui;
     ColorGui colorGui;
+    private EyeDropper eyeDropper;
 
     public Display() {
+       
         setTitle("I want to kermit sewer slide");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);              //doesnt use a layout manager
@@ -41,19 +43,20 @@ public class Display extends JFrame /*implements ActionListener*/{
         //Icon fillImage = new ImageIcon("Icons/Fill");
         JButton fill = new JButton("Fill");
         //Icon eyedropImage = new ImageIcon("Icons/eyedropper");
-        JButton eyedrop = new JButton("Eyedrop");
+        // JButton eyedrop = new JButton("Eyedrop");
         //Icon sprayImage = new ImageIcon("Icons/Spray");
         JButton airbrush = new JButton("Airbrush");
         //Icon blurImage = new ImageIcon("Icons/Blurred");
         JButton blur = new JButton("Blue");
-        
+        eyeDropper = new EyeDropper(canvas);
         secondpanel.add(penGui.getPenBtn());
         secondpanel.add(penGui.getEraserBtn());
         secondpanel.add(colorGui.getBtn());
         secondpanel.add(fill);
-        secondpanel.add(eyedrop);
+        secondpanel.add(eyeDropper.getEyeDropperBtn());
         secondpanel.add(airbrush);
         secondpanel.add(blur);
+        
     
         
         // Code Change //

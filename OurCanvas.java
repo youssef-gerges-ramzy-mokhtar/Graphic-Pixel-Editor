@@ -37,4 +37,8 @@ class OurCanvas extends JPanel {
 	public Color getCanvasColor() {
 		return col;
 	}
+
+	public Color getCanvasColor(int x, int y) {
+		return new Color(image.getRGB(x, y));
+	}
 }

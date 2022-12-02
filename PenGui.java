@@ -6,6 +6,7 @@ import javax.swing.*;
 class PenGui extends JPanel {
 	private Brush pen;
 	private Brush eraser;
+	
 
 	private Point dragPoint;
 	private Display frame;
@@ -13,7 +14,7 @@ class PenGui extends JPanel {
 	private PenOptionsPanel penOptionsPanel;
 	private JButton penBtn;
 	private JButton eraserBtn;
-
+	private EyeDropper eyeDropper;
 
 	private boolean released;
 	private boolean opened;
@@ -24,13 +25,15 @@ class PenGui extends JPanel {
 		this.frame = frame;
 		pen = new Pen();
 		eraser = new Pen();
+		
+		
 
 		dragPoint = new Point(0, 0);
 		lineGraphic = new DrawLineGraphics(pen.getThickness(), pen.getCol());
 		penOptionsPanel = new PenOptionsPanel();
 		penBtn = new JButton("Pen");
 		eraserBtn = new JButton("Eraser");
-
+		eyeDropper = new EyeDropper(frame.getCanvas());
 		released = true;
 		opened = false;
 		eraserSelected = false;
