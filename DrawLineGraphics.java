@@ -38,7 +38,7 @@ public class DrawLineGraphics implements SpecificGraphic {
 	public void draw() {
 		if (firstPoint.equals(secondPoint)) return;
 
-		g.setStroke(new BasicStroke(stroke_sz));
+		g.setStroke(new BasicStroke(stroke_sz, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g.setColor(stroke_col);
 
 		g.drawLine(
