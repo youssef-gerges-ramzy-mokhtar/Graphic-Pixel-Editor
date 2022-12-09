@@ -6,6 +6,7 @@ import javax.swing.border.*;
 public class Display extends JFrame{
     //private JLabel label;
     private OurCanvas canvas;
+    
     // private PenGui penGui;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
@@ -28,7 +29,9 @@ public class Display extends JFrame{
         // Code Change //
         toolsPanel = new ToolsPanel(canvas);
         colorGui.addObserver(toolsPanel.getPenGui());
+        colorGui.addObserver(toolsPanel.getRectangle());
         toolsPanel.getEyeDropper().addColorObserver(colorGui);
+
         optionsPanel = new OptionsPanel(colorGui);
         addObservers();
         
@@ -57,6 +60,7 @@ public class Display extends JFrame{
 
     public void addObservers() {
         optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getPenGui());
+        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getRectangle());
         // colorGui.addObserver(penGui);
     }
 
