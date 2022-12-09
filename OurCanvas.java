@@ -12,7 +12,6 @@ class OurCanvas extends JPanel {
 	public OurCanvas() {
 		col = Color.white;
 		setBackground(new Color(202, 211, 227));
-		// setPreferredSize(new Dimension(2000, 2000));
 		repaint();
 
 		addMouseListener(new MouseAdapter() {
@@ -47,21 +46,6 @@ class OurCanvas extends JPanel {
 					return;
 				}
 
-				/*
-				// Under Development
-				if (Math.abs(e.getX() - image.getWidth()) <= 5) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-					setCursor(cursor);
-					return;
-				}
-
-				if (Math.abs(e.getY() - image.getHeight()) <= 5) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-					setCursor(cursor);
-					return;
-				}
-				*/
-
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
 		});
@@ -76,13 +60,6 @@ class OurCanvas extends JPanel {
 			setPreferredSize(new Dimension(newWidth + 20, newHeight + 20));
 			revalidate();
 		}
-
-		// if (newWidth >= getWidth())
-		// 	setPreferredSize(new Dimension(newWidth + 20, getHeight()));
-
-		// if (newHeight >= getHeight())
-		// 	setPreferredSize(new Dimension())
-
 
 		BufferedImage tempImg = (BufferedImage) createImage(newWidth, newHeight);
 		Graphics2D imgGraphics = tempImg.createGraphics();
@@ -107,7 +84,6 @@ class OurCanvas extends JPanel {
 			
 			Graphics2D imgGraphics = image.createGraphics();
 			imgGraphics.setBackground(col);
-			// imgGraphics.clearRect(0, 0, getSize().width, getSize().height);
 			imgGraphics.clearRect(0, 0, 800, 600);
 		}
 

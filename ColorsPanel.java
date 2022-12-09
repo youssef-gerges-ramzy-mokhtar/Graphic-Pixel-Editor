@@ -25,8 +25,6 @@ class ColorsPanel extends JPanel {
 			swatchBtn.setBackground(col);
 			swatchBtn.setPreferredSize(new Dimension(swatchSz, swatchSz));
             swatchBtn.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-		    // swatchBtn.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-		    // swatchBtn.setBorder(BorderFactory.createLineBorder(Color.black));
             swatchBtn.setBorderPainted(false);
 		
             MouseAdapter adapter = new MouseAdapter() {
