@@ -7,17 +7,20 @@ class ToolsPanel extends JPanel implements Observer {
     private OurCanvas currentCanvas;
     private Rectangle rectangle;
     private FillGui fill;
+	private Circle circle;
 
 	public ToolsPanel(OurCanvas currentCanvas) {
         penGui = new PenGui(currentCanvas);
         eyeDropper = new EyeDropper(currentCanvas);
        	rectangle = new Rectangle(currentCanvas);
        	fill = new FillGui(currentCanvas);
+		circle = new Circle(currentCanvas);
 
         penGui.addObserver(this);
         eyeDropper.addObserver(this);
         rectangle.addObserver(this);
         fill.addObserver(this);
+		circle.addObserver(this);
 
         setBackground(new Color(63, 72, 204));      //set panel colour, store this color in the constants class
         setBounds(0, 100, 200, getHeight()-100);      //set panel area
@@ -32,6 +35,7 @@ class ToolsPanel extends JPanel implements Observer {
         add(airbrush);
         add(blur);
         add(rectangle.getButton());
+		add(circle.getButton());
 
 	}
 
@@ -51,6 +55,10 @@ class ToolsPanel extends JPanel implements Observer {
 		return fill;
 	}
 
+	public Circle getCircle() {
+		return circle;
+	}
+
 	// Observer Pattern //
 	public void update(int val) {}
 	public void update2(Color col) {}
@@ -59,5 +67,6 @@ class ToolsPanel extends JPanel implements Observer {
 		if (eyeDropper.isActive()) eyeDropper.deSelect();
 		if (rectangle.isActive()) rectangle.deSelect();
 		if (fill.isActive()) fill.deSelect();
+		if (circle.isActive()) circle.deSelect();
 	}
 }
