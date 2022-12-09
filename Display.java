@@ -30,6 +30,7 @@ public class Display extends JFrame{
         toolsPanel = new ToolsPanel(canvas);
         colorGui.addObserver(toolsPanel.getPenGui());
         colorGui.addObserver(toolsPanel.getRectangle());
+        colorGui.addObserver(toolsPanel.getFill());
         toolsPanel.getEyeDropper().addColorObserver(colorGui);
 
         optionsPanel = new OptionsPanel(colorGui);
