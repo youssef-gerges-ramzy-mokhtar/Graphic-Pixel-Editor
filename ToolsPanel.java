@@ -6,15 +6,18 @@ class ToolsPanel extends JPanel implements Observer {
     private EyeDropper eyeDropper;
     private OurCanvas currentCanvas;
     private Rectangle rectangle;
+    private FillGui fill;
 
 	public ToolsPanel(OurCanvas currentCanvas) {
         penGui = new PenGui(currentCanvas);
         eyeDropper = new EyeDropper(currentCanvas);
        	rectangle = new Rectangle(currentCanvas);
+       	fill = new FillGui(currentCanvas);
 
         penGui.addObserver(this);
         eyeDropper.addObserver(this);
         rectangle.addObserver(this);
+        fill.addObserver(this);
 
         setBackground(new Color(63, 72, 204));      //set panel colour, store this color in the constants class
         setBounds(0, 100, 200, getHeight()-100);      //set panel area
@@ -22,10 +25,9 @@ class ToolsPanel extends JPanel implements Observer {
         
         JButton airbrush = new JButton("Airbrush");
         JButton blur = new JButton("Blur");
-        JButton fill = new JButton("Fill");
         add(penGui.getPenBtn());
         add(penGui.getEraserBtn());
-        add(fill);
+        add(fill.getFillBtn());
         add(eyeDropper.getEyeDropperBtn());
         add(airbrush);
         add(blur);
@@ -45,6 +47,10 @@ class ToolsPanel extends JPanel implements Observer {
 		return rectangle;
 	}
 
+	public FillGui getFill() {
+		return fill;
+	}
+
 	// Observer Pattern //
 	public void update(int val) {}
 	public void update2(Color col) {}
@@ -52,5 +58,6 @@ class ToolsPanel extends JPanel implements Observer {
 		if (penGui.isActive()) penGui.deSelect();
 		if (eyeDropper.isActive()) eyeDropper.deSelect();
 		if (rectangle.isActive()) rectangle.deSelect();
+		if (fill.isActive()) fill.deSelect();
 	}
 }
