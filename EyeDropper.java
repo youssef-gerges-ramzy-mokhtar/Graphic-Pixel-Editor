@@ -45,7 +45,6 @@ public class EyeDropper implements Observable {
         eyeDropperbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent action) {
                 notifyObservers();
-                System.out.println("EyeDropper button pressed");
                 buttonSelected = true;
                 SelectButton.selectBtn(eyeDropperbtn);
             }

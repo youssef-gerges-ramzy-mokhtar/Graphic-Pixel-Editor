@@ -47,6 +47,8 @@ public class DrawLineGraphics implements SpecificGraphic {
 			secondPoint.x,
 			secondPoint.y
 		);
+
+		g.dispose();
 	}
 
 	public Graphics getGraphics() {
