@@ -63,6 +63,7 @@ class PenGui extends JPanel implements Observer, Observable {
 		});
 	}
 
+	// Draws brush normally excluding a single point
 	private void drawBrush(Brush brush, MouseEvent e) {
 		if (released) {
 			brush.setPos(e.getX(), e.getY());
@@ -84,6 +85,7 @@ class PenGui extends JPanel implements Observer, Observable {
 		canvas.updateCanvas(lineGraphic);
 	}
 
+	// Draws on canvas when only a point is drawn and is not dragged.
 	private void drawPointBrush(Brush brush, MouseEvent e) {
 		brush.setPos(e.getX(), e.getY());
 		Point dragPoint = new Point(e.getX() + 1, e.getY() + 1);
