@@ -56,6 +56,7 @@ public class EyeDropper implements Observable {
     }
 
     public void deSelect() {
+       
         buttonSelected = false;
         SelectButton.deSelectBtn(eyeDropperbtn);
     }
@@ -72,6 +73,7 @@ public class EyeDropper implements Observable {
     }
 
     public void addObserver(Observer observer) {
+        System.out.println("workingNow");
         clickObservers.add(observer);
     }
 
