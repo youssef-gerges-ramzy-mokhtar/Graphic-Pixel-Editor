@@ -1,0 +1,70 @@
+// import java.lang.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.image.*;
+import javax.swing.event.*;
+import javax.imageio.*;
+import java.io.*;
+import java.util.*;
+
+class ImageLoader {
+    private JMenu openImageMenu = new JMenu("Open Image");
+    private OurCanvas canvas;
+    private LayerData lastLoadedImg;
+
+    public ImageLoader(OurCanvas canvas) {
+    	this.canvas = canvas;
+    	addOpenImageMenuListener();
+    }
+
+    private void addOpenImageMenuListener() {
+    	openImageMenu.addMenuListener(new MenuListener() {
+            public void menuCanceled(MenuEvent e) {}
+            public void menuDeselected(MenuEvent e) {}
+
+            public void menuSelected(MenuEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int fileResponse = fileChooser.showOpenDialog(null);
+                if (fileResponse != JFileChooser.APPROVE_OPTION) return;
+
+				loadImage(fileChooser.getSelectedFile().getAbsolutePath());                
+			}
+        });
+    }
+
+    private void loadImage(String filePath) {
+    	try {
+    		File imgFile = new File(filePath);
+            BufferedImage img = ImageIO.read(imgFile);
+            img = scaleImage(img);
+
+            lastLoadedImg = new LayerData(img);
+            canvas.drawLayer(lastLoadedImg);
+        } catch (Exception e) {}
+    }
+
+    private BufferedImage scaleImage(BufferedImage img) {
+    	double factor1 = 1;
+        if (img.getWidth() > canvas.getCanvasWidth())
+            factor1 = (double) img.getWidth() / (double) canvas.getCanvasWidth();
+
+        double factor2 = 1;
+        if (img.getHeight() > canvas.getCanvasHeight())
+            factor2 = (double) img.getHeight() / (double) canvas.getCanvasHeight();
+
+        double aspectRatio = Math.max(factor1, factor2);
+        int newWidth = (int) Math.floor((double) img.getWidth() / aspectRatio);
+        int newHeight = (int) Math.floor((double) img.getHeight() / aspectRatio);
+        Image scaledImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+        img = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        g2d.drawImage(scaledImg, 0, 0, null);
+    
+        return img;
+    }
+
+    public JMenu getMenu() {
+    	return openImageMenu;
+    }
+}

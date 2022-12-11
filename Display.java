@@ -41,6 +41,7 @@ public class Display extends JFrame{
         main.add(new JScrollPane(canvas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
         contentPane.add(main, BorderLayout.CENTER);
         contentPane.add(optionsPanel, BorderLayout.NORTH);
+        setJMenuBar(new MenuPanel(canvas));
         revalidate();
         // Code Change //
     }

@@ -132,8 +132,7 @@ class OurCanvas extends JPanel {
 	}
 
 	public void setPixel(int x, int y, int rgb) {
-		if (x >= image.getWidth() || y >= image.getHeight()) return;
-		// if (image.getRGB(x, y) == rgb) return;
+		if (!inRange(x, y)) return;
 
 		image.setRGB(x, y, rgb);
 		revalidate();
@@ -153,5 +152,22 @@ class OurCanvas extends JPanel {
 		if (y >= image.getHeight()) return false;
 
 		return true;
+	}
+
+	public void drawLayer(LayerData img) {
+		Graphics2D g2d = (Graphics2D) image.getGraphics();
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHints(rh);
+
+		g2d.drawImage(img.getImage(), img.getX(), img.getY(), null);
+		repaint();
+	}
+
+	public int getCanvasWidth() {
+		return image.getWidth();
+	}
+
+	public int getCanvasHeight() {
+		return image.getHeight();
 	}
 }
