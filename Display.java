@@ -8,10 +8,12 @@ public class Display extends JFrame{
     private OurCanvas canvas;
     
     // private PenGui penGui;
+    // private EyeDropper eyeDropper;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
     private ToolsPanel toolsPanel;
-    // private EyeDropper eyeDropper;
+    private ImageLoader imageLoader;
+    private LayersHandler layersHandler;
 
     public Display() {   
         initFrame();
@@ -24,10 +26,18 @@ public class Display extends JFrame{
 
         canvas = new OurCanvas();
         colorGui = new ColorGui();
+
+        // Layer Support //
+        imageLoader = new ImageLoader(canvas); // For Loading Images from the user computer
+        layersHandler = new LayersHandler(canvas); // For Handling Layers
+        imageLoader.addObserver(layersHandler); // So whenever a user imports an image from his computer will automatically be added to the layersHandler
+        canvas.addCanvasObserver(layersHandler); // For Observing Changes in the Canvas Size
+        // Layer Support //
+
         // Updated Code //
 
         // Code Change //
-        toolsPanel = new ToolsPanel(canvas);
+        toolsPanel = new ToolsPanel(canvas, layersHandler);
         colorGui.addObserver(toolsPanel.getPenGui());
         colorGui.addObserver(toolsPanel.getRectangle());
         colorGui.addObserver(toolsPanel.getFill());
@@ -41,7 +51,7 @@ public class Display extends JFrame{
         main.add(new JScrollPane(canvas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
         contentPane.add(main, BorderLayout.CENTER);
         contentPane.add(optionsPanel, BorderLayout.NORTH);
-        setJMenuBar(new MenuPanel(canvas));
+        setJMenuBar(new MenuPanel(canvas, imageLoader));
         revalidate();
         // Code Change //
     }

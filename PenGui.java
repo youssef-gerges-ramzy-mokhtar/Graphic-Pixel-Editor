@@ -22,8 +22,13 @@ class PenGui extends JPanel implements Observer, Observable {
 	private int currentSz = 1;
 	private Color currentCol;
 
-	public PenGui(OurCanvas canvas) {
+	private LayersHandler layerHandler;
+
+	public PenGui(OurCanvas canvas, LayersHandler layerHandler) {
 		this.canvas = canvas;
+		this.layerHandler = layerHandler;
+		currentCol = Color.black;
+
 		pen = new Pen();
 		eraser = new Pen();
 
@@ -64,28 +69,33 @@ class PenGui extends JPanel implements Observer, Observable {
 	}
 
 	private void drawBrush(Brush brush, MouseEvent e) {
+		LayerData currentLayer = layerHandler.getSelectedLayer();
+
 		if (released) {
-			brush.setPos(e.getX(), e.getY());
+			brush.setPos(currentLayer.getX(e.getX()), currentLayer.getY(e.getY()));
 			released = false;
 		} else
 			brush.setPos(dragPoint.x, dragPoint.y);
 
-		dragPoint.setLocation(e.getX(), e.getY());
+		// Understand what happens to the startPos when a layer moves outside the canvas
+		dragPoint.setLocation(currentLayer.getX(e.getX()), currentLayer.getY(e.getY())); // coordinates might be negative
 		brush.setThickness(currentSz);
 
 		if (penSelected) brush.setColor(currentCol);
 		if (eraserSelected) brush.setColor(canvas.getCanvasColor());
 
 		lineGraphic.setPoints(brush.getPos(), dragPoint);
-		lineGraphic.setGraphics(canvas.getCanvasGraphics());
 		lineGraphic.setColor(brush.getCol());
 		lineGraphic.setStrokeSize(brush.getThickness());
 	
-		canvas.updateCanvas(lineGraphic);
+		currentLayer.updateGraphics(lineGraphic);
+		layerHandler.updateCanvas();
 	}
 
 	private void drawPointBrush(Brush brush, MouseEvent e) {
-		brush.setPos(e.getX(), e.getY());
+		LayerData currentLayer = layerHandler.getSelectedLayer();
+
+		brush.setPos(currentLayer.getX(e.getX()), currentLayer.getY(e.getY()));
 		Point dragPoint = new Point(e.getX() + 1, e.getY() + 1);
 		
 		brush.setThickness(currentSz);
@@ -93,11 +103,11 @@ class PenGui extends JPanel implements Observer, Observable {
 		if (eraserSelected) brush.setColor(canvas.getCanvasColor());
 
 		lineGraphic.setPoints(brush.getPos(), dragPoint);
-		lineGraphic.setGraphics(canvas.getCanvasGraphics());
 		lineGraphic.setColor(brush.getCol());
 		lineGraphic.setStrokeSize(brush.getThickness());
 	
-		canvas.updateCanvas(lineGraphic);
+		currentLayer.updateGraphics(lineGraphic);
+		layerHandler.updateCanvas();
 	}
 
 	private void penBtnListener() {

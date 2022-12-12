@@ -3,49 +3,25 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-class Circle implements Observer, Observable {
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
-	private JButton circleBtn = new JButton("Circle Shape");
+class Circle extends Clickable implements Observer{
 	private int sideLen = 5;
 	private Color col;
-	private OurCanvas cirCanvas;
-	private boolean selected = false;
 
 	public Circle(OurCanvas cirCanvas) {
-		this.cirCanvas = cirCanvas;
+		super(cirCanvas);
 		col = Color.black;
 
-		circleBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				notifyObservers();
-				selected = true;
-				SelectButton.selectBtn(circleBtn);
-			}
-		});
-
+		btn.setText("Circle Shape");
 		cirCanvas.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				if (!selected) return;
+				if (!btnActive) return;
 
-				CircleGraphics circleGraphics = new CircleGraphics(new Point(e.getX(), e.getY()), cirCanvas.getCanvasGraphics());
-				circleGraphics.setColor(col);
-				circleGraphics.setLen(sideLen);				
-				cirCanvas.updateCanvas(circleGraphics);
+				// CircleGraphics circleGraphics = new CircleGraphics(new Point(e.getX(), e.getY()), cirCanvas.getCanvasGraphics());
+				// circleGraphics.setColor(col);
+				// circleGraphics.setLen(sideLen);				
+				// cirCanvas.updateCanvas(circleGraphics);
 			}
 		});
-	}
-
-	public JButton getButton() {
-		return circleBtn;
-	}
-
-	public boolean isActive() {
-		return selected;
-	}
-
-	public void deSelect() {
-		selected = false;
-        SelectButton.deSelectBtn(circleBtn);
 	}
 
 	// Observer Pattern //
@@ -58,20 +34,6 @@ class Circle implements Observer, Observable {
 	}
 
 	public void update3() {}
-
-	public void notifyObservers() {
-		for (Observer observer: observers) {
-			observer.update3();
-		}
-	}
-
-	public void addObserver(Observer observer) {
-		observers.add(observer);
-	}
-
-	public void removeObserver(Observer observer) {
-		observers.remove(observer);
-	}
 
 	/*
 		// We should have a Separate Shape Controller GUI to the User

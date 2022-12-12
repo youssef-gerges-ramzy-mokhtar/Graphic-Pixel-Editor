@@ -3,49 +3,25 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-class Rectangle implements Observer, Observable {
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
-	private JButton rectangleBtn = new JButton("Rectangle Shape");
+class Rectangle extends Clickable implements Observer {
 	private int sideLen = 5;
 	private Color col;
-	private OurCanvas recCanvas;
-	private boolean selected = false;
 
 	public Rectangle(OurCanvas recCanvas) {
-		this.recCanvas = recCanvas;
+		super(recCanvas);
 		col = Color.black;
-
-		rectangleBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				notifyObservers();
-				selected = true;
-				SelectButton.selectBtn(rectangleBtn);
-			}
-		});
+		btn.setText("Rectangle Shape");
 
 		recCanvas.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				if (!selected) return;
+				if (!btnActive) return;
 
-				RectangleGraphics rectangleGraphics = new RectangleGraphics(new Point(e.getX(), e.getY()), recCanvas.getCanvasGraphics());
-				rectangleGraphics.setColor(col);
-				rectangleGraphics.setLen(sideLen);				
-				recCanvas.updateCanvas(rectangleGraphics);
+				// RectangleGraphics rectangleGraphics = new RectangleGraphics(new Point(e.getX(), e.getY()), recCanvas.getCanvasGraphics());
+				// rectangleGraphics.setColor(col);
+				// rectangleGraphics.setLen(sideLen);				
+				// recCanvas.updateCanvas(rectangleGraphics);
 			}
 		});
-	}
-
-	public JButton getButton() {
-		return rectangleBtn;
-	}
-
-	public boolean isActive() {
-		return selected;
-	}
-
-	public void deSelect() {
-		selected = false;
-        SelectButton.deSelectBtn(rectangleBtn);
 	}
 
 	// Observer Pattern //
@@ -58,20 +34,6 @@ class Rectangle implements Observer, Observable {
 	}
 
 	public void update3() {}
-
-	public void notifyObservers() {
-		for (Observer observer: observers) {
-			observer.update3();
-		}
-	}
-
-	public void addObserver(Observer observer) {
-		observers.add(observer);
-	}
-
-	public void removeObserver(Observer observer) {
-		observers.remove(observer);
-	}
 
 	/*
 		// We should have a Separate Shape Controller GUI to the User

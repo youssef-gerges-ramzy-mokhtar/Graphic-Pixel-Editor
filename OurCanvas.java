@@ -2,40 +2,52 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.*;
 
-class OurCanvas extends JPanel {
+class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	private BufferedImage image;
 	private Color col;
 	private boolean canDrag = false;
 	private int newWidth, newHeight;
+	private ArrayList<CanvasObserver> canvasObservers;
+	private ArrayList<Observer> observers;
 
 	public OurCanvas() {
+		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics2D imgGraphics = image.createGraphics();
+		imgGraphics.setBackground(col);
+		imgGraphics.clearRect(0, 0, 800, 600);
+
+
+		canvasObservers = new ArrayList<CanvasObserver>();
+		observers = new ArrayList<Observer>();
+
 		col = Color.white;
 		setBackground(new Color(202, 211, 227));
-		// setPreferredSize(new Dimension(2000, 2000));
 		repaint();
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (Math.abs(e.getX() - image.getWidth()) <= 5 && Math.abs(e.getY() - image.getHeight()) <= 5) {canDrag = true; return;}
+				if (Math.abs(e.getX() - image.getWidth()) <= 5 && Math.abs(e.getY() - image.getHeight()) <= 5) {
+					canDrag = true; 
+					notifyObservers();
+					return;
+				}
 
-				canDrag = false;
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (canDrag) incCanvasSz();
 				canDrag = false;
 			}
 		});
 
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				if (canDrag) {
-					newWidth = e.getX();
-					newHeight = e.getY();
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
-     				setCursor(cursor);
-				}
+				if (!canDrag) return;
+
+				newWidth = e.getX();
+				newHeight = e.getY();
+				Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+ 				setCursor(cursor);
+ 				incCanvasSz();
 			}
 
 			public void mouseMoved(MouseEvent e) {
@@ -46,21 +58,6 @@ class OurCanvas extends JPanel {
      				setCursor(cursor);
 					return;
 				}
-
-				/*
-				// Under Development
-				if (Math.abs(e.getX() - image.getWidth()) <= 5) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-					setCursor(cursor);
-					return;
-				}
-
-				if (Math.abs(e.getY() - image.getHeight()) <= 5) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-					setCursor(cursor);
-					return;
-				}
-				*/
 
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
@@ -73,54 +70,26 @@ class OurCanvas extends JPanel {
 
 		// Still Under Development
 		if (newWidth >= getWidth() || newHeight >= getHeight()) {
-			setPreferredSize(new Dimension(newWidth + 20, newHeight + 20));
+			setPreferredSize(new Dimension(newWidth + 100, newHeight + 100));
 			revalidate();
 		}
-
-		// if (newWidth >= getWidth())
-		// 	setPreferredSize(new Dimension(newWidth + 20, getHeight()));
-
-		// if (newHeight >= getHeight())
-		// 	setPreferredSize(new Dimension())
-
 
 		BufferedImage tempImg = (BufferedImage) createImage(newWidth, newHeight);
 		Graphics2D imgGraphics = tempImg.createGraphics();
 		imgGraphics.setBackground(col);
 		imgGraphics.clearRect(0, 0, newWidth, newHeight);
     	
-    	for (int i = 0; i < Math.min(image.getWidth(), newWidth); i++)
-    		for (int j = 0; j < Math.min(image.getHeight(), newHeight); j++)
-    			tempImg.setRGB(i, j, image.getRGB(i, j));
-
     	image = tempImg;
 		repaint();
 
 		newWidth = image.getWidth();
 		newHeight = image.getHeight();		
+		notifyCanvasObservers();
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (image == null) {
-			image = (BufferedImage) createImage(800, 600);
-			
-			Graphics2D imgGraphics = image.createGraphics();
-			imgGraphics.setBackground(col);
-			// imgGraphics.clearRect(0, 0, getSize().width, getSize().height);
-			imgGraphics.clearRect(0, 0, 800, 600);
-		}
-
 		g.drawImage(image, 0, 0, null);
-	}
-
-	public void updateCanvas(SpecificGraphic g) {
-		g.draw();
-		repaint();
-	}
-
-	public Graphics2D getCanvasGraphics() {
-		return (Graphics2D) image.getGraphics();
 	}
 
 	public Color getCanvasColor() {
@@ -163,11 +132,49 @@ class OurCanvas extends JPanel {
 		repaint();
 	}
 
+	public void clearCanvas() {
+		Graphics2D g2d = (Graphics2D) image.getGraphics();
+		g2d.setBackground(col);
+		g2d.clearRect(0, 0, getCanvasWidth(), getCanvasHeight());
+		repaint();
+	}
+
 	public int getCanvasWidth() {
 		return image.getWidth();
 	}
 
 	public int getCanvasHeight() {
 		return image.getHeight();
+	}
+
+	public BufferedImage getCanvasLayer() {
+		return image;
+	}
+
+	// Observer Pattern //
+	public void notifyCanvasObservers() {
+		for (CanvasObserver observer: canvasObservers)
+			observer.update();
+	}
+
+	public void addCanvasObserver(CanvasObserver observer) {
+		canvasObservers.add(observer);
+	}
+
+	public void removeCanvasObserver(CanvasObserver observer) {
+		canvasObservers.remove(observer);
+	}
+
+	public void notifyObservers() {
+		for (Observer observer: observers)
+			observer.update3();
+	}
+
+	public void addObserver(Observer observer) {
+		observers.add(observer);
+	}
+
+	public void removeObserver(Observer observer) {
+		observers.remove(observer);
 	}
 }

@@ -7,13 +7,15 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 
-class ImageLoader {
+class ImageLoader implements ImageObservable {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
     private LayerData lastLoadedImg;
+    private ArrayList<ImageObserver> observers;
 
     public ImageLoader(OurCanvas canvas) {
     	this.canvas = canvas;
+        observers = new ArrayList<ImageObserver>();
     	addOpenImageMenuListener();
     }
 
@@ -39,7 +41,7 @@ class ImageLoader {
             img = scaleImage(img);
 
             lastLoadedImg = new LayerData(img);
-            canvas.drawLayer(lastLoadedImg);
+            notifyObservers();
         } catch (Exception e) {}
     }
 
@@ -66,5 +68,19 @@ class ImageLoader {
 
     public JMenu getMenu() {
     	return openImageMenu;
+    }
+
+    // Observer Pattern 
+    public void addObserver(ImageObserver observer) {
+        observers.add(observer);
+    }
+    
+    public void removeObserver(ImageObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for (ImageObserver observer: observers)
+            observer.update(lastLoadedImg);
     }
 }

@@ -2,24 +2,18 @@ import java.awt.*;
 
 public class RectangleGraphics implements SpecificGraphic {
 	Point position;
-	Graphics2D g;
 	float stroke_sz;
 	int len;
 	Color stroke_col;
 
-	public RectangleGraphics(Point position, Graphics2D g) {
+	public RectangleGraphics(Point position) {
 		this.position = position;
-		this.g = g;
 		stroke_sz = 2;
 		len = 3;
 	}
 
 	public void setPoints(Point position) {
 		this.position = position;
-	}
-
-	public void setGraphics(Graphics2D g) {
-		this.g = g;
 	}
 
 	public void setStrokeSize(float sz) {
@@ -34,7 +28,7 @@ public class RectangleGraphics implements SpecificGraphic {
 		this.len = len;
 	}
 
-	public void draw() {
+	public void draw(Graphics2D g) {
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
@@ -48,9 +42,5 @@ public class RectangleGraphics implements SpecificGraphic {
 		);
 
 		g.dispose();
-	}
-
-	public Graphics getGraphics() {
-		return g;
 	}
 }

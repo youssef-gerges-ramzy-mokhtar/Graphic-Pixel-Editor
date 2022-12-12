@@ -16,12 +16,28 @@ class LayerData {
 		layerEndPos = new Point((int) layerPos.getX() + layer.getWidth(), (int) layerPos.getY() + layer.getHeight());
 	}
 
+	public LayerData(int width, int height, Color col) {
+		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
+		
+		Graphics2D layerGraphics = layer.createGraphics();
+		layerGraphics.setBackground(col);
+		layerGraphics.clearRect(0, 0, width, height);
+	}
+
 	public int getX() {
 		return (int) layerPos.getX();
 	}
 
 	public int getY() {
 		return (int) layerPos.getY();
+	}
+
+	public int getX(int canvasXPos) {
+		return canvasXPos - (int) layerPos.getX();
+	}
+
+	public int getY(int canvasYPos) {
+		return canvasYPos - (int) layerPos.getY();
 	}
 
 	public int getEndX() {
@@ -44,5 +60,39 @@ class LayerData {
 	public void setLocation(Point layerPos) {
 		this.layerPos = layerPos;
 		layerEndPos.setLocation((int) layerPos.getX() + layer.getWidth(), (int) layerPos.getY() + layer.getHeight());
+	}
+
+	public void setImage(BufferedImage newImg) {
+		layer = newImg;
+	}
+
+	public Graphics2D getLayerGraphics() {
+		Graphics2D layerGrahics = layer.createGraphics();
+		return layerGrahics;
+	}
+
+	public void updateGraphics(SpecificGraphic g) {
+		g.draw(layer.createGraphics());
+	}
+
+	public void setPixel(int x, int y, int rgb) {
+		if (!inRange(x, y)) return;
+
+		layer.setRGB(x, y, rgb);
+	}
+
+	public Integer getPixel(int x, int y) {
+		if (!inRange(x, y)) return null;
+		
+		return layer.getRGB(x, y);
+	}
+
+	private boolean inRange(int x, int y) {
+		if (x < 0) return false;
+		if (y < 0) return false;
+		if (x >= layer.getWidth()) return false;
+		if (y >= layer.getHeight()) return false;
+
+		return true;
 	}
 }

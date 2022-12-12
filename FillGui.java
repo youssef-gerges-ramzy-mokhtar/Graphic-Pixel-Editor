@@ -3,52 +3,41 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-class FillGui implements Observable, Observer {
+// Will EyeDropper Hadle Individual Layers or Will be used for the main Canvas Layer
+class FillGui extends Clickable implements Observable, Observer {
 	private Color col;
 	private Color fillCol = Color.black;
-	private JButton fillBtn;
-    private OurCanvas canvas;
-    private boolean buttonSelected = false;
-    private ArrayList<Observer> observers = new ArrayList<Observer>();
+    private LayersHandler layersHandler;
 
-	public FillGui(OurCanvas canvas) {
+	public FillGui(OurCanvas canvas, LayersHandler layersHandler) {
+		super(canvas);
+		
 		col = Color.white;
-		fillBtn = new JButton("Fill");
+		btn.setText("Fill");
+		
+		this.layersHandler = layersHandler;
+		addCanvasListener();
+	}
 
-		this.canvas = canvas;
-
+	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
-            	if (!buttonSelected) return;
-            	if (canvas.getPixel(mouse.getX(), mouse.getY()) == null) return;
+            	LayerData selectedLayer = layersHandler.getSelectedLayer();
+            	Point selectedLayerCoords = new Point(selectedLayer.getX(mouse.getX()), selectedLayer.getY(mouse.getY()));
+            
+            	if (!btnActive) return;
+            	if (selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()) == null) return;
 
-            	col = new Color(canvas.getPixel(mouse.getX(), mouse.getY()));
-            	fillCanvas2(mouse.getX(), mouse.getY()); // Starting Position of Flood Fill
-            }
-        });
-
-        fillBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent action) {
-                notifyObservers();
-                buttonSelected = true;
-                SelectButton.selectBtn(fillBtn);
+            	col = new Color(selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()));
+            	fillCanvas((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()); // Starting Position of Flood Fill
+				layersHandler.updateCanvas();
             }
         });
 	}
 
 	private void fillCanvas(int x, int y) {
-		if (canvas.getPixel(x, y) == null) return;
-		if (canvas.getPixel(x, y) == fillCol.getRGB()) return;
-		if (canvas.getPixel(x, y) != col.getRGB()) return;
+		LayerData selectedLayer = layersHandler.getSelectedLayer();
 
-		canvas.setPixel(x, y, fillCol.getRGB());
-		fillCanvas(x + 1, y);
-		fillCanvas(x - 1, y);
-		fillCanvas(x, y + 1);
-		fillCanvas(x, y - 1);
-	}
-
-	private void fillCanvas2(int x, int y) {
 		// Iterative Based Solution
 		Stack<Integer> x_coord = new Stack<Integer>(); 
 		Stack<Integer> y_coord = new Stack<Integer>(); 
@@ -60,11 +49,11 @@ class FillGui implements Observable, Observer {
 			int y_pos = y_coord.pop();
 
 			// Base Cases
-			if (canvas.getPixel(x_pos, y_pos) == null) continue; // invalid coordinates
-			if (canvas.getPixel(x_pos, y_pos) == fillCol.getRGB()) continue; // already visited
-			if (canvas.getPixel(x_pos, y_pos) != col.getRGB()) continue; // reached a block
+			if (selectedLayer.getPixel(x_pos, y_pos) == null) continue; // invalid coordinates
+			if (selectedLayer.getPixel(x_pos, y_pos) == fillCol.getRGB()) continue; // already visited
+			if (selectedLayer.getPixel(x_pos, y_pos) != col.getRGB()) continue; // reached a block
 
-			canvas.setPixel(x_pos, y_pos, fillCol.getRGB());
+			selectedLayer.setPixel(x_pos, y_pos, fillCol.getRGB());
 
 			{x_coord.push(x_pos + 1); y_coord.push(y_pos);}
 			{x_coord.push(x_pos - 1); y_coord.push(y_pos);}
@@ -73,33 +62,7 @@ class FillGui implements Observable, Observer {
 		}
 	}
 
-	public JButton getFillBtn() {
-		return fillBtn;
-	}
-
-	public boolean isActive() {
-		return buttonSelected;
-	}
-
-	public void deSelect() {
-		buttonSelected = false;
-        SelectButton.deSelectBtn(fillBtn);
-	}
-
 	// Observer Pattern
-	public void notifyObservers() {
-        for (Observer observer : observers)
-            observer.update3();
-    }
-
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
     public void update(int val) {}
     public void update2(Color col) {
     	fillCol = col;

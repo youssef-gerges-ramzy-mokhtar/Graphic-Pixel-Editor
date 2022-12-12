@@ -2,25 +2,30 @@ import javax.swing.*;
 import java.awt.*;
 
 class ToolsPanel extends JPanel implements Observer {
-	private PenGui penGui;
-    private EyeDropper eyeDropper;
     private OurCanvas currentCanvas;
-    private Rectangle rectangle;
-    private FillGui fill;
-	private Circle circle;
+	
+	private PenGui penGui;
+    private Clickable eyeDropper;
+    private Clickable fill;
+    private Clickable rectangle;
+	private Clickable circle;
+    private Clickable selectionTool;
 
-	public ToolsPanel(OurCanvas currentCanvas) {
-        penGui = new PenGui(currentCanvas);
+	public ToolsPanel(OurCanvas currentCanvas, LayersHandler layerHandler) {
+        penGui = new PenGui(currentCanvas, layerHandler);
         eyeDropper = new EyeDropper(currentCanvas);
        	rectangle = new Rectangle(currentCanvas);
-       	fill = new FillGui(currentCanvas);
+       	fill = new FillGui(currentCanvas, layerHandler);
 		circle = new Circle(currentCanvas);
+		selectionTool = new SelectionTool(currentCanvas, layerHandler);
 
         penGui.addObserver(this);
         eyeDropper.addObserver(this);
         rectangle.addObserver(this);
         fill.addObserver(this);
 		circle.addObserver(this);
+		selectionTool.addObserver(this);
+		currentCanvas.addObserver(this);
 
         setBackground(new Color(63, 72, 204));      //set panel colour, store this color in the constants class
         setBounds(0, 100, 200, getHeight()-100);      //set panel area
@@ -28,14 +33,16 @@ class ToolsPanel extends JPanel implements Observer {
         
         JButton airbrush = new JButton("Airbrush");
         JButton blur = new JButton("Blur");
+
+        add(selectionTool.getBtn());
         add(penGui.getPenBtn());
         add(penGui.getEraserBtn());
-        add(fill.getFillBtn());
-        add(eyeDropper.getEyeDropperBtn());
+        add(fill.getBtn());
+        add(eyeDropper.getBtn());
         add(airbrush);
         add(blur);
-        add(rectangle.getButton());
-		add(circle.getButton());
+        add(rectangle.getBtn());
+		add(circle.getBtn());
 
 	}
 
@@ -44,19 +51,19 @@ class ToolsPanel extends JPanel implements Observer {
 	}
 
 	public EyeDropper getEyeDropper() {
-		return eyeDropper;
+		return (EyeDropper) eyeDropper;
 	}
 
 	public Rectangle getRectangle() {
-		return rectangle;
+		return (Rectangle) rectangle;
 	}
 
 	public FillGui getFill() {
-		return fill;
+		return (FillGui) fill;
 	}
 
 	public Circle getCircle() {
-		return circle;
+		return (Circle) circle;
 	}
 
 	// Observer Pattern //
@@ -68,5 +75,6 @@ class ToolsPanel extends JPanel implements Observer {
 		if (rectangle.isActive()) rectangle.deSelect();
 		if (fill.isActive()) fill.deSelect();
 		if (circle.isActive()) circle.deSelect();
+		if (selectionTool.isActive()) selectionTool.deSelect();
 	}
 }
