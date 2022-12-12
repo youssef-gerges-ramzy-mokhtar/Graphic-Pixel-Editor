@@ -31,6 +31,7 @@ public class Display extends JFrame{
         colorGui.addObserver(toolsPanel.getPenGui());
         colorGui.addObserver(toolsPanel.getRectangle());
         colorGui.addObserver(toolsPanel.getFill());
+        colorGui.addObserver(toolsPanel.getairbrush());
         toolsPanel.getEyeDropper().addColorObserver(colorGui);
 
         optionsPanel = new OptionsPanel(colorGui);
@@ -62,6 +63,7 @@ public class Display extends JFrame{
     public void addObservers() {
         optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getPenGui());
         optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getRectangle());
+        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getairbrush());
         // colorGui.addObserver(penGui);
     }
 

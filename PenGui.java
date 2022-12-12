@@ -146,10 +146,12 @@ class PenGui extends JPanel implements Observer, Observable {
 
 	// Observer Pattern //
 	public void update(int thickness) {
+	
 		currentSz = thickness;
 	}
 
 	public void update2(Color col) {
+		
 		currentCol = col;
 	}
 

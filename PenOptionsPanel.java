@@ -87,6 +87,7 @@ class PenOptionsPanel extends JPanel implements Observable {
 
 	// Observer Design Pattern //
 	public void notifyObservers() {
+		
 		for (Observer observer : observers)
 			observer.update(currentBrushSz);
 	}

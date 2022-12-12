@@ -7,7 +7,7 @@ import java.io.ObjectStreamConstants;
 import javax.swing.*;
 import java.util.*;
 
-public class Airbrush implements Observable
+public class Airbrush implements Observable, Observer
 {
     //TODO put random pen Points within the givin radius of the pen size. 
     //TODO set random pen Points to e.g. size/3
@@ -16,17 +16,21 @@ public class Airbrush implements Observable
     Random rand;
     JButton airbrushbtn;
     Brush pen;
+    int penSize=1;
+    Color currentCol;
     private ArrayList<Observer> observers = new ArrayList<Observer>();
     private ArrayList<Observer> clickObservers = new ArrayList<Observer>();
     private Boolean buttonSelected = false;
-
+    private DrawLineGraphics lineGraphic;
+    
+   
     public Airbrush(OurCanvas canvas)
     {
         rand = new Random();
         this.canvas = canvas;
         airbrushbtn = new JButton("Air brush");
         pen = new Pen();
-        
+        lineGraphic = new DrawLineGraphics(pen.getThickness(), pen.getCol());
         canvasListener();
         airbrushBtnListener();
     }
@@ -34,9 +38,9 @@ public class Airbrush implements Observable
     private void canvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("click identified");
+			
                 if (buttonSelected)
-                AddPoints(e.getX(),e.getY());
+                    AddPoints(e.getX(),e.getY());
                 
 			}
 		});
@@ -54,40 +58,52 @@ public class Airbrush implements Observable
 		return buttonSelected;
 	}
 
-    public void AddPoints(int x,int y)
+    public void AddPoints(double pX,double pY)
     {
-       //Problem get pen size
-       /* 
-        int xMax = math.floor(x + pensize/2);
-        int xMin = math.ceil(x - pensize/2);
+       
+        double x = pX;
+        double y = pY;
+        int xMax = (int)Math.floor(x + penSize/2);
+        int xMin = (int)Math.ceil(x - penSize/2);
 
     
-    
-        int xPoint = rand.nextInt((xMax - xMin) + 1) + xMin;
-        int yAbsolute = math.floor((pensize^2-xPoint^2)^(1/2));
-        int yMin = y - yAbsolute;
-        int yMax = y = yAbsolute;
-        int yPoint = rand.nextInt((yMax - yMin) + 1) + yMin;
-
-        */
+        
+        int xPoint = (rand.nextInt((xMax - xMin) + 1) + xMin);
+        
+        double yAbsolute = Math.floor(penSize/2);
+        int yMin = (int)(y - yAbsolute);
+        
+        int yMax = (int)(y + yAbsolute);
+      
+        int yPoint =  (rand.nextInt((int)(yMax - yMin) + 1) + yMin);
+         
+        Point point = new Point(xPoint,yPoint);
+        
+        drawPointBrush(pen,point);
+        
+        
     }
 
-    private void drawPointBrush(Brush brush, MouseEvent e) {
-        /* 
-		brush.setPos(e.getX(), e.getY());
-		Point dragPoint = new Point(e.getX() + 1, e.getY() + 1);
+    private void drawPointBrush(Brush brush, Point e) {
+         
+		brush.setPos(e);
+        int innerPenSize=penSize/5;
+		Point dragPoint = new Point(1,1);
+        dragPoint.setLocation(e.getX()+1,e.getY()+1);
+        
 		
-		brush.setThickness(currentSz);
-		if (penSelected) brush.setColor(currentCol);
-		if (eraserSelected) brush.setColor(canvas.getCanvasColor());
+		brush.setThickness(penSize);
+		brush.setColor(currentCol);
+		brush.setColor(canvas.getCanvasColor());
 
 		lineGraphic.setPoints(brush.getPos(), dragPoint);
+        //System.out.println(penSize); 
 		lineGraphic.setGraphics(canvas.getCanvasGraphics());
-		lineGraphic.setColor(brush.getCol());
-		lineGraphic.setStrokeSize(brush.getThickness());
+		lineGraphic.setColor(currentCol);
+		lineGraphic.setStrokeSize(innerPenSize);
 	
 		canvas.updateCanvas(lineGraphic);
-        */
+        
 	}
 
     private void airbrushBtnListener() {
@@ -109,12 +125,15 @@ public class Airbrush implements Observable
 	}
 
     public void update(int thickness) {
-		int currentSz = thickness;
-	}
+        
+		penSize = thickness;
+    }
 
 	public void update2(Color col) {
-		Color currentCol = col;
+        
+	    currentCol = col;
 	}
+    public void update3() {};
 
 
 	public void notifyObservers() {

@@ -44,6 +44,10 @@ class ToolsPanel extends JPanel implements Observer {
 	public EyeDropper getEyeDropper() {
 		return eyeDropper;
 	}
+	public Airbrush getairbrush()
+	{
+		return airbrush;
+	}
 
 	public Rectangle getRectangle() {
 		return rectangle;

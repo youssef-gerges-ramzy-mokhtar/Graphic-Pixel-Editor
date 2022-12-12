@@ -24,6 +24,7 @@ class Brush {
 	}
 
 	public void setThickness(int thickness) {
+		System.out.println("this is working");
 		this.thickness = thickness;
 	}
 
