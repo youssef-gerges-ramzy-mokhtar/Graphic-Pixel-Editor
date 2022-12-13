@@ -18,6 +18,7 @@ public class Airbrush implements Observable, Observer
     Brush pen;
     int penSize=1;
     Color currentCol;
+    private boolean mouseDown = false;
     private ArrayList<Observer> observers = new ArrayList<Observer>();
     private ArrayList<Observer> clickObservers = new ArrayList<Observer>();
     private Boolean buttonSelected = false;
@@ -42,6 +43,15 @@ public class Airbrush implements Observable, Observer
                 if (buttonSelected)
                     AddPoints(e.getX(),e.getY());
                 
+			}
+		});
+
+       
+
+		canvas.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				if (!buttonSelected) return;
+				AddPoints(e.getX(), e.getY());
 			}
 		});
        
@@ -91,30 +101,34 @@ public class Airbrush implements Observable, Observer
 
          drawPointBrush(pen,points);
         
-        
+        //
     }
 
     private void drawPointBrush(Brush brush, Point[] points) {
         
         for(Point point: points)
         {
-            brush.setPos(point);
-            int innerPenSize=penSize/5;
-            Point dragPoint = new Point(1,1);
-            dragPoint.setLocation(point.getX()+1,point.getY()+1);
-            
-            
-            brush.setThickness(penSize);
-            brush.setColor(currentCol);
-            brush.setColor(canvas.getCanvasColor());
 
-            lineGraphic.setPoints(brush.getPos(), dragPoint);
-            //System.out.println(penSize); 
-            lineGraphic.setGraphics(canvas.getCanvasGraphics());
-            lineGraphic.setColor(currentCol);
-            lineGraphic.setStrokeSize(innerPenSize);
+            try{
+                brush.setPos(point);
+                int innerPenSize=penSize/10;
+                Point dragPoint = new Point(1,1);
+                dragPoint.setLocation(point.getX()+1,point.getY()+1);
+                
+                
+                brush.setThickness(penSize);
+                brush.setColor(currentCol);
+                brush.setColor(canvas.getCanvasColor());
+
+                lineGraphic.setPoints(brush.getPos(), dragPoint);
+                //System.out.println(penSize); 
+                lineGraphic.setGraphics(canvas.getCanvasGraphics());
+                lineGraphic.setColor(currentCol);
+                lineGraphic.setStrokeSize(innerPenSize);
+            
+                canvas.updateCanvas(lineGraphic);}
+            catch(Exception e){}
         
-            canvas.updateCanvas(lineGraphic);
         }
         
 	}
