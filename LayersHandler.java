@@ -116,6 +116,10 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		}
 	}
 
+	public int getLayersCount() {
+		return layers.size();
+	}
+
 	// Observer Pattern //
 	public void update(LayerData layerData) {
 		addLayer(layerData);
@@ -128,8 +132,8 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	}
 
 	public LayerData getSelectedLayer() {
-		return layers.get(0);
-		// return selectedLayer;
+		// return layers.get(0);
+		return selectedLayer;
 	}
 
 	public void changeSelectedLayer(int layerPos) {

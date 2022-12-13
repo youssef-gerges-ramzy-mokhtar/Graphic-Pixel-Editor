@@ -39,7 +39,7 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (!drawingBtn.isActive()) return;
-				// drawPointBrush(new Point(e.getX(), e.getY()));
+				drawPointBrush(new Point(e.getX(), e.getY()));
 			}
 		});
 	}
