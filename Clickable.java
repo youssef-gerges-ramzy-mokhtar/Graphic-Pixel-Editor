@@ -2,18 +2,16 @@ import javax.swing.JButton;
 import java.util.ArrayList;
 import java.awt.event.*;
 
-abstract class Clickable implements Observable {
-	protected OurCanvas canvas;
-	protected boolean btnActive;
-	protected JButton btn;
+class Clickable implements Observable {
+	private boolean btnActive;
+	private JButton btn;
 	private ArrayList<Observer> clickObservers;
 
-	public Clickable(OurCanvas canvas) {
-		this.canvas = canvas;
+	public Clickable(String title) {
 		this.clickObservers = new ArrayList<Observer>();
 		btnActive = false;
 
-		btn = new JButton("Dummy Text");
+		btn = new JButton(title);
 		addBtnListener();
 	}
 
@@ -38,6 +36,10 @@ abstract class Clickable implements Observable {
                 SelectButton.selectBtn(btn);
             }
         });
+	}
+
+	public void setText(String txt) {
+		btn.setText(txt);
 	}
 
 	// Observer Pattern: Used to notify the observers whenver a button is clicked //

@@ -3,15 +3,17 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-class SelectionTool extends Clickable implements Observable {
+class SelectionTool implements ClickableContainer {
+	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private LayerData imgToMove;
+	private Clickable selectionBtn;
 
-	public SelectionTool(OurCanvas canvas, LayersHandler layersHandler) {
-		super(canvas);
-		this.layersHandler = layersHandler;
-	
-		btn.setText("Select");	
+	public SelectionTool(OurCanvas canvas) {
+		this.canvas = canvas;
+		this.layersHandler = LayersHandler.getLayersHandler(canvas);
+		this.selectionBtn = new Clickable("Selection Tool");
+
 		addCanvasListener();
 	}
 
@@ -24,7 +26,7 @@ class SelectionTool extends Clickable implements Observable {
 
         canvas.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                if (!btnActive) return;
+                if (!selectionBtn.isActive()) return;
                 if (imgToMove == null) return;
 
 	            canvas.clearCanvas();
@@ -40,5 +42,9 @@ class SelectionTool extends Clickable implements Observable {
 
 	public LayersHandler getLayerHandler() {
 		return layersHandler;
+	}	
+
+	public Clickable getClickable() {
+		return selectionBtn;
 	}
 }

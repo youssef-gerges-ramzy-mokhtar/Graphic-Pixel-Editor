@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
+// Should that be Singelton
 class LayersHandler implements ImageObserver, CanvasObserver {
 	// Used for Image Selection
 	private ArrayList<LayerData> layers; // Here the Top Layer Image is the Image at the end of the Array List
@@ -11,8 +12,9 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	private int horizontalOffset;
 	private LayerData drawingLayer;
 	private LayerData selectedLayer;
+	private static LayersHandler layersHandler; // Singelton Design Pattern
 
-	public LayersHandler(OurCanvas canvas) {
+	private LayersHandler(OurCanvas canvas) {
 		this.layers = new ArrayList<LayerData>();
 		this.canvas = canvas;
 
@@ -21,11 +23,11 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	}
 
 	private void initDrawingLayer() {
-		BufferedImage drawingImg = new BufferedImage(canvas.getCanvasWidth(), canvas.getCanvasHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage drawingImg = new BufferedImage(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight(), BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D imgGraphics = drawingImg.createGraphics();
 		imgGraphics.setBackground(Color.white);
-		imgGraphics.clearRect(0, 0, canvas.getCanvasWidth(), canvas.getCanvasHeight());
+		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		
 		this.drawingLayer = new LayerData(drawingImg);
 		layers.add(drawingLayer);	
@@ -33,7 +35,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 
 	public void addLayer(LayerData layer) {
 		layers.add(layer);
-		System.out.println("HI");
 	}
 
 	public void removeImage(LayerData layer) {
@@ -62,7 +63,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
                 if (pos.getY() >= layerData.getY() && pos.getY() <= layerData.getEndY()) {
                     horizontalOffset = (int) pos.getX() - (int) layerData.getX();
                     verticalOffset = (int) pos.getY() - (int) layerData.getY();
-                    System.out.println("I returned");
                     return layers.get(i);
                 }
         }
@@ -123,12 +123,12 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	}
 
 	public void update() {
-		resizeDrawingArea(canvas.getCanvasWidth(), canvas.getCanvasHeight());
+		resizeDrawingArea(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		updateCanvas();
 	}
 
 	public LayerData getSelectedLayer() {
-		return layers.get(1);
+		return layers.get(0);
 		// return selectedLayer;
 	}
 
@@ -137,5 +137,12 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		if (layerPos >= layers.size()) return;
 
 		selectedLayer = layers.get(layerPos);
+	}
+
+	// Singelton Pattern //
+	public static LayersHandler getLayersHandler(OurCanvas canvas) {
+		if (layersHandler == null) layersHandler = new LayersHandler(canvas);
+
+		return layersHandler;
 	}
 }

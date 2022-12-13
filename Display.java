@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
-public class Display extends JFrame{
+public class Display extends JFrame {
     //private JLabel label;
     private OurCanvas canvas;
     
@@ -12,10 +12,11 @@ public class Display extends JFrame{
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
     private ToolsPanel toolsPanel;
+    private ToolsManager toolsManager;
     private ImageLoader imageLoader;
     private LayersHandler layersHandler;
 
-    public Display() {   
+    public Display() {
         initFrame();
 
         // Updated Code //
@@ -29,7 +30,7 @@ public class Display extends JFrame{
 
         // Layer Support //
         imageLoader = new ImageLoader(canvas); // For Loading Images from the user computer
-        layersHandler = new LayersHandler(canvas); // For Handling Layers
+        layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         imageLoader.addObserver(layersHandler); // So whenever a user imports an image from his computer will automatically be added to the layersHandler
         canvas.addCanvasObserver(layersHandler); // For Observing Changes in the Canvas Size
         // Layer Support //
@@ -37,12 +38,13 @@ public class Display extends JFrame{
         // Updated Code //
 
         // Code Change //
-        toolsPanel = new ToolsPanel(canvas, layersHandler);
-        colorGui.addObserver(toolsPanel.getPenGui());
-        colorGui.addObserver(toolsPanel.getRectangle());
-        colorGui.addObserver(toolsPanel.getFill());
-        colorGui.addObserver(toolsPanel.getCircle());
-        toolsPanel.getEyeDropper().addColorObserver(colorGui);
+        toolsPanel = new ToolsPanel();
+        toolsManager = new ToolsManager(canvas, toolsPanel);
+        colorGui.addObserver(toolsManager.getPenGui());
+        colorGui.addObserver(toolsManager.getRectangle());
+        colorGui.addObserver(toolsManager.getFill());
+        colorGui.addObserver(toolsManager.getCircle());
+        toolsManager.getEyeDropper().addObserver(colorGui);
 
         optionsPanel = new OptionsPanel(colorGui);
         addObservers();
@@ -72,10 +74,11 @@ public class Display extends JFrame{
     }
 
     public void addObservers() {
-        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getPenGui());
-        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getRectangle());
-        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getCircle());
-        // colorGui.addObserver(penGui);
+        optionsPanel.getPenOptionsPanel().addObserver(toolsManager.getPenGui());
+        optionsPanel.getPenOptionsPanel().addObserver(toolsManager.getEraserTool());
+        optionsPanel.getPenOptionsPanel().addObserver(toolsManager.getRectangle());
+        optionsPanel.getPenOptionsPanel().addObserver(toolsManager.getCircle());
+        canvas.addObserver(toolsPanel);
     }
 
     public static void main(String[] args){

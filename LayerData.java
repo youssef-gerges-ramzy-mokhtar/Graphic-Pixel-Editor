@@ -17,8 +17,12 @@ class LayerData {
 	}
 
 	public LayerData(int width, int height, Color col) {
-		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
-		
+		this(width, height, col, new Point(0, 0));
+	}
+
+	public LayerData(int width, int height, Color col, Point layerPos) {
+		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB), layerPos);
+
 		Graphics2D layerGraphics = layer.createGraphics();
 		layerGraphics.setBackground(col);
 		layerGraphics.clearRect(0, 0, width, height);
@@ -32,12 +36,21 @@ class LayerData {
 		return (int) layerPos.getY();
 	}
 
+	public Point getCoords() {
+		return layerPos;
+	}
+
+	// Might Rename to Absolute
 	public int getX(int canvasXPos) {
 		return canvasXPos - (int) layerPos.getX();
 	}
 
 	public int getY(int canvasYPos) {
 		return canvasYPos - (int) layerPos.getY();
+	}
+
+	public Point getCoords(Point canvasPos) {
+		return new Point(canvasPos.x - layerPos.x, canvasPos.y - layerPos.y);
 	}
 
 	public int getEndX() {
@@ -50,6 +63,14 @@ class LayerData {
 
 	public BufferedImage getImage() {
 		return layer;
+	}
+
+	public int getWidth() {
+		return layer.getWidth();
+	}
+
+	public int getHeight() {
+		return layer.getHeight();
 	}
 
 	public void setLocation(int x, int y) {
@@ -94,5 +115,37 @@ class LayerData {
 		if (y >= layer.getHeight()) return false;
 
 		return true;
+	}
+
+	public void updateLayerSz(int width, int height) {
+		BufferedImage tempLayer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D imgGraphics = tempLayer.createGraphics();
+		imgGraphics.setBackground(Color.white);
+		imgGraphics.clearRect(0, 0, width, height);
+
+		for (int i = 0; i < Math.min(layer.getWidth(), width); i++)
+    		for (int j = 0; j < Math.min(layer.getHeight(), height); j++)
+				tempLayer.setRGB(i, j, layer.getRGB(i, j));
+
+		layer = tempLayer;
+	}
+
+	public void mergeLayer(LayerData newLayer) {
+		Graphics2D g2d = (Graphics2D) layer.getGraphics();
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHints(rh);
+
+		g2d.drawImage(newLayer.getImage(), newLayer.getX(), newLayer.getY(), null);
+	}
+
+	public void clear(int width, int height, Color col) {
+		layer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		clear(col);
+	}
+
+	public void clear(Color col) {
+		Graphics2D g2d = (Graphics2D) layer.getGraphics();
+		g2d.setBackground(col);
+		g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
 	}
 }

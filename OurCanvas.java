@@ -5,31 +5,34 @@ import java.awt.image.*;
 import java.util.*;
 
 class OurCanvas extends JPanel implements CanvasObservable, Observable {
-	private BufferedImage image;
+	// In the future mainLayer might be part of the LayersHandler Class
+	private int width;
+	private int height;
 	private Color col;
+	private LayerData mainLayer;
+
 	private boolean canDrag = false;
-	private int newWidth, newHeight;
 	private ArrayList<CanvasObserver> canvasObservers;
 	private ArrayList<Observer> observers;
 
 	public OurCanvas() {
-		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		
-		Graphics2D imgGraphics = image.createGraphics();
-		imgGraphics.setBackground(col);
-		imgGraphics.clearRect(0, 0, 800, 600);
-
+		this.width = 800;
+		this.height = 600;
+		this.col = Color.white;
+		mainLayer = new LayerData(width, height, col);
 
 		canvasObservers = new ArrayList<CanvasObserver>();
 		observers = new ArrayList<Observer>();
 
-		col = Color.white;
 		setBackground(new Color(202, 211, 227));
+		addCanvasListener();
 		repaint();
+	}
 
+	private void addCanvasListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (Math.abs(e.getX() - image.getWidth()) <= 5 && Math.abs(e.getY() - image.getHeight()) <= 5) {
+				if (Math.abs(e.getX() - mainLayer.getWidth()) <= 5 && Math.abs(e.getY() - mainLayer.getHeight()) <= 5) {
 					canDrag = true; 
 					notifyObservers();
 					return;
@@ -43,17 +46,15 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 			public void mouseDragged(MouseEvent e) {
 				if (!canDrag) return;
 
-				newWidth = e.getX();
-				newHeight = e.getY();
+				width = e.getX();
+				height = e.getY();
 				Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
  				setCursor(cursor);
- 				incCanvasSz();
+ 				updateCanvasSz();
 			}
 
 			public void mouseMoved(MouseEvent e) {
-				if (image == null) return;
-
-				if (Math.abs(e.getX() - image.getWidth()) <= 5 && Math.abs(e.getY() - image.getHeight()) <= 5) {
+				if (Math.abs(e.getX() - mainLayer.getWidth()) <= 5 && Math.abs(e.getY() - mainLayer.getHeight()) <= 5) {
 					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
      				setCursor(cursor);
 					return;
@@ -62,96 +63,44 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
 		});
-
 	}
 
-	private void incCanvasSz() {
-		if (newWidth == image.getWidth() && newHeight == image.getHeight()) return;
-
+	private void updateCanvasSz() {
 		// Still Under Development
-		if (newWidth >= getWidth() || newHeight >= getHeight()) {
-			setPreferredSize(new Dimension(newWidth + 100, newHeight + 100));
+		if (width >= getWidth() || height >= getHeight()) {
+			setPreferredSize(new Dimension(width + 100, height + 100));
 			revalidate();
 		}
 
-		BufferedImage tempImg = (BufferedImage) createImage(newWidth, newHeight);
-		Graphics2D imgGraphics = tempImg.createGraphics();
-		imgGraphics.setBackground(col);
-		imgGraphics.clearRect(0, 0, newWidth, newHeight);
-    	
-    	image = tempImg;
+		mainLayer.clear(width, height, col);
 		repaint();
-
-		newWidth = image.getWidth();
-		newHeight = image.getHeight();		
 		notifyCanvasObservers();
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, null);
+		g.drawImage(mainLayer.getImage(), 0, 0, null);
 	}
 
 	public Color getCanvasColor() {
 		return col;
 	}
 
-	public Color getCanvasColor(int x, int y) {
-		return new Color(image.getRGB(x, y));
-	}
-
-	public void setPixel(int x, int y, int rgb) {
-		if (!inRange(x, y)) return;
-
-		image.setRGB(x, y, rgb);
-		revalidate();
-		repaint();
-	}
-
-	public Integer getPixel(int x, int y) {
-		if (!inRange(x, y)) return null;
-		
-		return image.getRGB(x, y);
-	}
-
-	private boolean inRange(int x, int y) {
-		if (x < 0) return false;
-		if (y < 0) return false;
-		if (x >= image.getWidth()) return false;
-		if (y >= image.getHeight()) return false;
-
-		return true;
-	}
-
 	public void drawLayer(LayerData img) {
-		Graphics2D g2d = (Graphics2D) image.getGraphics();
-		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2d.setRenderingHints(rh);
-
-		g2d.drawImage(img.getImage(), img.getX(), img.getY(), null);
+		mainLayer.mergeLayer(img);
 		repaint();
 	}
 
 	public void clearCanvas() {
-		Graphics2D g2d = (Graphics2D) image.getGraphics();
-		g2d.setBackground(col);
-		g2d.clearRect(0, 0, getCanvasWidth(), getCanvasHeight());
+		mainLayer.clear(col);
 		repaint();
 	}
 
-	public int getCanvasWidth() {
-		return image.getWidth();
+	public LayerData getMainLayer() {
+		return mainLayer;
 	}
 
-	public int getCanvasHeight() {
-		return image.getHeight();
-	}
-
-	public BufferedImage getCanvasLayer() {
-		return image;
-	}
-
-	// Observer Pattern //
+	// Observer Pattern: Might change this part in the future //
 	public void notifyCanvasObservers() {
 		for (CanvasObserver observer: canvasObservers)
 			observer.update();

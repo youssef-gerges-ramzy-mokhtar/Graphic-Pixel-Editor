@@ -4,31 +4,33 @@ import java.awt.event.*;
 import java.util.*;
 
 // Will EyeDropper Hadle Individual Layers or Will be used for the main Canvas Layer
-class FillGui extends Clickable implements Observable, Observer {
-	private Color col;
-	private Color fillCol = Color.black;
+class FillTool implements Observer, ClickableContainer {
+    private OurCanvas canvas;
+    private Clickable fillBtn;
+	private Color barrierCol;
+	private Color fillCol;
     private LayersHandler layersHandler;
 
-	public FillGui(OurCanvas canvas, LayersHandler layersHandler) {
-		super(canvas);
-		
-		col = Color.white;
-		btn.setText("Fill");
-		
-		this.layersHandler = layersHandler;
+	public FillTool(OurCanvas canvas) {
+		this.canvas = canvas;
+		this.fillBtn = new Clickable("Fill");
+		this.barrierCol = Color.white;
+		this.fillCol = Color.black;
+
+		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		addCanvasListener();
 	}
 
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
+            	if (!fillBtn.isActive()) return;
+            
             	LayerData selectedLayer = layersHandler.getSelectedLayer();
             	Point selectedLayerCoords = new Point(selectedLayer.getX(mouse.getX()), selectedLayer.getY(mouse.getY()));
-            
-            	if (!btnActive) return;
             	if (selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()) == null) return;
 
-            	col = new Color(selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()));
+            	barrierCol = new Color(selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()));
             	fillCanvas((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()); // Starting Position of Flood Fill
 				layersHandler.updateCanvas();
             }
@@ -51,7 +53,7 @@ class FillGui extends Clickable implements Observable, Observer {
 			// Base Cases
 			if (selectedLayer.getPixel(x_pos, y_pos) == null) continue; // invalid coordinates
 			if (selectedLayer.getPixel(x_pos, y_pos) == fillCol.getRGB()) continue; // already visited
-			if (selectedLayer.getPixel(x_pos, y_pos) != col.getRGB()) continue; // reached a block
+			if (selectedLayer.getPixel(x_pos, y_pos) != barrierCol.getRGB()) continue; // reached a block
 
 			selectedLayer.setPixel(x_pos, y_pos, fillCol.getRGB());
 
@@ -60,6 +62,10 @@ class FillGui extends Clickable implements Observable, Observer {
 			{x_coord.push(x_pos); y_coord.push(y_pos + 1);}
 			{x_coord.push(x_pos); y_coord.push(y_pos - 1);}
 		}
+	}
+
+	public Clickable getClickable() {
+		return fillBtn;
 	}
 
 	// Observer Pattern

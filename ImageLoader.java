@@ -47,12 +47,12 @@ class ImageLoader implements ImageObservable {
 
     private BufferedImage scaleImage(BufferedImage img) {
     	double factor1 = 1;
-        if (img.getWidth() > canvas.getCanvasWidth())
-            factor1 = (double) img.getWidth() / (double) canvas.getCanvasWidth();
+        if (img.getWidth() > canvas.getMainLayer().getWidth())
+            factor1 = (double) img.getWidth() / (double) canvas.getMainLayer().getWidth();
 
         double factor2 = 1;
-        if (img.getHeight() > canvas.getCanvasHeight())
-            factor2 = (double) img.getHeight() / (double) canvas.getCanvasHeight();
+        if (img.getHeight() > canvas.getMainLayer().getHeight())
+            factor2 = (double) img.getHeight() / (double) canvas.getMainLayer().getHeight();
 
         double aspectRatio = Math.max(factor1, factor2);
         int newWidth = (int) Math.floor((double) img.getWidth() / aspectRatio);

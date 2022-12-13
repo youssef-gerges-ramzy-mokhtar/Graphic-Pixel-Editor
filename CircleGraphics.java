@@ -33,10 +33,9 @@ public class CircleGraphics implements SpecificGraphic {
 		g.setColor(stroke_col);
 
 		// Make the Circle appear in the center of the cursor
-
 		g.drawOval(
-			position.x - (len / 2),
-			position.y - (len / 2),
+			position.x,
+			position.y,
 			len,
 			len
 		);

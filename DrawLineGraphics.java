@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class DrawLineGraphics implements SpecificGraphic {
 	Point firstPoint, secondPoint;
-	float stroke_sz = 2;
+	float stroke_sz;
 	Color stroke_col;
 
 	public DrawLineGraphics(Point firstPoint, Point secondPoint, float sz, Color col) {
