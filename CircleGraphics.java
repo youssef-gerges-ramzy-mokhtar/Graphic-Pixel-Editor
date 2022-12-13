@@ -29,10 +29,14 @@ public class CircleGraphics implements SpecificGraphic {
 	}
 
 	public void draw(Graphics2D g) {
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		g.fillRect(0, 0, len, len);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
-		// Make the Circle appear in the center of the cursor
+		// In the future will try to Make the Circle appear in the center of the cursor
 		g.drawOval(
 			position.x,
 			position.y,

@@ -32,7 +32,7 @@ public class RectangleGraphics implements SpecificGraphic {
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
-		// Make the Rectangle appear in the center of the cursor
+		// In the future will try to Make the Rectangle appear in the center of the cursor
 		g.drawRect(
 			position.x,
 			position.y,
