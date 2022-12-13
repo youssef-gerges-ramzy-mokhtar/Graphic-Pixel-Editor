@@ -11,6 +11,8 @@ class PenTool extends DrawingTool implements Observer {
 	protected void setBrushProperties() {}
 
 	// Observer Pattern
+	
+	// update2() is used to observer changes in the color chooser
 	public void update2(Color col) {
 		brush.setColor(col);
 	}

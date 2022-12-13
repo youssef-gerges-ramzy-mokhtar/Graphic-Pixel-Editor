@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.util.*;
 
+// OurCanvas represents the Main area in the program that the user uses to draw, add shapes, add images and so on...
 class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	// In the future mainLayer might be part of the LayersHandler Class
 	private int width;
@@ -19,16 +20,17 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		this.width = 800;
 		this.height = 600;
 		this.col = Color.white;
-		mainLayer = new LayerData(width, height, col);
+		this.mainLayer = new LayerData(width, height, col);
 
-		canvasObservers = new ArrayList<CanvasObserver>();
-		observers = new ArrayList<Observer>();
+		this.canvasObservers = new ArrayList<CanvasObserver>();
+		this.observers = new ArrayList<Observer>();
 
 		setBackground(new Color(202, 211, 227));
 		addCanvasListener();
 		repaint();
 	}
 
+	// addCanvasListener() is used to support the resizing of the canvas
 	private void addCanvasListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -65,6 +67,7 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		});
 	}
 
+	// updateCanvasSz() is used to change the canvas size when the user resizes the canvas
 	private void updateCanvasSz() {
 		// Still Under Development
 		if (width >= getWidth() || height >= getHeight()) {
@@ -86,11 +89,13 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		return col;
 	}
 
+	// drawLayer() merges/draws a layer into the canvas
 	public void drawLayer(LayerData img) {
 		mainLayer.mergeLayer(img);
 		repaint();
 	}
 
+	// clearCanvas() changes all the pixels in the canvas to col
 	public void clearCanvas() {
 		mainLayer.clear(col);
 		repaint();
@@ -101,6 +106,8 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	}
 
 	// Observer Pattern: Might change this part in the future //
+	
+	// notifyCanvasObservers() is used to notify the observers when the canvas is resized to increase the Drawing Area Size and refresh the canvas
 	public void notifyCanvasObservers() {
 		for (CanvasObserver observer: canvasObservers)
 			observer.update();
@@ -114,6 +121,7 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		canvasObservers.remove(observer);
 	}
 
+	// notifyObservers() is used to notify the Tools Panel that the canvas is being resized to deselct all Tools
 	public void notifyObservers() {
 		for (Observer observer: observers)
 			observer.update3();

@@ -1,5 +1,6 @@
 import java.awt.*;
 
+// CircleGraphics is used to store properties of a Circle and used to Draw a Circle using a Layer's Graphics2D Object
 public class CircleGraphics implements SpecificGraphic {
 	Point position;
 	float stroke_sz;
@@ -29,7 +30,7 @@ public class CircleGraphics implements SpecificGraphic {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR)); // This is used to set the pixels to transparent, will also look into this in the future
 		g.fillRect(0, 0, len, len);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 

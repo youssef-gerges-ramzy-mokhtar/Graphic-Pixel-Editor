@@ -1,5 +1,6 @@
 import java.awt.*;
 
+// RectangleGraphics is used to store properties of a Rectnalge and used to Draw a Rectnalge using a Layer's Graphics2D Object
 public class RectangleGraphics implements SpecificGraphic {
 	Point position;
 	float stroke_sz;

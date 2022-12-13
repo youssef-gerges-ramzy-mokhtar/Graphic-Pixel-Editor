@@ -2,7 +2,7 @@ import java.awt.image.*;
 import java.awt.*;
 
 class LayerData {
-	private BufferedImage layer;
+	private BufferedImage layer; // layer holds all the pixels that represent any layer
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
 
@@ -42,14 +42,17 @@ class LayerData {
 
 	// Might Rename to Absolute
 	public int getX(int canvasXPos) {
+		// Used to get the Absolute X Position of a Layer no matter its position on the Canvas
 		return canvasXPos - (int) layerPos.getX();
 	}
 
 	public int getY(int canvasYPos) {
+		// Used to get the Absolute Y Position of a Layer no matter its position on the Canvas
 		return canvasYPos - (int) layerPos.getY();
 	}
 
 	public Point getCoords(Point canvasPos) {
+		// Used to get the Absolute Position of a Layer no matter its position on the Canvas
 		return new Point(canvasPos.x - layerPos.x, canvasPos.y - layerPos.y);
 	}
 
@@ -92,6 +95,7 @@ class LayerData {
 		return layerGrahics;
 	}
 
+	// update Graphics Takes a SpecificGraphic Object and updates the layer Drawing Based on the Draw Method
 	public void updateGraphics(SpecificGraphic g) {
 		g.draw(layer.createGraphics());
 	}
@@ -117,6 +121,7 @@ class LayerData {
 		return true;
 	}
 
+	// UsupdateLayerSz() used to change the size of the layer based on the width & height and will move all previous pixels into the updated layer
 	public void updateLayerSz(int width, int height) {
 		BufferedImage tempLayer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D imgGraphics = tempLayer.createGraphics();
@@ -130,6 +135,7 @@ class LayerData {
 		layer = tempLayer;
 	}
 
+	// mergeLayer merges the newLayer with this layer
 	public void mergeLayer(LayerData newLayer) {
 		Graphics2D g2d = (Graphics2D) layer.getGraphics();
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -138,11 +144,13 @@ class LayerData {
 		g2d.drawImage(newLayer.getImage(), newLayer.getX(), newLayer.getY(), null);
 	}
 
+	// Updates this layer size based on width and height and sets each pixel of this updated layer to the specified color
 	public void clear(int width, int height, Color col) {
 		layer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		clear(col);
 	}
 
+	// Sets each pixel of this layer to the specified color
 	public void clear(Color col) {
 		Graphics2D g2d = (Graphics2D) layer.getGraphics();
 		g2d.setBackground(col);

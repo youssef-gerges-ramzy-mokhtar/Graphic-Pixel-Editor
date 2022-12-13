@@ -3,14 +3,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
-// Should that be Singelton
+// LayersHandler is used to handle all the layers on the Canvas
 class LayersHandler implements ImageObserver, CanvasObserver {
-	// Used for Image Selection
-	private ArrayList<LayerData> layers; // Here the Top Layer Image is the Image at the end of the Array List
+	private ArrayList<LayerData> layers; // Here the Top Layer is the Layer at the end of the Array List
 	private OurCanvas canvas;
 	private int verticalOffset;
 	private int horizontalOffset;
-	private LayerData drawingLayer;
+	private LayerData drawingLayer; // is the Main Layer on Canvas, same idea as the Background Layer in Photoshop
 	private LayerData selectedLayer;
 	private static LayersHandler layersHandler; // Singelton Design Pattern
 
@@ -37,10 +36,11 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		layers.add(layer);
 	}
 
-	public void removeImage(LayerData layer) {
+	public void removeLayer(LayerData layer) {
 		layers.remove(layer);
 	}
 
+	// move the Layer at idx to the Top Layer
 	public void moveToTopLayer(int idx) {
 		LayerData layerToBeMoved = layers.get(idx);
 		for (int i = idx; i < layers.size() - 1; i++)
@@ -49,11 +49,14 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		layers.set(layers.size() - 1, layerToBeMoved);
 	}
 
+	// moves the given layer to the Top Layer
 	public void moveToTopLayer(LayerData currentLayer) {
 		for (int i = 0; i < layers.size(); i++)
 			if (layers.get(i) == currentLayer) {moveToTopLayer(i); return;}
 	}
 
+	// Select Layer takes in a position and based on this position will return the Top Most Layer at this gievn position
+	// and there is no layers at this position null will be returned
 	public LayerData selectLayer(Point pos) {
 		for (int i = layers.size() - 1; i >= 0; i--) {
 			LayerData layerData = layers.get(i);
@@ -70,6 +73,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
         return null;
 	}
 
+	// updateCanvas() is used to refresh the canvas by redrawing all the layers into the canvas
 	public void updateCanvas() {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers)
@@ -116,32 +120,37 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		}
 	}
 
+	// Returnes the Number of layers
 	public int getLayersCount() {
 		return layers.size();
 	}
 
-	// Observer Pattern //
-	public void update(LayerData layerData) {
-		addLayer(layerData);
-		updateCanvas();
-	}
-
-	public void update() {
-		resizeDrawingArea(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
-		updateCanvas();
-	}
-
+	// Retunrs the Current Selected Layer
 	public LayerData getSelectedLayer() {
-		// return layers.get(0);
 		return selectedLayer;
 	}
 
+	// Selects a Different layer based on layerPosition
 	public void changeSelectedLayer(int layerPos) {
 		if (layerPos < 0) return;
 		if (layerPos >= layers.size()) return;
 
 		selectedLayer = layers.get(layerPos);
 	}
+
+	// Observer Pattern //
+	// update() is called whenever a new Image is added to the Canvas, to add this image as a seperate layer to the layers
+	public void update(LayerData layerData) {
+		addLayer(layerData);
+		updateCanvas();
+	}
+
+	// update() is called whenver the canvas is resized, and is used to resize the drawing area
+	public void update() {
+		resizeDrawingArea(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
+		updateCanvas();
+	}
+
 
 	// Singelton Pattern //
 	public static LayersHandler getLayersHandler(OurCanvas canvas) {
