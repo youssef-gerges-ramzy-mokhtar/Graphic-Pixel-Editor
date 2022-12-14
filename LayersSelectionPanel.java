@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 // This class is just a temporary Class to provide the user with an interface to choose between different layers
-// In the future the user interface will change to look nicer
+// In the future the graphical user interface will change to look nicer
 class LayersSelectionPanel extends JPanel {
 	private LayersHandler layersHandler;
 	private OptionsPanel optionsPanel;

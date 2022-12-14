@@ -9,5 +9,4 @@ class MenuPanel extends JMenuBar {
 		this.imageLoaderMenu = imageLoaderMenu;
 		add(imageLoaderMenu.getMenu());
 	}
-
 }

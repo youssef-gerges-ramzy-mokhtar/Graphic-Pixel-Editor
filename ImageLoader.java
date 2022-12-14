@@ -7,6 +7,7 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 
+// ImageLoader is used Loads Images from the User's Computer into the Program
 class ImageLoader implements ImageObservable {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
@@ -15,10 +16,12 @@ class ImageLoader implements ImageObservable {
 
     public ImageLoader(OurCanvas canvas) {
     	this.canvas = canvas;
-        observers = new ArrayList<ImageObserver>();
-    	addOpenImageMenuListener();
+        this.observers = new ArrayList<ImageObserver>();
+    	
+        addOpenImageMenuListener();
     }
 
+    // Used to attach an event handler to the Menu Button
     private void addOpenImageMenuListener() {
     	openImageMenu.addMenuListener(new MenuListener() {
             public void menuCanceled(MenuEvent e) {}
@@ -34,6 +37,7 @@ class ImageLoader implements ImageObservable {
         });
     }
 
+    // loadImage takes the filePath and loads the image and notify the LayersHandler to add the loaded image to a separate layer
     private void loadImage(String filePath) {
     	try {
     		File imgFile = new File(filePath);
@@ -45,6 +49,7 @@ class ImageLoader implements ImageObservable {
         } catch (Exception e) {}
     }
 
+    // scaleImage() is used to change the width & height of the loaded image if the loaded image size is larger than the canvas size
     private BufferedImage scaleImage(BufferedImage img) {
     	double factor1 = 1;
         if (img.getWidth() > canvas.getMainLayer().getWidth())
@@ -79,6 +84,7 @@ class ImageLoader implements ImageObservable {
         observers.remove(observer);
     }
 
+    // notifyObserver() notifies the LayersHandler to add the last loaded image to a separate layer
     public void notifyObservers() {
         for (ImageObserver observer: observers)
             observer.update(lastLoadedImg);

@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-// R
+// RectangleTool is responsible for adding & handling Rectangles to the cavnas
 class RectangleTool extends ShapeTool {
 	public RectangleTool(OurCanvas canvas) {
 		super(canvas);

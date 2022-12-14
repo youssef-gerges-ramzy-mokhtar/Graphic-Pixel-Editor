@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
+// SelectionTool is used to move layers in the canvas
 class SelectionTool implements ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
@@ -17,6 +18,7 @@ class SelectionTool implements ClickableContainer {
 		addCanvasListener();
 	}
 
+	// addCanvasListener() attachs an Event Listener to the canvas
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -24,6 +26,7 @@ class SelectionTool implements ClickableContainer {
             }
         });
 
+		// The layer that will be choose/selected will be decided by the layers handler class and the layers handler class will determine the layer to select based on the coordinates of the cursor
         canvas.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (!selectionBtn.isActive()) return;

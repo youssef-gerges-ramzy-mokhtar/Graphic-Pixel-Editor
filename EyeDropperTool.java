@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.*;
 
+// EyeDropperTool is responsible for detecing colors on the canvas
 public class EyeDropperTool implements ClickableContainer, Observable {
     private OurCanvas canvas;
     private Clickable eyeDropperBtn;
@@ -21,6 +22,7 @@ public class EyeDropperTool implements ClickableContainer, Observable {
         getColour();
     }
 
+    // getColour() is used to attach an Event Listener to the cavnas to detect colors at the cursor coordinates
     public void getColour() {
         canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
@@ -37,6 +39,8 @@ public class EyeDropperTool implements ClickableContainer, Observable {
     }
 
     // Observer Pattern //
+
+    // notifyObservers() is used to notify the Color Picker preview button whenver the eye dropper detects a color on the canvas
     public void notifyObservers() {
         for (Observer observer : colorObservers)
             observer.update2(col);

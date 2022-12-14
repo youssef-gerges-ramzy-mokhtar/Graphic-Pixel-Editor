@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-// Will EyeDropper Hadle Individual Layers or Will be used for the main Canvas Layer
+// FillTool is used to pour large areas of paint onto the Canvas that expand until they find a border they cannot flow over.
 class FillTool implements Observer, ClickableContainer {
     private OurCanvas canvas;
     private Clickable fillBtn;
@@ -21,6 +21,9 @@ class FillTool implements Observer, ClickableContainer {
 		addCanvasListener();
 	}
 
+	// addCanvasListener() is used to attach an Event Listener to the canvas
+	// Fill Tool is used on each separate layer, and the barrier color will be the color at the cursor coordinates
+	// And when the Fill Process is finished we use update the canvas using the layersHandler
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
@@ -30,17 +33,18 @@ class FillTool implements Observer, ClickableContainer {
             	Point selectedLayerCoords = new Point(selectedLayer.getX(mouse.getX()), selectedLayer.getY(mouse.getY()));
             	if (selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()) == null) return;
 
-            	barrierCol = new Color(selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()));
+            	barrierCol = new Color(selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY())); // barrierCol represents the color that should be changed to the fill color and any othe color on the canvas that is not equal to the barrierCol then it is a block and we can't fill it
             	fillCanvas((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()); // Starting Position of Flood Fill
 				layersHandler.updateCanvas();
             }
         });
 	}
 
+	// fillCanvas() takes in the x,y coordinates and keeps filling pixels in an enclosed bounded area
 	private void fillCanvas(int x, int y) {
 		LayerData selectedLayer = layersHandler.getSelectedLayer();
 
-		// Iterative Based Solution
+		// Iterative Based Solution (Because Recursion overflowed the stack)
 		Stack<Integer> x_coord = new Stack<Integer>(); 
 		Stack<Integer> y_coord = new Stack<Integer>(); 
 		x_coord.push(x);
@@ -70,6 +74,8 @@ class FillTool implements Observer, ClickableContainer {
 
 	// Observer Pattern
     public void update(int val) {}
+    
+    // update2() is used to change the fill color whenver the Eye Dropper Tool or the Color Picker are used
     public void update2(Color col) {
     	fillCol = col;
     }

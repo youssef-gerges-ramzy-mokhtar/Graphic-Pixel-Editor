@@ -3,10 +3,11 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
 
+// Drawing Tool is an abstract class used to represent any Tool that draws into the Canvas
 abstract class DrawingTool implements ClickableContainer, Observer {
 	protected Clickable drawingBtn;
 	protected Brush brush;
-	protected DrawLineGraphics lineGraphic;
+	protected LineGraphics lineGraphic;
 
 	protected OurCanvas canvas;
 	private LayersHandler layersHandler;
@@ -44,6 +45,7 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		});
 	}
 
+	// drawBrush() used to draw a line between 2 points in the current layer
 	private void drawBrush(Point pos) {
 		LayerData currentLayer = layersHandler.getSelectedLayer();
 
@@ -65,6 +67,7 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		layersHandler.updateCanvas();
 	}
 
+	// drawPointBrush() used to draw a circle when a user clicks on the canvas
 	private void drawPointBrush(Point pos) {
 		LayerData currentLayer = layersHandler.getSelectedLayer();
 
@@ -81,6 +84,7 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		layersHandler.updateCanvas();
 	}
 
+	// setBrushProperties() is an abstract method used by the all drawing tools to define the drawing tool own behavior
 	protected abstract void setBrushProperties();
 
 	public Clickable getClickable() {
@@ -88,6 +92,8 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 	}
 
 	// Observer Pattern 
+
+	// update() is used to update the brush Thickness when the Pen Options Slider is Changed 
 	public void update(int thickness) {
 		brush.setThickness(thickness);
 	}

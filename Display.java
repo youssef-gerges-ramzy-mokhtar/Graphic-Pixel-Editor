@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
+// Display is the Main Entry for the whole Program and it simply represents the Program Frame and all Gui Components on that Frame
 public class Display extends JFrame {
     private ToolsManager toolsManager;
 
@@ -12,6 +13,7 @@ public class Display extends JFrame {
         initFrameLayout();
     }
 
+    // initFrameProperties() sets the Frame Properties
     private void initFrameProperties() {
         setTitle("Pixel Program");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +25,7 @@ public class Display extends JFrame {
         getContentPane().setBackground(Constants.mainColor);  //change background colour
     }
 
+    // initrameLayout() adds the different Gui Components to the Frame
     private void initFrameLayout() {
         JPanel main = new JPanel(new BorderLayout());
         main.setBounds(0, 100, 200, 200);
