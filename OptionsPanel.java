@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
+// OptionsPanel represents all the options at the top panel, and for now this options are the following:
+/*
+	- Color Watchs and Color Chooser
+	- Pen Size Slider
+	- Layer Chooser
+*/
 class OptionsPanel extends JPanel {
 	private PenOptionsPanel penOptionsPanel;
 

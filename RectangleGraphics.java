@@ -1,25 +1,20 @@
 import java.awt.*;
 
+// RectangleGraphics is used to store properties of a Rectnalge and used to Draw a Rectnalge using a Layer's Graphics2D Object
 public class RectangleGraphics implements SpecificGraphic {
 	Point position;
-	Graphics2D g;
 	float stroke_sz;
 	int len;
 	Color stroke_col;
 
-	public RectangleGraphics(Point position, Graphics2D g) {
+	public RectangleGraphics(Point position) {
 		this.position = position;
-		this.g = g;
 		stroke_sz = 2;
 		len = 3;
 	}
 
 	public void setPoints(Point position) {
 		this.position = position;
-	}
-
-	public void setGraphics(Graphics2D g) {
-		this.g = g;
 	}
 
 	public void setStrokeSize(float sz) {
@@ -34,23 +29,18 @@ public class RectangleGraphics implements SpecificGraphic {
 		this.len = len;
 	}
 
-	public void draw() {
+	public void draw(Graphics2D g) {
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
-		// Make the Circle appear in the center of the cursor
-
+		// In the future will try to Make the Rectangle appear in the center of the cursor
 		g.drawRect(
-			position.x - (len / 2),
-			position.y - (len / 2),
+			position.x,
+			position.y,
 			len,
 			len
 		);
 
 		g.dispose();
-	}
-
-	public Graphics getGraphics() {
-		return g;
 	}
 }

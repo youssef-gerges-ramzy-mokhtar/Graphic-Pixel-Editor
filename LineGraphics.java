@@ -1,30 +1,25 @@
 import java.awt.*;
 
-public class DrawLineGraphics implements SpecificGraphic {
+// LineGraphics is used to store properties of a Line and is used to Draw a Line using a Layer's Graphics2D Object
+public class LineGraphics implements SpecificGraphic {
 	Point firstPoint, secondPoint;
-	Graphics2D g;
-	float stroke_sz = 2;
+	float stroke_sz;
 	Color stroke_col;
 
-	public DrawLineGraphics(Point firstPoint, Point secondPoint, Graphics2D g, float sz, Color col) {
+	public LineGraphics(Point firstPoint, Point secondPoint, float sz, Color col) {
 		this.firstPoint = firstPoint;
 		this.secondPoint = secondPoint;
-		this.g = g;
 		this.stroke_sz = sz;
 		this.stroke_col = col;
 	}
 
-	public DrawLineGraphics(float sz, Color col) {
-		this(new Point(0, 0), new Point(0, 0), null, sz, col);
+	public LineGraphics(float sz, Color col) {
+		this(new Point(0, 0), new Point(0, 0), sz, col);
 	}
 
 	public void setPoints(Point firstPoint, Point secondPoint) {
 		this.firstPoint = firstPoint;
 		this.secondPoint = secondPoint;
-	}
-
-	public void setGraphics(Graphics2D g) {
-		this.g = g;
 	}
 
 	public void setStrokeSize(float sz) {
@@ -35,7 +30,7 @@ public class DrawLineGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
-	public void draw() {
+	public void draw(Graphics2D g) {
 		if (firstPoint.equals(secondPoint)) return;
 
 		g.setStroke(new BasicStroke(stroke_sz, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -49,9 +44,5 @@ public class DrawLineGraphics implements SpecificGraphic {
 		);
 
 		g.dispose();
-	}
-
-	public Graphics getGraphics() {
-		return g;
 	}
 }

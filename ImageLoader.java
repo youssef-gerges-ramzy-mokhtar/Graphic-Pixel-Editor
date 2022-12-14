@@ -7,16 +7,21 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 
-class ImageLoader {
+// ImageLoader is used Loads Images from the User's Computer into the Program
+class ImageLoader implements ImageObservable {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
     private LayerData lastLoadedImg;
+    private ArrayList<ImageObserver> observers;
 
     public ImageLoader(OurCanvas canvas) {
     	this.canvas = canvas;
-    	addOpenImageMenuListener();
+        this.observers = new ArrayList<ImageObserver>();
+    	
+        addOpenImageMenuListener();
     }
 
+    // Used to attach an event handler to the Menu Button
     private void addOpenImageMenuListener() {
     	openImageMenu.addMenuListener(new MenuListener() {
             public void menuCanceled(MenuEvent e) {}
@@ -32,6 +37,7 @@ class ImageLoader {
         });
     }
 
+    // loadImage takes the filePath and loads the image and notify the LayersHandler to add the loaded image to a separate layer
     private void loadImage(String filePath) {
     	try {
     		File imgFile = new File(filePath);
@@ -39,18 +45,19 @@ class ImageLoader {
             img = scaleImage(img);
 
             lastLoadedImg = new LayerData(img);
-            canvas.drawLayer(lastLoadedImg);
+            notifyObservers();
         } catch (Exception e) {}
     }
 
+    // scaleImage() is used to change the width & height of the loaded image if the loaded image size is larger than the canvas size
     private BufferedImage scaleImage(BufferedImage img) {
     	double factor1 = 1;
-        if (img.getWidth() > canvas.getCanvasWidth())
-            factor1 = (double) img.getWidth() / (double) canvas.getCanvasWidth();
+        if (img.getWidth() > canvas.getMainLayer().getWidth())
+            factor1 = (double) img.getWidth() / (double) canvas.getMainLayer().getWidth();
 
         double factor2 = 1;
-        if (img.getHeight() > canvas.getCanvasHeight())
-            factor2 = (double) img.getHeight() / (double) canvas.getCanvasHeight();
+        if (img.getHeight() > canvas.getMainLayer().getHeight())
+            factor2 = (double) img.getHeight() / (double) canvas.getMainLayer().getHeight();
 
         double aspectRatio = Math.max(factor1, factor2);
         int newWidth = (int) Math.floor((double) img.getWidth() / aspectRatio);
@@ -66,5 +73,20 @@ class ImageLoader {
 
     public JMenu getMenu() {
     	return openImageMenu;
+    }
+
+    // Observer Pattern 
+    public void addObserver(ImageObserver observer) {
+        observers.add(observer);
+    }
+    
+    public void removeObserver(ImageObserver observer) {
+        observers.remove(observer);
+    }
+
+    // notifyObserver() notifies the LayersHandler to add the last loaded image to a separate layer
+    public void notifyObservers() {
+        for (ImageObserver observer: observers)
+            observer.update(lastLoadedImg);
     }
 }
