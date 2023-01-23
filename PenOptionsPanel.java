@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.event.*;
 import java.util.*;
 
+// Pen Options Panel is the Panel to display brush properties, for now that is the Brush Size
 class PenOptionsPanel extends JPanel implements Observable {
 	// The code in this class will be changed in the future to be more DRY, and to look more better
 	private final int maxBrushSz = 50;
@@ -86,6 +87,8 @@ class PenOptionsPanel extends JPanel implements Observable {
 	}
 
 	// Observer Design Pattern //
+	
+	// notifyObservers() is used to notify the Pen Tool and the Eraser Tool when the Size changes
 	public void notifyObservers() {
 		
 		for (Observer observer : observers)

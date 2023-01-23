@@ -2,156 +2,136 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.*;
 
-class OurCanvas extends JPanel {
-	private BufferedImage image;
+// OurCanvas represents the Main area in the program that the user uses to draw, add shapes, add images and so on...
+class OurCanvas extends JPanel implements CanvasObservable, Observable {
+	// In the future mainLayer might be part of the LayersHandler Class
+	private int width;
+	private int height;
 	private Color col;
+	private LayerData mainLayer;
+
 	private boolean canDrag = false;
-	private int newWidth, newHeight;
+	private ArrayList<CanvasObserver> canvasObservers;
+	private ArrayList<Observer> observers;
 
 	public OurCanvas() {
-		col = Color.white;
-		setBackground(new Color(202, 211, 227));
-		// setPreferredSize(new Dimension(2000, 2000));
-		repaint();
+		this.width = 800;
+		this.height = 600;
+		this.col = Color.white;
+		this.mainLayer = new LayerData(width, height, col);
 
+		this.canvasObservers = new ArrayList<CanvasObserver>();
+		this.observers = new ArrayList<Observer>();
+
+		setBackground(new Color(202, 211, 227));
+		addCanvasListener();
+		repaint();
+	}
+
+	// addCanvasListener() is used to support the resizing of the canvas
+	private void addCanvasListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (Math.abs(e.getX() - image.getWidth()) <= 5 && Math.abs(e.getY() - image.getHeight()) <= 5) {canDrag = true; return;}
+				if (Math.abs(e.getX() - mainLayer.getWidth()) <= 5 && Math.abs(e.getY() - mainLayer.getHeight()) <= 5) {
+					canDrag = true; 
+					notifyObservers();
+					return;
+				}
 
-				canDrag = false;
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (canDrag) incCanvasSz();
 				canDrag = false;
 			}
 		});
 
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				if (canDrag) {
-					newWidth = e.getX();
-					newHeight = e.getY();
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
-     				setCursor(cursor);
-				}
+				if (!canDrag) return;
+
+				width = e.getX();
+				height = e.getY();
+				Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+ 				setCursor(cursor);
+ 				updateCanvasSz();
 			}
 
 			public void mouseMoved(MouseEvent e) {
-				if (image == null) return;
-
-				if (Math.abs(e.getX() - image.getWidth()) <= 5 && Math.abs(e.getY() - image.getHeight()) <= 5) {
+				if (Math.abs(e.getX() - mainLayer.getWidth()) <= 5 && Math.abs(e.getY() - mainLayer.getHeight()) <= 5) {
 					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
      				setCursor(cursor);
 					return;
 				}
-
-				/*
-				// Under Development
-				if (Math.abs(e.getX() - image.getWidth()) <= 5) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-					setCursor(cursor);
-					return;
-				}
-
-				if (Math.abs(e.getY() - image.getHeight()) <= 5) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-					setCursor(cursor);
-					return;
-				}
-				*/
 
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
 		});
-
 	}
 
-	private void incCanvasSz() {
-		if (newWidth == image.getWidth() && newHeight == image.getHeight()) return;
-
+	// updateCanvasSz() is used to change the canvas size when the user resizes the canvas
+	private void updateCanvasSz() {
 		// Still Under Development
-		if (newWidth >= getWidth() || newHeight >= getHeight()) {
-			setPreferredSize(new Dimension(newWidth + 20, newHeight + 20));
+		if (width >= getWidth() || height >= getHeight()) {
+			setPreferredSize(new Dimension(width + 100, height + 100));
 			revalidate();
 		}
 
-		// if (newWidth >= getWidth())
-		// 	setPreferredSize(new Dimension(newWidth + 20, getHeight()));
-
-		// if (newHeight >= getHeight())
-		// 	setPreferredSize(new Dimension())
-
-
-		BufferedImage tempImg = (BufferedImage) createImage(newWidth, newHeight);
-		Graphics2D imgGraphics = tempImg.createGraphics();
-		imgGraphics.setBackground(col);
-		imgGraphics.clearRect(0, 0, newWidth, newHeight);
-    	
-    	for (int i = 0; i < Math.min(image.getWidth(), newWidth); i++)
-    		for (int j = 0; j < Math.min(image.getHeight(), newHeight); j++)
-    			tempImg.setRGB(i, j, image.getRGB(i, j));
-
-    	image = tempImg;
+		mainLayer.clear(width, height, col);
 		repaint();
-
-		newWidth = image.getWidth();
-		newHeight = image.getHeight();		
+		notifyCanvasObservers();
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (image == null) {
-			image = (BufferedImage) createImage(800, 600);
-			
-			Graphics2D imgGraphics = image.createGraphics();
-			imgGraphics.setBackground(col);
-			// imgGraphics.clearRect(0, 0, getSize().width, getSize().height);
-			imgGraphics.clearRect(0, 0, 800, 600);
-		}
-
-		g.drawImage(image, 0, 0, null);
-	}
-
-	public void updateCanvas(SpecificGraphic g) {
-		g.draw();
-		repaint();
-	}
-
-	public Graphics2D getCanvasGraphics() {
-		return (Graphics2D) image.getGraphics();
+		g.drawImage(mainLayer.getImage(), 0, 0, null);
 	}
 
 	public Color getCanvasColor() {
 		return col;
 	}
 
-	public Color getCanvasColor(int x, int y) {
-		return new Color(image.getRGB(x, y));
-	}
-
-	public void setPixel(int x, int y, int rgb) {
-		if (x >= image.getWidth() || y >= image.getHeight()) return;
-		// if (image.getRGB(x, y) == rgb) return;
-
-		image.setRGB(x, y, rgb);
-		revalidate();
+	// drawLayer() merges/draws a layer into the canvas
+	public void drawLayer(LayerData img) {
+		mainLayer.mergeLayer(img);
 		repaint();
 	}
 
-	public Integer getPixel(int x, int y) {
-		if (!inRange(x, y)) return null;
-		
-		return image.getRGB(x, y);
+	// clearCanvas() changes all the pixels in the canvas to col
+	public void clearCanvas() {
+		mainLayer.clear(col);
+		repaint();
 	}
 
-	private boolean inRange(int x, int y) {
-		if (x < 0) return false;
-		if (y < 0) return false;
-		if (x >= image.getWidth()) return false;
-		if (y >= image.getHeight()) return false;
+	public LayerData getMainLayer() {
+		return mainLayer;
+	}
 
-		return true;
+	// Observer Pattern: Might change this part in the future //
+	
+	// notifyCanvasObservers() is used to notify the observers when the canvas is resized to increase the Drawing Area Size and refresh the canvas
+	public void notifyCanvasObservers() {
+		for (CanvasObserver observer: canvasObservers)
+			observer.update();
+	}
+
+	public void addCanvasObserver(CanvasObserver observer) {
+		canvasObservers.add(observer);
+	}
+
+	public void removeCanvasObserver(CanvasObserver observer) {
+		canvasObservers.remove(observer);
+	}
+
+	// notifyObservers() is used to notify the Tools Panel that the canvas is being resized to deselct all Tools
+	public void notifyObservers() {
+		for (Observer observer: observers)
+			observer.update3();
+	}
+
+	public void addObserver(Observer observer) {
+		observers.add(observer);
+	}
+
+	public void removeObserver(Observer observer) {
+		observers.remove(observer);
 	}
 }

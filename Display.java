@@ -3,49 +3,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
-public class Display extends JFrame{
-    //private JLabel label;
-    private OurCanvas canvas;
-    
-    // private PenGui penGui;
-    private ColorGui colorGui;
-    private OptionsPanel optionsPanel;
-    private ToolsPanel toolsPanel;
-    // private EyeDropper eyeDropper;
 
-    public Display() {   
-        initFrame();
+// Display is the Main Entry for the whole Program and it simply represents the Program Frame and all Gui Components on that Frame
+public class Display extends JFrame {
+    private ToolsManager toolsManager;
 
-        // Updated Code //
-        JPanel main = new JPanel(new BorderLayout());
-        main.setBounds(0, 100, 200, 200);
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
+    public Display() {
+        this.toolsManager = new ToolsManager();
+        initFrameProperties();
+        initFrameLayout();
 
-        canvas = new OurCanvas();
-        colorGui = new ColorGui();
-        // Updated Code //
-
-        // Code Change //
-        toolsPanel = new ToolsPanel(canvas);
-        colorGui.addObserver(toolsPanel.getPenGui());
-        colorGui.addObserver(toolsPanel.getRectangle());
-        colorGui.addObserver(toolsPanel.getFill());
-        colorGui.addObserver(toolsPanel.getairbrush());
-        toolsPanel.getEyeDropper().addColorObserver(colorGui);
-
-        optionsPanel = new OptionsPanel(colorGui);
-        addObservers();
-        
-        main.add(toolsPanel, BorderLayout.WEST);
-        main.add(new JScrollPane(canvas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
-        contentPane.add(main, BorderLayout.CENTER);
-        contentPane.add(optionsPanel, BorderLayout.NORTH);
-        revalidate();
-        // Code Change //
     }
 
-    private void initFrame() {
+    // initFrameProperties() sets the Frame Properties
+    private void initFrameProperties() {
         setTitle("Pixel Program");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);              //doesnt use a layout manager
@@ -56,15 +27,20 @@ public class Display extends JFrame{
         getContentPane().setBackground(Constants.mainColor);  //change background colour
     }
 
-    public OurCanvas getCanvas() {
-        return canvas;
-    }
+    // initrameLayout() adds the different Gui Components to the Frame
+    private void initFrameLayout() {
+        JPanel main = new JPanel(new BorderLayout());
+        main.setBounds(0, 100, 200, 200);
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout());
+        
+        main.add(toolsManager.getToolsPanel(), BorderLayout.WEST);
+        main.add(new JScrollPane(toolsManager.getCanvas(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        contentPane.add(main, BorderLayout.CENTER);
+        contentPane.add(toolsManager.getOptionsPanel(), BorderLayout.NORTH);
+        setJMenuBar(toolsManager.getMenuPanel());
+        revalidate();
 
-    public void addObservers() {
-        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getPenGui());
-        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getRectangle());
-        optionsPanel.getPenOptionsPanel().addObserver(toolsPanel.getairbrush());
-        // colorGui.addObserver(penGui);
     }
 
     public static void main(String[] args){

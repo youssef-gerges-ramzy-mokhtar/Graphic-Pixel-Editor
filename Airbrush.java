@@ -9,12 +9,12 @@ import java.util.*;
 
 public class Airbrush implements Observable, Observer
 {
-    //TODO put random pen Points within the givin radius of the pen size. 
-    //TODO set random pen Points to e.g. size/3
+    
+    
 
     private OurCanvas canvas;
     Random rand;
-    JButton airbrushbtn;
+    private Clickable airBrushBtn;
     Brush pen;
     int penSize=1;
     Color currentCol;
@@ -22,25 +22,27 @@ public class Airbrush implements Observable, Observer
     private ArrayList<Observer> observers = new ArrayList<Observer>();
     private ArrayList<Observer> clickObservers = new ArrayList<Observer>();
     private Boolean buttonSelected = false;
-    private DrawLineGraphics lineGraphic;
+    private LineGraphics lineGraphic;
+    private LayersHandler layersHandler;
     
    
     public Airbrush(OurCanvas canvas)
     {
         rand = new Random();
         this.canvas = canvas;
-        airbrushbtn = new JButton("Air brush");
+        this.airBrushBtn = new Clickable("Air Brush");
         pen = new Pen();
-        lineGraphic = new DrawLineGraphics(pen.getThickness(), pen.getCol());
+        this.layersHandler = LayersHandler.getLayersHandler(canvas);
+        lineGraphic = new LineGraphics(pen.getThickness(), pen.getCol());
         canvasListener();
-        airbrushBtnListener();
+        
     }
 
     private void canvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 			
-                if (buttonSelected)
+                if (airBrushBtn.isActive())
                     AddPoints(e.getX(),e.getY());
                 
 			}
@@ -50,7 +52,7 @@ public class Airbrush implements Observable, Observer
 
 		canvas.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				if (!buttonSelected) return;
+				if (!airBrushBtn.isActive()) return;
 				AddPoints(e.getX(), e.getY());
 			}
 		});
@@ -58,16 +60,14 @@ public class Airbrush implements Observable, Observer
 
     }
 
-    public JButton getairbrushbtn()
-    {
-        return airbrushbtn;
-    }
+   
 
     public boolean isActive() {
 		
 		return buttonSelected;
 	}
 
+    //Used to calculate a list of points which will be painted on
     public void AddPoints(double x,double y)
     {
         Point[] points = new Point[31];
@@ -101,47 +101,49 @@ public class Airbrush implements Observable, Observer
 
          drawPointBrush(pen,points);
         
-        //
+        
     }
 
+    //Physically paint selected points to screen
     private void drawPointBrush(Brush brush, Point[] points) {
+        
+        LayerData currentLayer = layersHandler.getSelectedLayer();
+
         
         for(Point point: points)
         {
+          
 
             try{
                 brush.setPos(point);
                 int innerPenSize=penSize/10;
                 Point dragPoint = new Point(1,1);
-                dragPoint.setLocation(point.getX()+1,point.getY()+1);
+                int x = (int)point.getX();
+                int y = (int)point.getY();
+                brush.setPos(x,y);
+                dragPoint.setLocation(x+1,y+1);
                 
                 
-                brush.setThickness(penSize);
+                brush.setThickness(innerPenSize);
                 brush.setColor(currentCol);
                 brush.setColor(canvas.getCanvasColor());
 
-                lineGraphic.setPoints(brush.getPos(), dragPoint);
-                //System.out.println(penSize); 
-                lineGraphic.setGraphics(canvas.getCanvasGraphics());
-                lineGraphic.setColor(currentCol);
-                lineGraphic.setStrokeSize(innerPenSize);
+                lineGraphic.setPoints(point, dragPoint);
+                
+		        lineGraphic.setColor(currentCol);
+		        lineGraphic.setStrokeSize(brush.getThickness());
             
-                canvas.updateCanvas(lineGraphic);}
+               
+                currentLayer.updateGraphics(lineGraphic);
+                layersHandler.updateCanvas();
+               
+            }
             catch(Exception e){}
         
         }
         
 	}
-
-    private void airbrushBtnListener() {
-		airbrushbtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-         		notifyObservers();
-                buttonSelected = true;
-                SelectButton.selectBtn(airbrushbtn);
-            }
-        });
-	}
+ 
 
     public void addObserver(Observer observer) {
 		observers.add(observer);
@@ -154,10 +156,11 @@ public class Airbrush implements Observable, Observer
     public void update(int thickness) {
         
 		penSize = thickness;
+       
     }
 
 	public void update2(Color col) {
-        
+  
 	    currentCol = col;
 	}
     public void update3() {};
@@ -169,10 +172,10 @@ public class Airbrush implements Observable, Observer
              observer.update3();
     }
 
-    public void deSelect() {
-       
-        buttonSelected = false;
-        SelectButton.deSelectBtn(airbrushbtn);
+   
+
+    public Clickable getClickable() {
+        return airBrushBtn;
     }
 
     

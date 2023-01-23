@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.border.*;
 import java.util.*;
 
+// Colors Panel is used to Display the Color Swatches and the Color Chooser
 class ColorsPanel extends JPanel {
 	private ArrayList<Color> colorSwatches;
 	private ColorGui colorGui;
@@ -20,6 +21,7 @@ class ColorsPanel extends JPanel {
 		setLayout(new GridLayout(rows, cols));
 		initColorSwatches();
 
+		// Creating a Buttons where each button represent 1 color swatch
 		for (Color col : colorSwatches) {
 			JButton swatchBtn = new JButton();
 			swatchBtn.setBackground(col);
@@ -51,6 +53,7 @@ class ColorsPanel extends JPanel {
 		}
 	}
 
+	// Adds different colors to the colorSwatchs ArrayList
 	private void initColorSwatches() {
 		colorSwatches = new ArrayList<>();
 		colorSwatches.add(Color.white);
