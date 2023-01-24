@@ -12,7 +12,7 @@ class ToolsManager {
     private FillTool fillTool;
     private RectangleTool rectangleTool;
     private CircleTool circleTool;
-	private Airbrush airBrush;
+	private TriangleTool triangleTool;
 
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
@@ -58,6 +58,7 @@ class ToolsManager {
 		toolsPanel.addClickable(eyeDropperTool.getClickable());
 		toolsPanel.addClickable(rectangleTool.getClickable());
 		toolsPanel.addClickable(circleTool.getClickable());
+		toolsPanel.addClickable(triangleTool.getClickable());
 
 		toolsPanel.addClickable(airBrush.getClickable());
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
