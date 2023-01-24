@@ -13,6 +13,7 @@ class ToolsManager {
     private RectangleTool rectangleTool;
     private CircleTool circleTool;
 	private TriangleTool triangleTool;
+	private Airbrush airBrush;
 
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
@@ -34,6 +35,7 @@ class ToolsManager {
 		this.eyeDropperTool = new EyeDropperTool(canvas);
 		this.rectangleTool = new RectangleTool(canvas);
 		this.circleTool = new CircleTool(canvas);
+		this.triangleTool = new TriangleTool(canvas);
 		this.airBrush = new Airbrush(canvas);
 
 		this.colorGui = new ColorGui();
@@ -59,8 +61,8 @@ class ToolsManager {
 		toolsPanel.addClickable(rectangleTool.getClickable());
 		toolsPanel.addClickable(circleTool.getClickable());
 		toolsPanel.addClickable(triangleTool.getClickable());
-
 		toolsPanel.addClickable(airBrush.getClickable());
+
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 
@@ -81,7 +83,9 @@ class ToolsManager {
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
         optionsPanel.getPenOptionsPanel().addObserver(rectangleTool); // Rectnalge Tool observers changes in the brush size (That is Temporary)
         optionsPanel.getPenOptionsPanel().addObserver(circleTool); // Circle Tool observers change sin the brush size (That is Temporary)
+		optionsPanel.getPenOptionsPanel().addObserver(triangleTool);
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
+        
         canvas.addObserver(toolsPanel);
 	} 
 
