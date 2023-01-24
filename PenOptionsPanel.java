@@ -90,6 +90,7 @@ class PenOptionsPanel extends JPanel implements Observable {
 	
 	// notifyObservers() is used to notify the Pen Tool and the Eraser Tool when the Size changes
 	public void notifyObservers() {
+		
 		for (Observer observer : observers)
 			observer.update(currentBrushSz);
 	}

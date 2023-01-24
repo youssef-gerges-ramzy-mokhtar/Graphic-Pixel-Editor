@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
+
 // Display is the Main Entry for the whole Program and it simply represents the Program Frame and all Gui Components on that Frame
 public class Display extends JFrame {
     private ToolsManager toolsManager;
@@ -11,6 +12,7 @@ public class Display extends JFrame {
         this.toolsManager = new ToolsManager();
         initFrameProperties();
         initFrameLayout();
+
     }
 
     // initFrameProperties() sets the Frame Properties
@@ -38,6 +40,7 @@ public class Display extends JFrame {
         contentPane.add(toolsManager.getOptionsPanel(), BorderLayout.NORTH);
         setJMenuBar(toolsManager.getMenuPanel());
         revalidate();
+
     }
 
     public static void main(String[] args){

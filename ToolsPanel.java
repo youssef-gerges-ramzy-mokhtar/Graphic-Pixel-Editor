@@ -4,6 +4,10 @@ import java.util.*;
 
 // ToolsPanel is the Left Panel used to shows all the Tools Buttons
 class ToolsPanel extends JPanel implements Observer {
+
+		
+		
+
     private ArrayList<Clickable> clickables;
 
 	public ToolsPanel() {
@@ -12,6 +16,7 @@ class ToolsPanel extends JPanel implements Observer {
         setBackground(new Color(63, 72, 204));      //set panel colour, store this color in the constants class
         setBounds(0, 100, 200, getHeight() - 100);      //set panel area
         setLayout(new GridLayout(8,2)); //applies panel layout to panel
+
 	}
 
 	public void addClickable(Clickable clickable) {
@@ -26,7 +31,9 @@ class ToolsPanel extends JPanel implements Observer {
 	
 	// Whenever a Button is selected update3() will deSelect all other buttons
 	public void update3() {
+
 		for (Clickable clickable: clickables)
 			if (clickable.isActive()) clickable.deSelect();
+
 	}
 }
