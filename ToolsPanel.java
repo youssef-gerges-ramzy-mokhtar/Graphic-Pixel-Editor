@@ -24,7 +24,7 @@ class ToolsPanel extends JPanel implements Observer {
 	public void update(int val) {}
 	public void update2(Color col) {}
 	
-	// Whenver a Button is selected update3() will deSelect all other buttons
+	// Whenever a Button is selected update3() will deSelect all other buttons
 	public void update3() {
 		for (Clickable clickable: clickables)
 			if (clickable.isActive()) clickable.deSelect();

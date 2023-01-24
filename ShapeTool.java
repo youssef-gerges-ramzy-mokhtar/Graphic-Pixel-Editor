@@ -46,6 +46,10 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 
 	// Creates a Layer to store a Shape
 	private LayerData createShapeLayer(Point layerPos) {
+		
+		if (layerWidth == 0) layerWidth = 100;
+		if (layerHeight == 0) layerHeight = 100;
+
 		LayerData shapeLayer = new LayerData(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
 		return shapeLayer;
 	}
