@@ -34,10 +34,9 @@ public class TriangleGraphics implements SpecificGraphic {
 		g.setColor(stroke_col);
 
 		// In the future will try to Make the Triangle appear in the center of the cursor
-
         g.drawPolygon(
-			new int[] {50, 100, 0},
-			new int[] {0, 100, 100},
+			new int[] {position.x + (len/2), position.x + len, position.x},
+			new int[] {position.y, position.y + len, position.y + len},
 			3
 		);
 
