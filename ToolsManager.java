@@ -14,6 +14,7 @@ class ToolsManager {
     private CircleTool circleTool;
 	private TriangleTool triangleTool;
 	private Airbrush airBrush;
+	private TextTool text;
 
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
@@ -37,6 +38,7 @@ class ToolsManager {
 		this.circleTool = new CircleTool(canvas);
 		this.triangleTool = new TriangleTool(canvas);
 		this.airBrush = new Airbrush(canvas);
+		this.text = new TextTool(canvas);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -62,6 +64,7 @@ class ToolsManager {
 		toolsPanel.addClickable(circleTool.getClickable());
 		toolsPanel.addClickable(triangleTool.getClickable());
 		toolsPanel.addClickable(airBrush.getClickable());
+		toolsPanel.addClickable(text.getClickable());
 
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
@@ -76,6 +79,7 @@ class ToolsManager {
         colorGui.addObserver(rectangleTool); // so whenver the colorGui changes it will notify the Rectnalge Tool to change Stroke Color
         colorGui.addObserver(circleTool); // so whenver the colorGui changes it will notify the Circle Tool to change stroke Color
 		colorGui.addObserver(airBrush);
+		colorGui.addObserver(text);
 
         eyeDropperTool.addObserver(colorGui); // so whenver the eye Dropper Tool is used on cnavas it notifies the colorGui to updates the color preview
 	
@@ -85,6 +89,7 @@ class ToolsManager {
         optionsPanel.getPenOptionsPanel().addObserver(circleTool); // Circle Tool observers change sin the brush size (That is Temporary)
 		optionsPanel.getPenOptionsPanel().addObserver(triangleTool);
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
+		optionsPanel.getPenOptionsPanel().addObserver(text);
         
         canvas.addObserver(toolsPanel);
 	} 
