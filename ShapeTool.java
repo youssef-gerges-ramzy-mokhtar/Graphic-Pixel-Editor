@@ -34,6 +34,11 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 				if (!shapeBtn.isActive()) return;
 				pivot = new Point(e.getX(), e.getY());
 			}
+
+			public void mouseReleased(MouseEvent e){
+				if (!shapeBtn.isActive()) return;
+				shapeLayer = null;
+			}
 		});
 
 		canvas.addMouseMotionListener(new MouseMotionAdapter() {
@@ -82,6 +87,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	// update2(Color col) is used to change the shape stroke color based on the Color Chooser or the Eye Dropper
 	public void update2(Color col) {
 		this.fillCol = col;
+		this.strokeCol = col;
 	}
 
 	public void update3() {}

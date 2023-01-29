@@ -78,6 +78,7 @@ class ToolsManager {
         colorGui.addObserver(fillTool); // so whenever the colorGui changes it will notify the Fill Tool to change Color
         colorGui.addObserver(rectangleTool); // so whenver the colorGui changes it will notify the Rectnalge Tool to change Stroke Color
         colorGui.addObserver(circleTool); // so whenver the colorGui changes it will notify the Circle Tool to change stroke Color
+		colorGui.addObserver(triangleTool);
 		colorGui.addObserver(airBrush);
 		colorGui.addObserver(text);
 
@@ -85,9 +86,6 @@ class ToolsManager {
 	
         optionsPanel.getPenOptionsPanel().addObserver(penTool); // Pen Tool observers changes in the brush size
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
-        optionsPanel.getPenOptionsPanel().addObserver(rectangleTool); // Rectnalge Tool observers changes in the brush size (That is Temporary)
-        optionsPanel.getPenOptionsPanel().addObserver(circleTool); // Circle Tool observers change sin the brush size (That is Temporary)
-		optionsPanel.getPenOptionsPanel().addObserver(triangleTool);
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
 		optionsPanel.getPenOptionsPanel().addObserver(text);
         
