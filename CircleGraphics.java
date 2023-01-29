@@ -4,13 +4,13 @@ import java.awt.*;
 public class CircleGraphics implements SpecificGraphic {
 	Point position;
 	float stroke_sz;
-	int len;
+	int width;
+	int height;
 	Color stroke_col;
 
 	public CircleGraphics(Point position) {
 		this.position = position;
 		stroke_sz = 2;
-		len = 3;
 	}
 
 	public void setPoints(Point position) {
@@ -25,13 +25,14 @@ public class CircleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
-	public void setLen(int len) {
-		this.len = len;
+	public void setDimension(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR)); // This is used to set the pixels to transparent, will also look into this in the future
-		g.fillRect(0, 0, len, len);
+		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
 		g.setStroke(new BasicStroke(stroke_sz));
@@ -41,8 +42,8 @@ public class CircleGraphics implements SpecificGraphic {
 		g.drawOval(
 			position.x,
 			position.y,
-			len,
-			len
+			width,
+			height
 		);
 
 		g.dispose();

@@ -13,7 +13,7 @@ class TriangleTool extends ShapeTool {
 	protected SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords) {
 		TriangleGraphics TriangleGraphics = new TriangleGraphics(shapeLayer.getCoords(coords));
 		TriangleGraphics.setColor(strokeCol);
-		TriangleGraphics.setLen(layerWidth);
+		TriangleGraphics.setDimension(layerWidth, layerHeight);
 
 		return TriangleGraphics;
 	}

@@ -4,13 +4,14 @@ import java.awt.*;
 public class RectangleGraphics implements SpecificGraphic {
 	Point position;
 	float stroke_sz;
-	int len;
+	int width;
+	int height;
 	Color stroke_col;
 
 	public RectangleGraphics(Point position) {
 		this.position = position;
 		stroke_sz = 2;
-		len = 3;
+		// len = 3;
 	}
 
 	public void setPoints(Point position) {
@@ -25,8 +26,9 @@ public class RectangleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
-	public void setLen(int len) {
-		this.len = len;
+	public void setDimensions(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void draw(Graphics2D g) {
@@ -37,8 +39,8 @@ public class RectangleGraphics implements SpecificGraphic {
 		g.drawRect(
 			position.x,
 			position.y,
-			len,
-			len
+			width,
+			height
 		);
 
 		g.dispose();

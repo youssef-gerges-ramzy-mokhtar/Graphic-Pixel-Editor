@@ -6,6 +6,8 @@ import javax.swing.*;
 abstract class ShapeTool implements Observer, ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
+	private Point pivot;
+	private LayerData shapeLayer;
 	protected Color strokeCol;
 	protected Color fillCol;
 	protected Clickable shapeBtn;
@@ -19,6 +21,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 		this.strokeCol = Color.black;
 		this.fillCol = Color.white; // that is temp
 		this.shapeBtn = new Clickable("Dummy Shape");
+		this.shapeLayer = null;
 
 		addCanvasListener();
 	}
@@ -27,15 +30,29 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	// Also each layer is created into its own layer and added to the layers handler
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
-			public void mouseReleased(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
+				if (!shapeBtn.isActive()) return;
+				pivot = new Point(e.getX(), e.getY());
+			}
+		});
+
+		canvas.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
 				if (!shapeBtn.isActive()) return;
 
-				Point pos = new Point(e.getX(), e.getY());
-				LayerData shapeLayer = createShapeLayer(pos);
-				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, pos);
-			
+				Point finalPoint = new Point(e.getX(), e.getY());
+				layerWidth = finalPoint.x - pivot.x;
+				layerHeight = finalPoint.y - pivot.y;
+
+				if (layerWidth == 0 || layerHeight == 0) return;
+
+				LayerData prevLayer = shapeLayer;
+				shapeLayer = createShapeLayer(pivot);
+				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, pivot);
+
 				shapeLayer.updateGraphics(shapeGraphics);
 				layersHandler.addLayer(shapeLayer);
+				layersHandler.removeLayer(prevLayer);
 				layersHandler.updateCanvas();
 			}
 		});
@@ -46,10 +63,6 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 
 	// Creates a Layer to store a Shape
 	private LayerData createShapeLayer(Point layerPos) {
-		
-		if (layerWidth == 0) layerWidth = 100;
-		if (layerHeight == 0) layerHeight = 100;
-
 		LayerData shapeLayer = new LayerData(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
 		return shapeLayer;
 	}
@@ -62,8 +75,8 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 
 	// update(int val) is used to change the shape size based on the brush size slider (in the future that will probably change)
 	public void update(int val) {
-		layerWidth = val;
-		layerHeight = val;
+		// layerWidth = val;
+		// layerHeight = val;
 	}
 	
 	// update2(Color col) is used to change the shape stroke color based on the Color Chooser or the Eye Dropper

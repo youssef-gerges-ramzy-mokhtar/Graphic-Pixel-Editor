@@ -13,7 +13,7 @@ class RectangleTool extends ShapeTool {
 	protected SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords) {
 		RectangleGraphics rectangleGraphics = new RectangleGraphics(shapeLayer.getCoords(coords));
 		rectangleGraphics.setColor(strokeCol);
-		rectangleGraphics.setLen(layerWidth);
+		rectangleGraphics.setDimensions(layerWidth, layerHeight);
 
 		return rectangleGraphics;
 	}

@@ -37,6 +37,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	}
 
 	public void removeLayer(LayerData layer) {
+		if (layer == null) return;
 		layers.remove(layer);
 	}
 

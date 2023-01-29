@@ -4,13 +4,13 @@ import java.awt.*;
 public class TriangleGraphics implements SpecificGraphic {
 	Point position;
 	float stroke_sz;
-	int len;
+	int width;
+	int height;
 	Color stroke_col;
 
 	public TriangleGraphics(Point position) {
 		this.position = position;
 		stroke_sz = 2;
-		len = 3;
 	}
 
 	public void setPoints(Point position) {
@@ -25,22 +25,24 @@ public class TriangleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
-	public void setLen(int len) {
-		this.len = len;
+	public void setDimension(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR)); // This is used to set the pixels to transparent, will also look into this in the future
-		g.fillRect(0, 0, len, len);
+		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-
+		
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
-		// In the future will try to Make the Triangle appear in the center of the cursor
+		int x = position.x;
+		int y = position.y;
         g.drawPolygon(
-			new int[] {position.x + (len/2), position.x + len, position.x},
-			new int[] {position.y, position.y + len, position.y + len},
+        	new int[] {x + (width/2), x + width, x},
+        	new int[] {0, height, height},
 			3
 		);
 
