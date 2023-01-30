@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -16,7 +15,6 @@ class FillTool implements Observer, ClickableContainer {
 		this.fillBtn = new Clickable("Fill");
 		this.barrierCol = Color.white;
 		this.fillCol = Color.black;
-
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		addCanvasListener();
 	}

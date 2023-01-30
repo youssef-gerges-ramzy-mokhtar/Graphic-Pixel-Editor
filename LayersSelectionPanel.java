@@ -56,7 +56,6 @@ class LayersSelectionPanel extends JPanel {
 			for (Component component : components)
 				if (component instanceof Container) return getDropDownBtn((Container) component);
 		}
-
 		return null;
 	}
 }	

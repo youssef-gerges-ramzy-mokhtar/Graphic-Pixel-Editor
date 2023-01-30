@@ -16,7 +16,6 @@ class ColorsPanel extends JPanel {
 		rows = 3;
 		cols = 6;
 		swatchSz = 30;
-
 		this.colorGui = colorGui;
 		setLayout(new GridLayout(rows, cols));
 		initColorSwatches();
@@ -40,15 +39,12 @@ class ColorsPanel extends JPanel {
 	                source.setBorderPainted(false);
 	            }
 	        };
-
 	        swatchBtn.addMouseListener(adapter);
-
 	        swatchBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					colorGui.update2(((JButton) e.getSource()).getBackground());
 				}
 			});
-
 	        add(swatchBtn);
 		}
 	}

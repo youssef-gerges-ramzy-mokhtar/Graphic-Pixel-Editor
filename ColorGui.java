@@ -6,7 +6,6 @@ import java.util.*;
 // ColorGui is used to represent the Color Wheel
 class ColorGui implements Observable, Observer {
 	ArrayList<Observer> observers = new ArrayList<>();
-
 	private Color currentColor;
 	private JButton colorBtn; // colorBtn is used to show the choosen color from the color wheel and from the Eye Dropper Tool
 
@@ -14,7 +13,6 @@ class ColorGui implements Observable, Observer {
 		colorBtn = new JButton();
 		colorBtn.setPreferredSize(new Dimension(50, 25));
 		colorBtn.setBackground(Color.white);
-		
 		currentColor = Color.black;
 		addColorBtnListener();
 	}
@@ -39,7 +37,6 @@ class ColorGui implements Observable, Observer {
 	public JButton getBtn() {
 		return colorBtn;
 	}
-
 	// Obsever Design Pattern //
 
 	// notifyObservers() is used to notify the Pen, Fill, Rectangle & Circle whenver the Color is changed so their color changes

@@ -14,7 +14,6 @@ class Clickable implements Observable {
 		this.clickObservers = new ArrayList<Observer>();
 		this.btnActive = false;
 		this.selectorCol = new Color(255, 242, 0);
-
 		this.btn = new JButton(title);
 		addBtnListener();
 	}
@@ -55,9 +54,8 @@ class Clickable implements Observable {
 		btn.setBackground(new JButton().getBackground());
 	}
 
-	// Observer Pattern: Used to notify the observers whenver a button is clicked //
-	
-	// notifyObservers() is used to notify the Tools Panel that this button is selected to deselect the other buttons
+	/* Observer Pattern: Used to notify the observers whenver a button is clicked //
+	notifyObservers() is used to notify the Tools Panel that this button is selected to deselect the other buttons */
 	public void notifyObservers() {
 		for (Observer observer: clickObservers)
 			observer.update3();

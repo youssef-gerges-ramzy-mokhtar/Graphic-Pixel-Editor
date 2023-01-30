@@ -71,18 +71,15 @@ class LayerData {
 
 	// Might Rename to Absolute
 	public int getX(int canvasXPos) {
-		// Used to get the Absolute X Position of a Layer no matter its position on the Canvas
-		return canvasXPos - (int) layerPos.getX();
+		return canvasXPos - (int) layerPos.getX();	// Used to get the Absolute X Position of a Layer no matter its position on the Canvas
 	}
 
 	public int getY(int canvasYPos) {
-		// Used to get the Absolute Y Position of a Layer no matter its position on the Canvas
-		return canvasYPos - (int) layerPos.getY();
+		return canvasYPos - (int) layerPos.getY();	// Used to get the Absolute Y Position of a Layer no matter its position on the Canvas
 	}
 
 	public Point getCoords(Point canvasPos) {
-		// Used to get the Absolute Position of a Layer no matter its position on the Canvas
-		return new Point(canvasPos.x - layerPos.x, canvasPos.y - layerPos.y);
+		return new Point(canvasPos.x - layerPos.x, canvasPos.y - layerPos.y);	// Used to get the Absolute Position of a Layer no matter its position on the Canvas
 	}
 
 	public int getEndX() {
@@ -142,7 +139,6 @@ class LayerData {
 
 	public Integer getPixel(int x, int y) {
 		if (!inRange(x, y)) return null;
-		
 		return layer.getRGB(x, y);
 	}
 
@@ -155,7 +151,7 @@ class LayerData {
 		return true;
 	}
 
-	// UsupdateLayerSz() used to change the size of the layer based on the width & height and will move all previous pixels into the updated layer
+	// updateLayerSz() used to change the size of the layer based on the width & height and will move all previous pixels into the updated layer
 	public void updateLayerSz(int width, int height) {
 		BufferedImage tempLayer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D imgGraphics = tempLayer.createGraphics();

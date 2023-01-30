@@ -1,5 +1,3 @@
-import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
@@ -12,7 +10,6 @@ class TextTool extends ShapeTool {
 	public TextTool(OurCanvas canvas) {
 		super(canvas);
 		shapeBtn.setText("Text");
-        
 	}
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
@@ -20,8 +17,8 @@ class TextTool extends ShapeTool {
         String dropText = JOptionPane.showInputDialog(null, "Please enter the text");
 
 		TextGraphics textGraphics = new TextGraphics(shapeLayer.getCoords(coords));
-        textGraphics.setText(dropText);
 		textGraphics.setColor(strokeCol);
+        textGraphics.setText(dropText);
 		textGraphics.setLen(layerWidth);
 
 		return textGraphics;

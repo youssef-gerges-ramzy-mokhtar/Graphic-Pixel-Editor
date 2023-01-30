@@ -37,7 +37,6 @@ public class CircleGraphics implements SpecificGraphic {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR)); // This is used to set the pixels to transparent, will also look into this in the future
 		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
@@ -57,7 +56,6 @@ public class CircleGraphics implements SpecificGraphic {
 			width,
 			height
 		);
-
 		g.dispose();
 	}
 }
