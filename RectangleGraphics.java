@@ -42,7 +42,6 @@ public class RectangleGraphics implements SpecificGraphic {
 			width,
 			height
 		);
-
 		g.dispose();
 	}
 }

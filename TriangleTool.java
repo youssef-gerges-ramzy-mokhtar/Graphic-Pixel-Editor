@@ -1,7 +1,4 @@
-import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
 
 // TriangleTool is responsible for adding & handling Triangles to the cavnas
 class TriangleTool extends ShapeTool {

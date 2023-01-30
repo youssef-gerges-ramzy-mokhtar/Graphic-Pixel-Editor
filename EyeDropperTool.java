@@ -1,10 +1,5 @@
 import java.awt.Color;
-import java.awt.AWTException;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;  
-import java.awt.event.MouseListener;
 import java.util.*;
 
 // EyeDropperTool is responsible for detecing colors on the canvas
@@ -18,7 +13,6 @@ public class EyeDropperTool implements ClickableContainer, Observable {
         this.canvas = canvas;
         this.eyeDropperBtn = new Clickable("Eye Dropper");
         this.colorObservers = new ArrayList<Observer>();
-
         getColour();
     }
 
@@ -27,7 +21,7 @@ public class EyeDropperTool implements ClickableContainer, Observable {
         canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
                 if (!eyeDropperBtn.isActive()) return;
-
+                
                 col = new Color(canvas.getMainLayer().getPixel(mouse.getX(), mouse.getY()));
                 notifyObservers();
             }

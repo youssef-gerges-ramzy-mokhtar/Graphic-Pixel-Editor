@@ -8,13 +8,11 @@ class Delete implements ClickableContainer {
 	private Clickable deleteBtn;
 
 	public Delete(OurCanvas canvas) {
-		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
+		this.canvas = canvas;
 		this.deleteBtn = new Clickable("Delete Shape");
-
-		addCanvasListener();
+		addCanvasListener();	
 	}
-
 	/** addCanvasListener() attachs an Event Listener to the canvas **/
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {

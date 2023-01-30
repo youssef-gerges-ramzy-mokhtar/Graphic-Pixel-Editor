@@ -42,18 +42,15 @@ class LayerData {
 
 	// Might Rename to Absolute
 	public int getX(int canvasXPos) {
-		// Used to get the Absolute X Position of a Layer no matter its position on the Canvas
-		return canvasXPos - (int) layerPos.getX();
+		return canvasXPos - (int) layerPos.getX();	// Used to get the Absolute X Position of a Layer no matter its position on the Canvas
 	}
 
 	public int getY(int canvasYPos) {
-		// Used to get the Absolute Y Position of a Layer no matter its position on the Canvas
-		return canvasYPos - (int) layerPos.getY();
+		return canvasYPos - (int) layerPos.getY();	// Used to get the Absolute Y Position of a Layer no matter its position on the Canvas
 	}
 
 	public Point getCoords(Point canvasPos) {
-		// Used to get the Absolute Position of a Layer no matter its position on the Canvas
-		return new Point(canvasPos.x - layerPos.x, canvasPos.y - layerPos.y);
+		return new Point(canvasPos.x - layerPos.x, canvasPos.y - layerPos.y);	// Used to get the Absolute Position of a Layer no matter its position on the Canvas
 	}
 
 	public int getEndX() {
@@ -102,13 +99,11 @@ class LayerData {
 
 	public void setPixel(int x, int y, int rgb) {
 		if (!inRange(x, y)) return;
-
 		layer.setRGB(x, y, rgb);
 	}
 
 	public Integer getPixel(int x, int y) {
 		if (!inRange(x, y)) return null;
-		
 		return layer.getRGB(x, y);
 	}
 
@@ -140,7 +135,6 @@ class LayerData {
 		Graphics2D g2d = (Graphics2D) layer.getGraphics();
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setRenderingHints(rh);
-
 		g2d.drawImage(newLayer.getImage(), newLayer.getX(), newLayer.getY(), null);
 	}
 

@@ -15,7 +15,6 @@ class PenOptionsPanel extends JPanel implements Observable {
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	private int currentBrushSz = 1;
 
-
 	public PenOptionsPanel() {
 		setLayout(new BorderLayout());
 		sizeSlider.setValue(1);
@@ -38,7 +37,6 @@ class PenOptionsPanel extends JPanel implements Observable {
 				sizeSlider.setValue(currentBrushSz);
 				notifyObservers();
 			}
-
 			public void keyPressed(KeyEvent ke) {};
 			public void keyTyped(KeyEvent ke) {};
 		});
@@ -80,7 +78,6 @@ class PenOptionsPanel extends JPanel implements Observable {
 			}
 			else break;
 		}
-
 		if (!num_found) return 1;
 		if (pixels > maxBrushSz) return maxBrushSz;
 		return pixels;
@@ -90,7 +87,6 @@ class PenOptionsPanel extends JPanel implements Observable {
 	
 	// notifyObservers() is used to notify the Pen Tool and the Eraser Tool when the Size changes
 	public void notifyObservers() {
-		
 		for (Observer observer : observers)
 			observer.update(currentBrushSz);
 	}

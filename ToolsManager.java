@@ -4,7 +4,6 @@ import javax.swing.*;
 class ToolsManager {
 	private OurCanvas canvas;
 	private ToolsPanel toolsPanel;
-
 	private SelectionTool selectionTool;
     private PenTool penTool;
     private EraserTool eraserTool;
@@ -16,7 +15,6 @@ class ToolsManager {
 	private Airbrush airBrush;
 	private TextTool text;
 	private Delete delete;
-
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
     
@@ -68,7 +66,6 @@ class ToolsManager {
 		toolsPanel.addClickable(airBrush.getClickable());
 		toolsPanel.addClickable(text.getClickable());
 		toolsPanel.addClickable(delete.getClickable());
-
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 

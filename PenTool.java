@@ -8,7 +8,7 @@ class PenTool extends DrawingTool implements Observer {
 		brush = new Pen(1, Color.black);
 		lineGraphic = new LineGraphics(brush.getThickness(), brush.getCol());
 	}
-
+	
 	protected void setBrushProperties() {}
 
 	// Observer Pattern

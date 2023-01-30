@@ -1,6 +1,5 @@
 import java.util.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.*;
 
 // LayersHandler is used to handle all the layers on the Canvas
@@ -23,7 +22,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 
 	private void initDrawingLayer() {
 		BufferedImage drawingImg = new BufferedImage(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight(), BufferedImage.TYPE_INT_ARGB);
-
 		Graphics2D imgGraphics = drawingImg.createGraphics();
 		imgGraphics.setBackground(Color.white);
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());

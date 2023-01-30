@@ -34,7 +34,6 @@ public class TriangleGraphics implements SpecificGraphic {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR)); // This is used to set the pixels to transparent, will also look into this in the future
 		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-		
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
@@ -45,7 +44,6 @@ public class TriangleGraphics implements SpecificGraphic {
         	new int[] {0, height, height},
 			3
 		);
-
 		g.dispose();
 	}
 }

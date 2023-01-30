@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
 // ShapeTool is responsible for adding & handling any generic Shape to the cavnas
 abstract class ShapeTool implements Observer, ClickableContainer {
@@ -11,7 +10,6 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	protected Color strokeCol;
 	protected Color fillCol;
 	protected Clickable shapeBtn;
-
 	protected int layerWidth;
 	protected int layerHeight;
 
