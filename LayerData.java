@@ -121,7 +121,7 @@ class LayerData {
 		return true;
 	}
 
-	// UsupdateLayerSz() used to change the size of the layer based on the width & height and will move all previous pixels into the updated layer
+	// updateLayerSz() used to change the size of the layer based on the width & height and will move all previous pixels into the updated layer
 	public void updateLayerSz(int width, int height) {
 		BufferedImage tempLayer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D imgGraphics = tempLayer.createGraphics();
