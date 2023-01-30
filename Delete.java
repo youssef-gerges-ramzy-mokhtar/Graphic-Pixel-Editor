@@ -1,24 +1,25 @@
 import java.awt.event.*;
 import java.awt.*;
 
-// SelectionTool is used to move layers in the canvas
+/** DeleteTool is used to delete shapes and layers in the canvas **/
 class Delete implements ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
-	private Clickable selectionBtn;
+	private Clickable deleteBtn;
 
 	public Delete(OurCanvas canvas) {
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
-		this.selectionBtn = new Clickable("Delete Shape");
+		this.deleteBtn = new Clickable("Delete Shape");
 
 		addCanvasListener();
 	}
 
-	// addCanvasListener() attachs an Event Listener to the canvas
+	/** addCanvasListener() attachs an Event Listener to the canvas **/
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+				if (!deleteBtn.isActive()) return;
                 canvas.clearCanvas();
                 layersHandler.removeLayer(layersHandler.selectLayer(new Point(e.getX(), e.getY())));
                 layersHandler.updateCanvas();
@@ -26,7 +27,8 @@ class Delete implements ClickableContainer {
         });
 	}	
 
+	/** return clickable for this feature **/
 	public Clickable getClickable() {
-		return selectionBtn;
+		return deleteBtn;
 	}
 }
