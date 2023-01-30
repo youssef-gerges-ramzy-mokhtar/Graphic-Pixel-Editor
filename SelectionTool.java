@@ -47,6 +47,19 @@ class SelectionTool implements ClickableContainer {
 
                 refreshCanvasSelection(imgToMove);
             }
+
+            public void mouseMoved(MouseEvent e) {
+            	if (!selectionBtn.isActive()) return;
+            	if (imgToMove == null) return;
+
+				if (Math.abs(e.getX() - imgToMove.getEndX()) <= 5 && Math.abs(e.getY() - imgToMove.getEndY()) <= 5) {
+					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+     				canvas.setCursor(cursor);
+					return;
+				}
+
+				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
+			}
         });
 	}
 

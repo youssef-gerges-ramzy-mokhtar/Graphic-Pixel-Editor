@@ -17,4 +17,10 @@ class TriangleTool extends ShapeTool {
 
 		return TriangleGraphics;
 	}
+
+	protected LayerData createShapeLayer(Point layerPos) {
+		TriangleLayer triangleLayer = new TriangleLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
+		triangleLayer.setStrokeCol(strokeCol);
+		return triangleLayer;
+	}
 }

@@ -11,7 +11,6 @@ public class RectangleGraphics implements SpecificGraphic {
 	public RectangleGraphics(Point position) {
 		this.position = position;
 		stroke_sz = 2;
-		// len = 3;
 	}
 
 	public void setPoints(Point position) {

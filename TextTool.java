@@ -18,12 +18,16 @@ class TextTool extends ShapeTool {
 	protected SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords) {
         String dropText = JOptionPane.showInputDialog(null, "Please enter the text");
 
-
 		TextGraphics textGraphics = new TextGraphics(shapeLayer.getCoords(coords));
         textGraphics.setText(dropText);
 		textGraphics.setColor(strokeCol);
 		textGraphics.setLen(layerWidth);
 
 		return textGraphics;
+	}
+
+	protected LayerData createShapeLayer(Point layerPos) {
+		TextLayer textLayer = new TextLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
+		return textLayer;
 	}
 }

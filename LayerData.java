@@ -1,13 +1,11 @@
 import java.awt.image.*;
 import java.awt.*;
-import java.awt.geom.*;
 
 class LayerData {
 	private BufferedImage layer; // layer holds all the pixels that represent any layer
 	private BufferedImage layerSelection; // layer holds all the pixels that represent any layer plus a selectin border
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
-
 
 	public LayerData(BufferedImage layer) {
 		this(layer, new Point(0, 0));
@@ -35,7 +33,7 @@ class LayerData {
 		updateSelectionLayer();
 	}
 
-	private void updateSelectionLayer() {
+	protected void updateSelectionLayer() {
 		layerSelection = new BufferedImage(layer.getWidth(), layer.getHeight(), layer.getType());
 		Graphics2D g2d = layerSelection.createGraphics();
 		g2d.drawImage(layer, 0, 0, null);
@@ -220,7 +218,7 @@ class LayerData {
 		layerPos = validPoint(layerPos, newLayerEndPos);
 	}
 
-	private Point validPoint(Point p1, Point p2) {
+	protected Point validPoint(Point p1, Point p2) {
 		int x1 = p1.x, y1 = p1.y;
 		int x2 = p2.x, y2 = p2.y;
 		

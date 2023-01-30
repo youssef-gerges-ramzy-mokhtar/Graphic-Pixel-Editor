@@ -87,29 +87,20 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	protected abstract SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords);
 
 	// Creates a Layer to store a Shape
-	private LayerData createShapeLayer(Point layerPos) {
-		LayerData shapeLayer = new LayerData(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
-		return shapeLayer;
-	}
+	protected abstract LayerData createShapeLayer(Point layerPos);
 
 	public Clickable getClickable() {
 		return shapeBtn;
 	}
 
 	// Observer Pattern //
-
-	// update(int val) is used to change the shape size based on the brush size slider (in the future that will probably change)
-	public void update(int val) {
-		// layerWidth = val;
-		// layerHeight = val;
-	}
-	
 	// update2(Color col) is used to change the shape stroke color based on the Color Chooser or the Eye Dropper
 	public void update2(Color col) {
 		this.fillCol = col;
 		this.strokeCol = col;
 	}
 
+	public void update(int val) {}
 	public void update3() {}
 
 	/*
