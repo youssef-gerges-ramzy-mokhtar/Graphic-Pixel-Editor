@@ -95,6 +95,11 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		repaint();
 	}
 
+	public void drawSelectedLayer(LayerData img) {
+		mainLayer.mergeLayerSelection(img);
+		repaint();
+	}
+
 	// clearCanvas() changes all the pixels in the canvas to col
 	public void clearCanvas() {
 		mainLayer.clear(col);

@@ -9,6 +9,7 @@ class SelectionTool implements ClickableContainer {
 	private LayersHandler layersHandler;
 	private LayerData imgToMove;
 	private Clickable selectionBtn;
+	private boolean canDrag;
 
 	public SelectionTool(OurCanvas canvas) {
 		this.canvas = canvas;
@@ -20,9 +21,18 @@ class SelectionTool implements ClickableContainer {
 
 	// addCanvasListener() attachs an Event Listener to the canvas
 	private void addCanvasListener() {
+		// when the mouse is pressed a border should appear
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                if (!selectionBtn.isActive()) return;
+
                 imgToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
+                if (imgToMove == null) return;
+
+                imgToMove.drawBorder();
+                refreshCanvasSelection(imgToMove);
+                if (Math.abs(e.getX() - imgToMove.getEndX()) <= 5 && Math.abs(e.getY() - imgToMove.getEndY()) <= 5) canDrag = true;
+                else canDrag = false;
             }
         });
 
@@ -32,11 +42,16 @@ class SelectionTool implements ClickableContainer {
                 if (!selectionBtn.isActive()) return;
                 if (imgToMove == null) return;
 
-	            canvas.clearCanvas();
-                imgToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
-                layersHandler.updateCanvas();
+                if (canDrag) imgToMove.resize(new Point(e.getX(), e.getY()));
+				else imgToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
+
+                refreshCanvasSelection(imgToMove);
             }
         });
+	}
+
+	private void refreshCanvasSelection(LayerData selectedLayer) {
+		layersHandler.updateCanvasSelected(selectedLayer);
 	}
 
 	public CanvasObserver getCanvasObserver() {

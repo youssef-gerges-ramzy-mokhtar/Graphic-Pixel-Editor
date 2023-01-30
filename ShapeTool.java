@@ -83,8 +83,6 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 		return null;
 	}
 
-
-
 	// getSpecificGrahic() is used by all a Specific Shape to define its own Graphical Properties
 	protected abstract SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords);
 

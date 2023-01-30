@@ -81,6 +81,14 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 			canvas.drawLayer(layerData);
 	}
 
+	public void updateCanvasSelected(LayerData selectedLayer) {
+		canvas.clearCanvas();
+		for (LayerData layerData: layers) {
+			canvas.drawLayer(layerData);
+			if (layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
+		}
+	}
+
 	public int getHorizontalOffset() {
 		return horizontalOffset;
 	}
