@@ -15,6 +15,7 @@ class ToolsManager {
 	private TriangleTool triangleTool;
 	private Airbrush airBrush;
 	private TextTool text;
+	private Delete delete;
 
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
@@ -39,6 +40,7 @@ class ToolsManager {
 		this.triangleTool = new TriangleTool(canvas);
 		this.airBrush = new Airbrush(canvas);
 		this.text = new TextTool(canvas);
+		this.delete = new Delete(canvas);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -65,6 +67,7 @@ class ToolsManager {
 		toolsPanel.addClickable(triangleTool.getClickable());
 		toolsPanel.addClickable(airBrush.getClickable());
 		toolsPanel.addClickable(text.getClickable());
+		toolsPanel.addClickable(delete.getClickable());
 
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
