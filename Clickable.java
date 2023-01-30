@@ -36,8 +36,6 @@ class Clickable implements Observable {
 	private void addBtnListener() {
 		btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent action) {
-                notifyObservers();
-                btnActive = true;
                 selectBtn();
             }
         });
@@ -48,6 +46,8 @@ class Clickable implements Observable {
 	}
 
 	private void selectBtn() {
+		notifyObservers();
+        btnActive = true;
 		btn.setBackground(selectorCol);
 	}
 

@@ -15,7 +15,8 @@ class TextTool extends ShapeTool {
         
 	}
 
-	protected SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords) {
+	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
+		System.out.println("HI");
         String dropText = JOptionPane.showInputDialog(null, "Please enter the text");
 
 		TextGraphics textGraphics = new TextGraphics(shapeLayer.getCoords(coords));
@@ -26,7 +27,7 @@ class TextTool extends ShapeTool {
 		return textGraphics;
 	}
 
-	protected LayerData createShapeLayer(Point layerPos) {
+	protected ShapeLayer createShapeLayer(Point layerPos) {
 		TextLayer textLayer = new TextLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
 		return textLayer;
 	}

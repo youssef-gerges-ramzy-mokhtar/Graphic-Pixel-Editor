@@ -7,7 +7,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point pivot;
-	private LayerData shapeLayer;
+	private ShapeLayer shapeLayer;
 	protected Color strokeCol;
 	protected Color fillCol;
 	protected Clickable shapeBtn;
@@ -51,7 +51,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 
 				if (layerWidth == 0 || layerHeight == 0) return;
 
-				LayerData prevLayer = shapeLayer;
+				ShapeLayer prevLayer = shapeLayer;
 				shapeLayer = createShapeLayer(validPoint(pivot, finalPoint));
 				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, validPoint(pivot, finalPoint));
 
@@ -84,10 +84,10 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	}
 
 	// getSpecificGrahic() is used by all a Specific Shape to define its own Graphical Properties
-	protected abstract SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords);
+	protected abstract SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords);
 
 	// Creates a Layer to store a Shape
-	protected abstract LayerData createShapeLayer(Point layerPos);
+	protected abstract ShapeLayer createShapeLayer(Point layerPos);
 
 	public Clickable getClickable() {
 		return shapeBtn;

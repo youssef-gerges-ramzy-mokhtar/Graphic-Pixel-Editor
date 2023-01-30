@@ -10,7 +10,7 @@ class TriangleTool extends ShapeTool {
 		shapeBtn.setText("Triangle");
 	}
 
-	protected SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords) {
+	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
 		TriangleGraphics TriangleGraphics = new TriangleGraphics(shapeLayer.getCoords(coords));
 		TriangleGraphics.setColor(strokeCol);
 		TriangleGraphics.setDimension(layerWidth, layerHeight);
@@ -18,7 +18,7 @@ class TriangleTool extends ShapeTool {
 		return TriangleGraphics;
 	}
 
-	protected LayerData createShapeLayer(Point layerPos) {
+	protected ShapeLayer createShapeLayer(Point layerPos) {
 		TriangleLayer triangleLayer = new TriangleLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
 		triangleLayer.setStrokeCol(strokeCol);
 		return triangleLayer;

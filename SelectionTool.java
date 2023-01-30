@@ -31,7 +31,7 @@ class SelectionTool implements ClickableContainer {
 
                 imgToMove.drawBorder();
                 refreshCanvasSelection(imgToMove);
-                if (Math.abs(e.getX() - imgToMove.getEndX()) <= 5 && Math.abs(e.getY() - imgToMove.getEndY()) <= 5) canDrag = true;
+                if (atCorner(e.getX(), e.getY())) canDrag = true;
                 else canDrag = false;
             }
         });
@@ -52,11 +52,11 @@ class SelectionTool implements ClickableContainer {
             	if (!selectionBtn.isActive()) return;
             	if (imgToMove == null) return;
 
-				if (Math.abs(e.getX() - imgToMove.getEndX()) <= 5 && Math.abs(e.getY() - imgToMove.getEndY()) <= 5) {
+            	if (atCorner(e.getX(), e.getY())) {
 					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
      				canvas.setCursor(cursor);
 					return;
-				}
+            	}
 
 				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
@@ -65,6 +65,14 @@ class SelectionTool implements ClickableContainer {
 
 	private void refreshCanvasSelection(LayerData selectedLayer) {
 		layersHandler.updateCanvasSelected(selectedLayer);
+	}
+
+	private boolean atCorner(int x, int y) {
+		int cornerRange = 10;
+		if (Math.abs(x - imgToMove.getEndX()) <= cornerRange && Math.abs(y - imgToMove.getEndY()) <= cornerRange) return true;
+		if (Math.abs(x - imgToMove.getX()) <= cornerRange && Math.abs(y - imgToMove.getY()) <= cornerRange) return true;
+
+		return false;
 	}
 
 	public CanvasObserver getCanvasObserver() {
