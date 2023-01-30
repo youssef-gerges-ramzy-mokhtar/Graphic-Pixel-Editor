@@ -7,9 +7,11 @@ public class RectangleGraphics implements SpecificGraphic {
 	int width;
 	int height;
 	Color stroke_col;
+	Color fillCol;
 
 	public RectangleGraphics(Point position) {
 		this.position = position;
+		this.fillCol = Color.black; // this is temporary until we create a shape Control Graphical User Interface for the use to set the fill color
 		stroke_sz = 2;
 	}
 
@@ -31,6 +33,18 @@ public class RectangleGraphics implements SpecificGraphic {
 	}
 
 	public void draw(Graphics2D g) {
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		g.fillRect(0, 0, width, height);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+		
+		g.setColor(fillCol);
+		g.fillRect(
+			position.x,
+			position.y,
+			width,
+			height
+		);
+
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 

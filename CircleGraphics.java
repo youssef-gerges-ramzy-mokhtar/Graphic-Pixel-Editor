@@ -11,7 +11,7 @@ public class CircleGraphics implements SpecificGraphic {
 
 	public CircleGraphics(Point position) {
 		this.position = position;
-		this.fillCol = Color.black;
+		this.fillCol = Color.black; // this is temporary until we create a shape Control Graphical User Interface for the use to set the fill color
 		stroke_sz = 2;
 	}
 
@@ -37,6 +37,7 @@ public class CircleGraphics implements SpecificGraphic {
 	}
 
 	public void draw(Graphics2D g) {
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
@@ -56,6 +57,7 @@ public class CircleGraphics implements SpecificGraphic {
 			width,
 			height
 		);
+
 		g.dispose();
 	}
 }

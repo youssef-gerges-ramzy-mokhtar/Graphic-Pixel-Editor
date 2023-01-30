@@ -7,10 +7,12 @@ public class TriangleGraphics implements SpecificGraphic {
 	int width;
 	int height;
 	Color stroke_col;
+	Color fillCol;
 
 	public TriangleGraphics(Point position) {
 		this.position = position;
-		stroke_sz = 2;
+		this.fillCol = Color.black; // this is temporary until we create a shape Control Graphical User Interface for the use to set the fill color
+		this.stroke_sz = 2;
 	}
 
 	public void setPoints(Point position) {
@@ -31,14 +33,23 @@ public class TriangleGraphics implements SpecificGraphic {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR)); // This is used to set the pixels to transparent, will also look into this in the future
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+		
+		int x = position.x;
+		int y = position.y;
+
+		g.setColor(fillCol);
+		g.fillPolygon(
+			new int[] {x + (width/2), x + width, x},
+        	new int[] {0, height, height},
+			3
+		);
+
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
-		int x = position.x;
-		int y = position.y;
         g.drawPolygon(
         	new int[] {x + (width/2), x + width, x},
         	new int[] {0, height, height},
