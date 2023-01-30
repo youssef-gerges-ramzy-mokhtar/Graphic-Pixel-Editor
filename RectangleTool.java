@@ -7,11 +7,17 @@ class RectangleTool extends ShapeTool {
 		shapeBtn.setText("Rectangle");
 	}
 
-	protected SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords) {
+	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
 		RectangleGraphics rectangleGraphics = new RectangleGraphics(shapeLayer.getCoords(coords));
 		rectangleGraphics.setColor(strokeCol);
 		rectangleGraphics.setDimensions(layerWidth, layerHeight);
 
 		return rectangleGraphics;
+	}
+
+	protected ShapeLayer createShapeLayer(Point layerPos) {
+		RectangleLayer rectangleLayer = new RectangleLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
+		rectangleLayer.setStrokeCol(strokeCol);
+		return rectangleLayer;
 	}
 }

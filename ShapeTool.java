@@ -6,7 +6,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point pivot;
-	private LayerData shapeLayer;
+	private ShapeLayer shapeLayer;
 	protected Color strokeCol;
 	protected Color fillCol;
 	protected Clickable shapeBtn;
@@ -49,7 +49,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 
 				if (layerWidth == 0 || layerHeight == 0) return;
 
-				LayerData prevLayer = shapeLayer;
+				ShapeLayer prevLayer = shapeLayer;
 				shapeLayer = createShapeLayer(validPoint(pivot, finalPoint));
 				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, validPoint(pivot, finalPoint));
 
@@ -82,32 +82,23 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	}
 
 	// getSpecificGrahic() is used by all a Specific Shape to define its own Graphical Properties
-	protected abstract SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords);
+	protected abstract SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords);
 
 	// Creates a Layer to store a Shape
-	private LayerData createShapeLayer(Point layerPos) {
-		LayerData shapeLayer = new LayerData(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
-		return shapeLayer;
-	}
+	protected abstract ShapeLayer createShapeLayer(Point layerPos);
 
 	public Clickable getClickable() {
 		return shapeBtn;
 	}
 
 	// Observer Pattern //
-
-	// update(int val) is used to change the shape size based on the brush size slider (in the future that will probably change)
-	public void update(int val) {
-		// layerWidth = val;
-		// layerHeight = val;
-	}
-	
 	// update2(Color col) is used to change the shape stroke color based on the Color Chooser or the Eye Dropper
 	public void update2(Color col) {
 		this.fillCol = col;
 		this.strokeCol = col;
 	}
 
+	public void update(int val) {}
 	public void update3() {}
 
 	/*

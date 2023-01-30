@@ -7,6 +7,7 @@ class SelectionTool implements ClickableContainer {
 	private LayersHandler layersHandler;
 	private LayerData imgToMove;
 	private Clickable selectionBtn;
+	private boolean canDrag;
 
 	public SelectionTool(OurCanvas canvas) {
 		this.canvas = canvas;
@@ -18,9 +19,18 @@ class SelectionTool implements ClickableContainer {
 
 	// addCanvasListener() attachs an Event Listener to the canvas
 	private void addCanvasListener() {
+		// when the mouse is pressed a border should appear
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                if (!selectionBtn.isActive()) return;
+
                 imgToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
+                if (imgToMove == null) return;
+
+                imgToMove.drawBorder();
+                refreshCanvasSelection(imgToMove);
+                if (atCorner(e.getX(), e.getY())) canDrag = true;
+                else canDrag = false;
             }
         });
 
@@ -30,11 +40,37 @@ class SelectionTool implements ClickableContainer {
                 if (!selectionBtn.isActive()) return;
                 if (imgToMove == null) return;
 
-	            canvas.clearCanvas();
-                imgToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
-                layersHandler.updateCanvas();
+                if (canDrag) imgToMove.resize(new Point(e.getX(), e.getY()));
+				else imgToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
+
+                refreshCanvasSelection(imgToMove);
             }
+
+            public void mouseMoved(MouseEvent e) {
+            	if (!selectionBtn.isActive()) return;
+            	if (imgToMove == null) return;
+
+            	if (atCorner(e.getX(), e.getY())) {
+					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+     				canvas.setCursor(cursor);
+					return;
+            	}
+
+				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
+			}
         });
+	}
+
+	private void refreshCanvasSelection(LayerData selectedLayer) {
+		layersHandler.updateCanvasSelected(selectedLayer);
+	}
+
+	private boolean atCorner(int x, int y) {
+		int cornerRange = 10;
+		if (Math.abs(x - imgToMove.getEndX()) <= cornerRange && Math.abs(y - imgToMove.getEndY()) <= cornerRange) return true;
+		if (Math.abs(x - imgToMove.getX()) <= cornerRange && Math.abs(y - imgToMove.getY()) <= cornerRange) return true;
+
+		return false;
 	}
 
 	public CanvasObserver getCanvasObserver() {

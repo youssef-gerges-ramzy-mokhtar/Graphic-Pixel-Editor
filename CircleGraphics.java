@@ -7,9 +7,11 @@ public class CircleGraphics implements SpecificGraphic {
 	int width;
 	int height;
 	Color stroke_col;
+	Color fillCol;
 
 	public CircleGraphics(Point position) {
 		this.position = position;
+		this.fillCol = Color.black;
 		stroke_sz = 2;
 	}
 
@@ -25,6 +27,10 @@ public class CircleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
+	public void setFillCol(Color col) {
+		this.fillCol = col;
+	}
+
 	public void setDimension(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -33,10 +39,17 @@ public class CircleGraphics implements SpecificGraphic {
 	public void draw(Graphics2D g) {
 		g.fillRect(0, 0, width, height);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
+		g.setColor(fillCol);
+		g.fillOval(
+			position.x,
+			position.y,
+			width,
+			height
+		);
+
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
-
-		// In the future will try to Make the Circle appear in the center of the cursor
 		g.drawOval(
 			position.x,
 			position.y,

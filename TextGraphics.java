@@ -38,7 +38,7 @@ public class TextGraphics implements SpecificGraphic {
 		g.setStroke(new BasicStroke(stroke_sz));
 		g.setColor(stroke_col);
 
-		g.drawString(text, stroke_sz, len);
+		g.drawString(text, 0, 0);
 
 		g.dispose();
 	}
