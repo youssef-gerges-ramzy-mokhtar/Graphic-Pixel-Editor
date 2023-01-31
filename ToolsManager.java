@@ -44,7 +44,7 @@ class ToolsManager {
 		this.rectangleTool = new RectangleTool(canvas, undo);
 		this.circleTool = new CircleTool(canvas, undo);
 		this.triangleTool = new TriangleTool(canvas, undo);
-		this.airBrush = new Airbrush(canvas);
+		this.airBrush = new Airbrush(canvas, undo);
 		this.text = new TextTool(canvas, undo);
 		this.delete = new Delete(canvas);
 

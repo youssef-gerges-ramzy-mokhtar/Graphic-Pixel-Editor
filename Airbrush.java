@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class Airbrush implements ClickableContainer, Observable, Observer
+public class Airbrush extends ChangeMaker implements ClickableContainer, Observable, Observer
 {
     private OurCanvas canvas;
     private Random rand;
@@ -17,8 +17,9 @@ public class Airbrush implements ClickableContainer, Observable, Observer
     private LineGraphics lineGraphic;
     private LayersHandler layersHandler;
     
-    public Airbrush(OurCanvas canvas)
+    public Airbrush(OurCanvas canvas, UndoTool undo)
     {
+        super(undo);
         rand = new Random();
         this.canvas = canvas;
         this.airBrushBtn = new Clickable("Air Brush");
@@ -34,6 +35,11 @@ public class Airbrush implements ClickableContainer, Observable, Observer
                 if (airBrushBtn.isActive())
                     AddPoints(e.getX(),e.getY());
 			}
+
+            public void mouseReleased(MouseEvent e) {
+                if (!airBrushBtn.isActive()) return;
+                recordChange();
+            }
 		});
 
 		canvas.addMouseMotionListener(new MouseAdapter() {
