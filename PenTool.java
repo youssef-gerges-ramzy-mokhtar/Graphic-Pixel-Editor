@@ -2,8 +2,8 @@ import java.awt.*;
 
 // PenTool is used to represent the Pen Tool
 class PenTool extends DrawingTool implements Observer {
-	public PenTool(OurCanvas canvas) {
-		super(canvas);
+	public PenTool(OurCanvas canvas, UndoTool undo) {
+		super(canvas, undo);
 		drawingBtn = new Clickable("Pen");
 		brush = new Pen(1, Color.black);
 		lineGraphic = new LineGraphics(brush.getThickness(), brush.getCol());

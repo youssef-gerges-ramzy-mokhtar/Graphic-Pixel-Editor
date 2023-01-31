@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 // ShapeTool is responsible for adding & handling any generic Shape to the cavnas
-abstract class ShapeTool implements Observer, ClickableContainer {
+abstract class ShapeTool extends ChangeMaker implements Observer, ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point pivot;
@@ -13,7 +13,8 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	protected int layerWidth;
 	protected int layerHeight;
 
-	public ShapeTool(OurCanvas canvas) {
+	public ShapeTool(OurCanvas canvas, UndoTool undo) {
+		super(undo);
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.strokeCol = Color.black;
@@ -36,6 +37,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 			public void mouseReleased(MouseEvent e){
 				if (!shapeBtn.isActive()) return;
 				shapeLayer = null;
+				recordChange();
 			}
 		});
 

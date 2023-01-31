@@ -26,7 +26,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		imgGraphics.setBackground(Color.white);
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		
-		this.drawingLayer = new LayerData(drawingImg);
+		this.drawingLayer = new ImageLayer(drawingImg);
 		layers.add(drawingLayer);	
 	}
 
@@ -143,6 +143,18 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		if (layerPos >= layers.size()) return;
 
 		selectedLayer = layers.get(layerPos);
+	}
+
+	public ArrayList<LayerData> getLayersCopy() {
+		ArrayList<LayerData> layersCopy = new ArrayList<LayerData>();
+		for (LayerData layer: layers)
+			layersCopy.add(layer.getCopy());
+	
+		return layersCopy;
+	}
+
+	public void setLayers(ArrayList<LayerData> layers) {
+		this.layers = layers;
 	}
 
 	// Observer Pattern //

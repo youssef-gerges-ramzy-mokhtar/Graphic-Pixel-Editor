@@ -10,12 +10,19 @@ abstract class ShapeLayer extends LayerData {
 	public ShapeLayer(int width, int height, Color col, Point layerPos) {super(width, height, col, layerPos);}
 
 	public void resize(int width, int height) {
+		BufferedImage layerImg = getImage();
+		this.fillCol = new Color(layerImg.getRGB(layerImg.getWidth() / 2, layerImg.getHeight() / 2)); // That is not accurate because there might be drawings on the Shape Layer
+
 		specificGraphic = getSpecificGraphic(width, height);
 		if (width == 0 || height == 0) return;
+		
+		BufferedImage oldLayer = getImage();
 
 		setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
 		Graphics2D g2d = getLayerGraphics();
 		updateGraphics(specificGraphic);
+
+		// mergeLayer(oldLayer, 0, 0); // that is the best what I could do to resize a Shape Layer with drawings on it and make the image pixelated
 		updateSelectionLayer();
 	}
 
@@ -30,5 +37,16 @@ abstract class ShapeLayer extends LayerData {
 		this.strokeCol = col;
 	}
 
+	public ShapeLayer getCopy() {
+		ShapeLayer copy = getShapeLayerCopy();
+		copy.clear(new Color(0, 0, 0, 0));
+
+		copy.mergeLayer(this.getImage(), 0, 0);
+		copy.setLocation(new Point(getX(), getY()));
+		copy.updateSelectionLayer();
+		return copy;
+	}
+
 	protected abstract SpecificGraphic getSpecificGraphic(int width, int heights);
+	protected abstract ShapeLayer getShapeLayerCopy();
 }

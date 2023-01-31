@@ -17,6 +17,7 @@ class ToolsManager {
 	private Delete delete;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
+    private UndoTool undo;
     
     private ImageLoader imageLoader;
     private LayersHandler layersHandler;
@@ -28,22 +29,23 @@ class ToolsManager {
 		this.canvas = new OurCanvas();
 		this.toolsPanel = new ToolsPanel();
 
-		this.selectionTool = new SelectionTool(canvas);
-		this.penTool = new PenTool(canvas);
-		this.eraserTool = new EraserTool(canvas);
-		this.fillTool = new FillTool(canvas);
+		this.undo = new UndoTool(canvas);
+		this.selectionTool = new SelectionTool(canvas, undo);
+		this.penTool = new PenTool(canvas, undo);
+		this.eraserTool = new EraserTool(canvas, undo);
+		this.fillTool = new FillTool(canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-		this.rectangleTool = new RectangleTool(canvas);
-		this.circleTool = new CircleTool(canvas);
-		this.triangleTool = new TriangleTool(canvas);
+		this.rectangleTool = new RectangleTool(canvas, undo);
+		this.circleTool = new CircleTool(canvas, undo);
+		this.triangleTool = new TriangleTool(canvas, undo);
 		this.airBrush = new Airbrush(canvas);
-		this.text = new TextTool(canvas);
+		this.text = new TextTool(canvas, undo);
 		this.delete = new Delete(canvas);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.imageLoader = new ImageLoader(canvas); // For Loading Images from the user computer
+        this.imageLoader = new ImageLoader(canvas, undo); // For Loading Images from the user computer
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
@@ -66,6 +68,7 @@ class ToolsManager {
 		toolsPanel.addClickable(airBrush.getClickable());
 		toolsPanel.addClickable(text.getClickable());
 		toolsPanel.addClickable(delete.getClickable());
+		toolsPanel.addClickable(undo.getClickable());
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 

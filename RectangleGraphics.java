@@ -27,6 +27,10 @@ public class RectangleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
+	public void setFillColor(Color col) {
+		this.fillCol = col;
+	}
+
 	public void setDimensions(int width, int height) {
 		this.width = width;
 		this.height = height;

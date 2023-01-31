@@ -2,8 +2,8 @@ import java.awt.*;
 
 // Eraser is used to represent the Eraser Tool
 class EraserTool extends DrawingTool {
-	public EraserTool(OurCanvas canvas) {
-		super(canvas);
+	public EraserTool(OurCanvas canvas, UndoTool undo) {
+		super(canvas, undo);
 		drawingBtn = new Clickable("Eraser");
 		brush = new Pen(1, Color.black);
 		lineGraphic = new LineGraphics(brush.getThickness(), brush.getCol());

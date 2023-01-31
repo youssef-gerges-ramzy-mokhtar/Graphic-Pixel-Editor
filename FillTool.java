@@ -3,14 +3,15 @@ import java.awt.event.*;
 import java.util.*;
 
 // FillTool is used to pour large areas of paint onto the Canvas that expand until they find a border they cannot flow over.
-class FillTool implements Observer, ClickableContainer {
+class FillTool extends ChangeMaker implements Observer, ClickableContainer {
     private OurCanvas canvas;
     private Clickable fillBtn;
 	private Color barrierCol;
 	private Color fillCol;
     private LayersHandler layersHandler;
 
-	public FillTool(OurCanvas canvas) {
+	public FillTool(OurCanvas canvas, UndoTool undo) {
+		super(undo);
 		this.canvas = canvas;
 		this.fillBtn = new Clickable("Fill");
 		this.barrierCol = Color.white;
@@ -26,14 +27,17 @@ class FillTool implements Observer, ClickableContainer {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
             	if (!fillBtn.isActive()) return;
-            
+
             	LayerData selectedLayer = layersHandler.getSelectedLayer();
             	Point selectedLayerCoords = new Point(selectedLayer.getX(mouse.getX()), selectedLayer.getY(mouse.getY()));
             	if (selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()) == null) return;
 
             	barrierCol = new Color(selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY())); // barrierCol represents the color that should be changed to the fill color and any othe color on the canvas that is not equal to the barrierCol then it is a block and we can't fill it
             	fillCanvas((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()); // Starting Position of Flood Fill
+				selectedLayer.updateSelectionLayer();
 				layersHandler.updateCanvas();
+
+				recordChange();
             }
         });
 	}

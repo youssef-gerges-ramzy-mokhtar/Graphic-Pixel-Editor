@@ -1,7 +1,7 @@
 import java.awt.image.*;
 import java.awt.*;
 
-class LayerData {
+abstract class LayerData {
 	private BufferedImage layer; // layer holds all the pixels that represent any layer
 	private BufferedImage layerSelection; // layer holds all the pixels that represent any layer plus a selectin border
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
@@ -57,12 +57,20 @@ class LayerData {
 
 	}
 
+	public int layerWidth() {
+		return layer.getWidth();
+	}
+
+	public int layerHeight() {
+		return layer.getHeight();
+	}
+
 	public int getX() {
-		return (int) layerPos.getX();
+		return (int) layerPos.x;
 	}
 
 	public int getY() {
-		return (int) layerPos.getY();
+		return (int) layerPos.y;
 	}
 
 	public Point getCoords() {
@@ -167,14 +175,14 @@ class LayerData {
 
 	// mergeLayer merges the newLayer with this layer
 	public void mergeLayer(LayerData newLayer) {
-		mergeLayer(newLayer.getImage(), newLayer.getX(), newLayer.getY());
+		mergeLayer(newLayer.getImage(), newLayer.getX(), newLayer.getY()); // This might cause problems
 	}
 
 	public void mergeLayerSelection(LayerData newLayer) {
 		mergeLayer(newLayer.getSelectionImage(), newLayer.getX(), newLayer.getY());
 	}
 
-	private void mergeLayer(BufferedImage newLayer, int x, int y) {
+	public void mergeLayer(BufferedImage newLayer, int x, int y) {
 		Graphics2D g2d = (Graphics2D) layer.getGraphics();
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setRenderingHints(rh);
@@ -196,23 +204,8 @@ class LayerData {
 		g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
 	}
 
-	public void resize(int width, int height) {
-		if (width == 0 || height == 0) return;
-
-		Image scaledImg = layer.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		layer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2d = getLayerGraphics();
-		g2d.drawImage(scaledImg, 0, 0, null);
-
-		updateSelectionLayer();
-	}
-
-	public void resize(Point newLayerEndPos) {
-		int layerWidth = Math.abs(newLayerEndPos.x - layerPos.x);
-		int layerHeight = Math.abs(newLayerEndPos.y - layerPos.y);
-		resize(layerWidth, layerHeight);
-		layerPos = validPoint(layerPos, newLayerEndPos);
-	}
+	abstract void resize(int width, int height);
+	abstract void resize(Point newLayerEndPos);
 
 	protected Point validPoint(Point p1, Point p2) {
 		int x1 = p1.x, y1 = p1.y;
@@ -251,4 +244,15 @@ class LayerData {
 	public BufferedImage getSelectionImage() {
 		return layerSelection;
 	}
+
+	abstract public LayerData getCopy();
+	
+	// public LayerData getCopy() {
+	// 	LayerData copy = new LayerData(layer.getWidth(), layer.getHeight(), Color.white);
+	// 	copy.clear(new Color(0, 0, 0, 0));
+	// 	copy.mergeLayer(this.getImage(), 0, 0);
+	// 	copy.setLocation(new Point(layerPos.x, layerPos.y));
+	// 	copy.updateSelectionLayer();
+	// 	return copy;
+	// }
 }

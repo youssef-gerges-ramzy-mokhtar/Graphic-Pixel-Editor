@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 // Drawing Tool is an abstract class used to represent any Tool that draws into the Canvas
-abstract class DrawingTool implements ClickableContainer, Observer {
+abstract class DrawingTool extends ChangeMaker implements ClickableContainer, Observer {
 	protected Clickable drawingBtn;
 	protected Brush brush;
 	protected LineGraphics lineGraphic;
@@ -11,7 +11,8 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 	private Point dragPoint;
 	private boolean released;
 
-	public DrawingTool(OurCanvas canvas) {
+	public DrawingTool(OurCanvas canvas, UndoTool undo) {
+		super(undo);
 		this.canvas = canvas;		
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.dragPoint = new Point(0, 0);
@@ -23,6 +24,10 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
 				released = true;
+
+				if (!drawingBtn.isActive()) return;
+				System.out.println("HI");
+				recordChange();
 			}
 		});
 
