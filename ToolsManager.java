@@ -17,6 +17,7 @@ class ToolsManager {
 	private Delete delete;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
+	private BlurTool blur;
     
     private ImageLoader imageLoader;
     private LayersHandler layersHandler;
@@ -39,6 +40,7 @@ class ToolsManager {
 		this.airBrush = new Airbrush(canvas);
 		this.text = new TextTool(canvas);
 		this.delete = new Delete(canvas);
+		this.blur = new BlurTool(canvas);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -66,7 +68,7 @@ class ToolsManager {
 		toolsPanel.addClickable(airBrush.getClickable());
 		toolsPanel.addClickable(text.getClickable());
 		toolsPanel.addClickable(delete.getClickable());
-		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
+		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
 	}
 
 	// initObservers() is used to add add Observers & attach Observables to tools that are related
@@ -88,6 +90,7 @@ class ToolsManager {
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
 		optionsPanel.getPenOptionsPanel().addObserver(text);
+		optionsPanel.getPenOptionsPanel().addObserver(blur);
         
         canvas.addObserver(toolsPanel);
 	} 

@@ -5,14 +5,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-public class BlurTool{
+public class BlurTool implements Observer{
 
 
     private LayersHandler layerHandler;
+    private Clickable blurBtn;
 
+    
     public BlurTool(OurCanvas canvas)
     {
+        this.blurBtn = new Clickable("Blur");
         this.layerHandler = LayersHandler.getLayersHandler(canvas);
+        blurBtn.addObserver(this);
     }
 
    
@@ -22,14 +26,18 @@ public class BlurTool{
 
 
 	// Blurs the entire layer
-	public void blur() throws IOException, InterruptedException
+	private void blur() 
+        throws IOException, InterruptedException
 	{
-
+        System.out.println("working");
+        if (blurBtn.isActive())
+        {
+            System.out.println("working");
 		Color color[];
 
 		// converts the current layer into a buffered image
-        LayerData currentLayer = layerHandler.getDrawingLayer();
-		BufferedImage input = new BufferedImage(currentLayer.getWidth(), currentLayer.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        LayerData currentLayer = layerHandler.getSelectedLayer();
+		BufferedImage input = currentLayer.getImage();
         
 
 		// Again creating an object of BufferedImage to
@@ -84,18 +92,44 @@ public class BlurTool{
 				b1 = b1 / (max);
 				int sum1 = (a1 << 24) + (r1 << 16)
 						+ (g1 << 8) + b1;
+                System.out.println(sum1);
 				output.setRGB(y, x, (int)(sum1));
 			}
 		}
 
 		// Writing the blurred image on the disc where
 		// directory is passed as an argument
-		ImageIO.write(output, "jpeg", new File("D:/test/BlurredImage.jpeg"));
+		ImageIO.write(output, "JPEG", new File("/home/silsby/h-drive/scc210/coursework/scc210-2223-grp-67/scc210-2223-grp-67/BlurredImage.jpeg"));
+      
+        
 
 		// Message to be displayed in the console when
 		// program is successfully executed
 		System.out.println("Image blurred successfully !");
+        }
 	}
+
+    public Clickable getClickable() {
+        return blurBtn;
+    }
+
+    public void update(int thickness) {    
+		
+    }
+
+	public void update2(Color col) {
+	    
+	}
+
+    public void update3() {
+        try {
+            blur();
+          }
+          catch(IOException | InterruptedException e) {
+            System.out.println("Exception caught");
+          }
+       
+    };
 }
 
 
