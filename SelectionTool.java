@@ -1,3 +1,4 @@
+import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
 
@@ -91,7 +92,9 @@ class SelectionTool extends ChangeMaker implements ClickableContainer {
 		return layersHandler;
 	}	
 
-	public Clickable getClickable() {
-		return selectionBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> selectionToolBtn = new ArrayList<Clickable>();
+		selectionToolBtn.add(selectionBtn);
+		return selectionToolBtn;
 	}
 }

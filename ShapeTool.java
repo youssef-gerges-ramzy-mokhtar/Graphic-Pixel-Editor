@@ -1,3 +1,4 @@
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -89,8 +90,10 @@ abstract class ShapeTool extends ChangeMaker implements Observer, ClickableConta
 	// Creates a Layer to store a Shape
 	protected abstract ShapeLayer createShapeLayer(Point layerPos);
 
-	public Clickable getClickable() {
-		return shapeBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> shapeToolBtn = new ArrayList<Clickable>();
+		shapeToolBtn.add(shapeBtn);
+		return shapeToolBtn;
 	}
 
 	// Observer Pattern //

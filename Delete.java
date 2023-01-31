@@ -1,3 +1,4 @@
+import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
 
@@ -26,7 +27,9 @@ class Delete implements ClickableContainer {
 	}	
 
 	/** return clickable for this feature **/
-	public Clickable getClickable() {
-		return deleteBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> deleteToolBtn = new ArrayList<Clickable>();
+		deleteToolBtn.add(deleteBtn);
+		return deleteToolBtn;
 	}
 }

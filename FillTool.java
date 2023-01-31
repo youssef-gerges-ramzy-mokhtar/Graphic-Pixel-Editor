@@ -70,8 +70,10 @@ class FillTool extends ChangeMaker implements Observer, ClickableContainer {
 		}
 	}
 
-	public Clickable getClickable() {
-		return fillBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> fillToolBtn = new ArrayList<Clickable>();
+		fillToolBtn.add(fillBtn);
+		return fillToolBtn;
 	}
 
 	// Observer Pattern

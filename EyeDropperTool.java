@@ -28,8 +28,10 @@ public class EyeDropperTool implements ClickableContainer, Observable {
         });
     }
 
-    public Clickable getClickable() {
-        return eyeDropperBtn;
+    public ArrayList<Clickable> getClickable() {
+        ArrayList<Clickable> eyeDropperToolBtn = new ArrayList<Clickable>();
+        eyeDropperToolBtn.add(eyeDropperBtn);
+        return eyeDropperToolBtn;
     }
 
     // Observer Pattern //

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 interface ClickableContainer {
-	public Clickable getClickable();
+	public ArrayList<Clickable> getClickable();
 }

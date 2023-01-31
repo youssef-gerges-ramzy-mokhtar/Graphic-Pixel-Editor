@@ -1,3 +1,4 @@
+import java.util.*;
 import javax.swing.*;
 
 // ToolsManager is like a Facade that is responsible for creating the Tools and linking the different tools to each other
@@ -24,8 +25,13 @@ class ToolsManager {
     private LayersSelectionPanel layersSelectionPanel;
 
     private MenuPanel menuPanel;
+    private Display display;
 
-	public ToolsManager() {
+    private ArrayList<ClickableContainer> clickableContainers;
+
+	public ToolsManager(Display display) {
+		this.display = display;
+
 		this.canvas = new OurCanvas();
 		this.toolsPanel = new ToolsPanel();
 
@@ -51,24 +57,32 @@ class ToolsManager {
 
         this.menuPanel = new MenuPanel(canvas, imageLoader);
 
-		initToolPanel();
+        this.clickableContainers = new ArrayList<ClickableContainer>();
+        initToolPanel();
 		initObservers();
+		initShortcuts(); // Bad Design but couldn't think of anything else
 	}
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
-		toolsPanel.addClickable(selectionTool.getClickable());
-		toolsPanel.addClickable(penTool.getClickable());
-		toolsPanel.addClickable(eraserTool.getClickable());
-		toolsPanel.addClickable(fillTool.getClickable());
-		toolsPanel.addClickable(eyeDropperTool.getClickable());
-		toolsPanel.addClickable(rectangleTool.getClickable());
-		toolsPanel.addClickable(circleTool.getClickable());
-		toolsPanel.addClickable(triangleTool.getClickable());
-		toolsPanel.addClickable(airBrush.getClickable());
-		toolsPanel.addClickable(text.getClickable());
-		toolsPanel.addClickable(delete.getClickable());
-		toolsPanel.addClickable(undo.getClickable());
+		clickableContainers.add(selectionTool);
+		clickableContainers.add(delete);
+		clickableContainers.add(penTool);
+		clickableContainers.add(eraserTool);
+		clickableContainers.add(fillTool);
+		clickableContainers.add(eyeDropperTool);
+		clickableContainers.add(rectangleTool);
+		clickableContainers.add(circleTool);
+		clickableContainers.add(triangleTool);
+		clickableContainers.add(airBrush);
+		clickableContainers.add(text);
+		clickableContainers.add(delete);
+		clickableContainers.add(undo);
+
+		for (ClickableContainer clickableContainer: clickableContainers)
+			for (Clickable clickable: clickableContainer.getClickable())
+				toolsPanel.addClickable(clickable);
+
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 
@@ -94,6 +108,10 @@ class ToolsManager {
         
         canvas.addObserver(toolsPanel);
 	} 
+
+	private void initShortcuts() {
+		undo.setShortcut(new Shortcut(display));		
+	}
 
 	// Getters //
 	public JPanel getToolsPanel() {

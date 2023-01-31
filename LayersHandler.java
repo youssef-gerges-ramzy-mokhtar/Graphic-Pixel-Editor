@@ -155,6 +155,8 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 
 	public void setLayers(ArrayList<LayerData> layers) {
 		this.layers = layers;
+		this.drawingLayer = layers.get(0);
+		changeSelectedLayer(0);
 	}
 
 	// Observer Pattern //
@@ -169,7 +171,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		resizeDrawingArea(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		updateCanvas();
 	}
-
 
 	// Singelton Pattern //
 	public static LayersHandler getLayersHandler(OurCanvas canvas) {

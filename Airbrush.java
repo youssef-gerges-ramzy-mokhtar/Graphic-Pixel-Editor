@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class Airbrush implements Observable, Observer
+public class Airbrush implements ClickableContainer, Observable, Observer
 {
     private OurCanvas canvas;
     private Random rand;
@@ -121,7 +121,9 @@ public class Airbrush implements Observable, Observer
             observer.update3();
     }
 
-    public Clickable getClickable() {
-        return airBrushBtn;
+    public ArrayList<Clickable> getClickable() {
+        ArrayList<Clickable> airBrushToolBtn = new ArrayList<Clickable>();
+        airBrushToolBtn.add(airBrushBtn);
+        return airBrushToolBtn;
     }
 }

@@ -5,10 +5,12 @@ import java.awt.*;
 
 // Clickable is used to represent a Button associated with a Tool and all the behaviour associated with this button
 class Clickable implements Observable {
+	// private Display display;
 	private boolean btnActive;
 	private JButton btn;
 	private ArrayList<Observer> clickObservers;
 	private Color selectorCol;
+	private ArrayList<Character> shortcut;
 
 	public Clickable(String title) {
 		this.clickObservers = new ArrayList<Observer>();
@@ -29,6 +31,10 @@ class Clickable implements Observable {
 
 	public JButton getBtn() {
 		return btn;
+	}
+
+	public void addKeyBinding(Character key) {
+		shortcut.add(key);
 	}
 
 	// addBtnListener() is used to attach an Event Listener to the Button representing the Tool
@@ -53,6 +59,7 @@ class Clickable implements Observable {
 	private void deSelectBtn() {
 		btn.setBackground(new JButton().getBackground());
 	}
+
 
 	/* Observer Pattern: Used to notify the observers whenver a button is clicked //
 	notifyObservers() is used to notify the Tools Panel that this button is selected to deselect the other buttons */

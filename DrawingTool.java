@@ -1,3 +1,4 @@
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -26,7 +27,6 @@ abstract class DrawingTool extends ChangeMaker implements ClickableContainer, Ob
 				released = true;
 
 				if (!drawingBtn.isActive()) return;
-				System.out.println("HI");
 				recordChange();
 			}
 		});
@@ -83,8 +83,10 @@ abstract class DrawingTool extends ChangeMaker implements ClickableContainer, Ob
 	// setBrushProperties() is an abstract method used by the all drawing tools to define the drawing tool own behavior
 	protected abstract void setBrushProperties();
 
-	public Clickable getClickable() {
-		return drawingBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> drawingToolToolBtn = new ArrayList<Clickable>();
+		drawingToolToolBtn.add(drawingBtn);
+		return drawingToolToolBtn;
 	}
 
 	// Observer Pattern 
