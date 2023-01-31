@@ -1,6 +1,4 @@
 import java.awt.*;
-import javax.swing.*;
-import java.util.*;
 import java.awt.event.*;
 
 // Drawing Tool is an abstract class used to represent any Tool that draws into the Canvas
@@ -8,7 +6,6 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 	protected Clickable drawingBtn;
 	protected Brush brush;
 	protected LineGraphics lineGraphic;
-
 	protected OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point dragPoint;
@@ -19,7 +16,6 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.dragPoint = new Point(0, 0);
 		this.released = true;
-
 		canvasListener();
 	}
 
@@ -48,7 +44,6 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 	// drawBrush() used to draw a line between 2 points in the current layer
 	private void drawBrush(Point pos) {
 		LayerData currentLayer = layersHandler.getSelectedLayer();
-
 		if (released) {
 			brush.setPos(currentLayer.getX(pos.x), currentLayer.getY(pos.y));
 			released = false;
@@ -62,7 +57,6 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 		lineGraphic.setPoints(brush.getPos(), dragPoint);
 		lineGraphic.setColor(brush.getCol());
 		lineGraphic.setStrokeSize(brush.getThickness());
-
 		currentLayer.updateGraphics(lineGraphic);
 		layersHandler.updateCanvas();
 	}
@@ -70,16 +64,13 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 	// drawPointBrush() used to draw a circle when a user clicks on the canvas
 	private void drawPointBrush(Point pos) {
 		LayerData currentLayer = layersHandler.getSelectedLayer();
-
 		brush.setPos(currentLayer.getX(pos.x), currentLayer.getY(pos.y));
 		Point clickPoint = new Point(pos.x + 1, pos.y + 1);
-		
 		setBrushProperties();
 
 		lineGraphic.setPoints(brush.getPos(), clickPoint);
 		lineGraphic.setColor(brush.getCol());
 		lineGraphic.setStrokeSize(brush.getThickness());
-	
 		currentLayer.updateGraphics(lineGraphic);
 		layersHandler.updateCanvas();
 	}
@@ -92,7 +83,6 @@ abstract class DrawingTool implements ClickableContainer, Observer {
 	}
 
 	// Observer Pattern 
-
 	// update() is used to update the brush Thickness when the Pen Options Slider is Changed 
 	public void update(int thickness) {
 		brush.setThickness(thickness);

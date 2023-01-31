@@ -4,13 +4,15 @@ import java.awt.*;
 public class TriangleGraphics implements SpecificGraphic {
 	Point position;
 	float stroke_sz;
-	int len;
+	int width;
+	int height;
 	Color stroke_col;
+	Color fillCol;
 
 	public TriangleGraphics(Point position) {
 		this.position = position;
-		stroke_sz = 2;
-		len = 3;
+		this.fillCol = Color.black; // this is temporary until we create a shape Control Graphical User Interface for the use to set the fill color
+		this.stroke_sz = 2;
 	}
 
 	public void setPoints(Point position) {
@@ -25,22 +27,34 @@ public class TriangleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
-	public void setLen(int len) {
-		this.len = len;
+	public void setDimension(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void draw(Graphics2D g) {
-		g.setStroke(new BasicStroke(stroke_sz));
-		g.setColor(stroke_col);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		g.fillRect(0, 0, width, height);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+		
+		int x = position.x;
+		int y = position.y;
 
-		// In the future will try to Make the Triangle appear in the center of the cursor
-
-        g.drawPolygon(
-			new int[] {50, 100, 0},
-			new int[] {0, 100, 100},
+		g.setColor(fillCol);
+		g.fillPolygon(
+			new int[] {x + (width/2), x + width, x},
+        	new int[] {0, height, height},
 			3
 		);
 
+		g.setStroke(new BasicStroke(stroke_sz));
+		g.setColor(stroke_col);
+
+        g.drawPolygon(
+        	new int[] {x + (width/2), x + width, x},
+        	new int[] {0, height, height},
+			3
+		);
 		g.dispose();
 	}
 }

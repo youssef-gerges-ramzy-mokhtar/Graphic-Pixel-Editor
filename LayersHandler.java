@@ -1,6 +1,5 @@
 import java.util.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.*;
 
 // LayersHandler is used to handle all the layers on the Canvas
@@ -23,7 +22,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 
 	private void initDrawingLayer() {
 		BufferedImage drawingImg = new BufferedImage(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight(), BufferedImage.TYPE_INT_ARGB);
-
 		Graphics2D imgGraphics = drawingImg.createGraphics();
 		imgGraphics.setBackground(Color.white);
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
@@ -37,6 +35,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	}
 
 	public void removeLayer(LayerData layer) {
+		if (layer == null) return;
 		layers.remove(layer);
 	}
 
@@ -78,6 +77,14 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers)
 			canvas.drawLayer(layerData);
+	}
+
+	public void updateCanvasSelected(LayerData selectedLayer) {
+		canvas.clearCanvas();
+		for (LayerData layerData: layers) {
+			canvas.drawLayer(layerData);
+			if (layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
+		}
 	}
 
 	public int getHorizontalOffset() {

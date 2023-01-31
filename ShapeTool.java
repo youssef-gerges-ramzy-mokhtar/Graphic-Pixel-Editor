@@ -1,15 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
 // ShapeTool is responsible for adding & handling any generic Shape to the cavnas
 abstract class ShapeTool implements Observer, ClickableContainer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
+	private Point pivot;
+	private ShapeLayer shapeLayer;
 	protected Color strokeCol;
 	protected Color fillCol;
 	protected Clickable shapeBtn;
-
 	protected int layerWidth;
 	protected int layerHeight;
 
@@ -19,6 +19,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 		this.strokeCol = Color.black;
 		this.fillCol = Color.white; // that is temp
 		this.shapeBtn = new Clickable("Dummy Shape");
+		this.shapeLayer = null;
 
 		addCanvasListener();
 	}
@@ -27,50 +28,77 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	// Also each layer is created into its own layer and added to the layers handler
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
-			public void mouseReleased(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
+				if (!shapeBtn.isActive()) return;
+				pivot = new Point(e.getX(), e.getY());
+			}
+
+			public void mouseReleased(MouseEvent e){
+				if (!shapeBtn.isActive()) return;
+				shapeLayer = null;
+			}
+		});
+
+		canvas.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
 				if (!shapeBtn.isActive()) return;
 
-				Point pos = new Point(e.getX(), e.getY());
-				LayerData shapeLayer = createShapeLayer(pos);
-				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, pos);
-			
+				Point finalPoint = new Point(e.getX(), e.getY());
+				layerWidth = Math.abs(finalPoint.x - pivot.x);
+				layerHeight = Math.abs(finalPoint.y - pivot.y);
+
+				if (layerWidth == 0 || layerHeight == 0) return;
+
+				ShapeLayer prevLayer = shapeLayer;
+				shapeLayer = createShapeLayer(validPoint(pivot, finalPoint));
+				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, validPoint(pivot, finalPoint));
+
 				shapeLayer.updateGraphics(shapeGraphics);
 				layersHandler.addLayer(shapeLayer);
+				layersHandler.removeLayer(prevLayer);
 				layersHandler.updateCanvas();
 			}
 		});
 	}
 
+	private Point validPoint(Point p1, Point p2) {
+		int x1 = p1.x;
+		int y1 = p1.y;
+		int x2 = p2.x;
+		int y2 = p2.y;
+		if (y2 > y1 && x2 > x1){
+			return p1;
+		}
+		if (y2 < y1 && x2 > x1){
+			return new Point(x1, y2);
+		}
+		if(x2 < x1 && y2 < y1){
+			return p2;
+		}
+		if(x2 < x1 && y2 > y1){
+		return new Point(x2, y1);
+		}
+		return null;
+	}
+
 	// getSpecificGrahic() is used by all a Specific Shape to define its own Graphical Properties
-	protected abstract SpecificGraphic getSpecificGrahic(LayerData shapeLayer, Point coords);
+	protected abstract SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords);
 
 	// Creates a Layer to store a Shape
-	private LayerData createShapeLayer(Point layerPos) {
-		
-		if (layerWidth == 0) layerWidth = 100;
-		if (layerHeight == 0) layerHeight = 100;
-
-		LayerData shapeLayer = new LayerData(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
-		return shapeLayer;
-	}
+	protected abstract ShapeLayer createShapeLayer(Point layerPos);
 
 	public Clickable getClickable() {
 		return shapeBtn;
 	}
 
 	// Observer Pattern //
-
-	// update(int val) is used to change the shape size based on the brush size slider (in the future that will probably change)
-	public void update(int val) {
-		layerWidth = val;
-		layerHeight = val;
-	}
-	
 	// update2(Color col) is used to change the shape stroke color based on the Color Chooser or the Eye Dropper
 	public void update2(Color col) {
 		this.fillCol = col;
+		this.strokeCol = col;
 	}
 
+	public void update(int val) {}
 	public void update3() {}
 
 	/*

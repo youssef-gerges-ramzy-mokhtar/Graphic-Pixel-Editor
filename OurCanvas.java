@@ -1,7 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.util.*;
 
 // OurCanvas represents the Main area in the program that the user uses to draw, add shapes, add images and so on...
@@ -11,7 +10,6 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	private int height;
 	private Color col;
 	private LayerData mainLayer;
-
 	private boolean canDrag = false;
 	private ArrayList<CanvasObserver> canvasObservers;
 	private ArrayList<Observer> observers;
@@ -39,7 +37,6 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 					notifyObservers();
 					return;
 				}
-
 				canDrag = false;
 			}
 		});
@@ -61,7 +58,6 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
      				setCursor(cursor);
 					return;
 				}
-
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
 		});
@@ -92,6 +88,11 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	// drawLayer() merges/draws a layer into the canvas
 	public void drawLayer(LayerData img) {
 		mainLayer.mergeLayer(img);
+		repaint();
+	}
+
+	public void drawSelectedLayer(LayerData img) {
+		mainLayer.mergeLayerSelection(img);
 		repaint();
 	}
 

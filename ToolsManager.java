@@ -4,7 +4,6 @@ import javax.swing.*;
 class ToolsManager {
 	private OurCanvas canvas;
 	private ToolsPanel toolsPanel;
-
 	private SelectionTool selectionTool;
     private PenTool penTool;
     private EraserTool eraserTool;
@@ -15,7 +14,7 @@ class ToolsManager {
 	private TriangleTool triangleTool;
 	private Airbrush airBrush;
 	private TextTool text;
-
+	private Delete delete;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
     
@@ -39,6 +38,7 @@ class ToolsManager {
 		this.triangleTool = new TriangleTool(canvas);
 		this.airBrush = new Airbrush(canvas);
 		this.text = new TextTool(canvas);
+		this.delete = new Delete(canvas);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -65,7 +65,7 @@ class ToolsManager {
 		toolsPanel.addClickable(triangleTool.getClickable());
 		toolsPanel.addClickable(airBrush.getClickable());
 		toolsPanel.addClickable(text.getClickable());
-
+		toolsPanel.addClickable(delete.getClickable());
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 
@@ -78,6 +78,7 @@ class ToolsManager {
         colorGui.addObserver(fillTool); // so whenever the colorGui changes it will notify the Fill Tool to change Color
         colorGui.addObserver(rectangleTool); // so whenver the colorGui changes it will notify the Rectnalge Tool to change Stroke Color
         colorGui.addObserver(circleTool); // so whenver the colorGui changes it will notify the Circle Tool to change stroke Color
+		colorGui.addObserver(triangleTool);
 		colorGui.addObserver(airBrush);
 		colorGui.addObserver(text);
 
@@ -85,9 +86,6 @@ class ToolsManager {
 	
         optionsPanel.getPenOptionsPanel().addObserver(penTool); // Pen Tool observers changes in the brush size
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
-        optionsPanel.getPenOptionsPanel().addObserver(rectangleTool); // Rectnalge Tool observers changes in the brush size (That is Temporary)
-        optionsPanel.getPenOptionsPanel().addObserver(circleTool); // Circle Tool observers change sin the brush size (That is Temporary)
-		optionsPanel.getPenOptionsPanel().addObserver(triangleTool);
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
 		optionsPanel.getPenOptionsPanel().addObserver(text);
         
