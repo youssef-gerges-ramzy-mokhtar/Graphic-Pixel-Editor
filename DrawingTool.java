@@ -27,6 +27,7 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 		drawingBtn = new Clickable("Default Drawing Tool");
 		addToolBtn(drawingBtn);
 		setAsChangeMaker(undo);
+		setAsShapeRasterizer();
 	}
 
 	private void canvasListener() {
@@ -57,6 +58,9 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 	// drawBrush() used to draw a line between 2 points in the current layer
 	private void drawBrush(Point pos) {
 		LayerData currentLayer = layersHandler.getSelectedLayer();
+		if (currentLayer instanceof ShapeLayer) currentLayer = rasterizeLayer(currentLayer, layersHandler);
+		if (currentLayer == null) return;
+
 		if (released) {
 			brush.setPos(currentLayer.getX(pos.x), currentLayer.getY(pos.y));
 			released = false;
@@ -77,6 +81,9 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 	// drawPointBrush() used to draw a circle when a user clicks on the canvas
 	private void drawPointBrush(Point pos) {
 		LayerData currentLayer = layersHandler.getSelectedLayer();
+		if (currentLayer instanceof ShapeLayer) currentLayer = rasterizeLayer(currentLayer, layersHandler);
+		if (currentLayer == null) return;
+
 		brush.setPos(currentLayer.getX(pos.x), currentLayer.getY(pos.y));
 		Point clickPoint = new Point(pos.x + 1, pos.y + 1);
 		setBrushProperties();

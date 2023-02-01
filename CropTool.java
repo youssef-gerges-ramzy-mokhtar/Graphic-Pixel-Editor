@@ -26,6 +26,7 @@ class CropTool extends ClickableTool {
 
 		addToolBtn(cropBtn);
 		setAsChangeMaker(undo);
+		setAsShapeRasterizer();
 	}
 
 	private void addCanvasListener() {
@@ -34,12 +35,18 @@ class CropTool extends ClickableTool {
 				if (!cropBtn.isActive()) return;
 
 				layerToCrop = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-				if (layerToCrop == null) return;
+				if (layerToCrop == null) {layersHandler.updateCanvas(); return;}
+
+				if (layerToCrop instanceof ShapeLayer) {
+					layerToCrop = rasterizeLayer(layerToCrop, layersHandler);
+					layersHandler.updateCanvas();
+					return;
+				}
 
 				layerToCrop.drawBorder();
 				layersHandler.updateCanvasSelected(layerToCrop);
 
-				cropType = atCorner(e.getX(), e.getY());
+				cropType = canResize(e.getX(), e.getY());
 			}
 
 			public void mouseReleased(MouseEvent e) {
@@ -66,7 +73,7 @@ class CropTool extends ClickableTool {
 
 	        	Cursor cursor = Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
 
-	        	cropType = atCorner(e.getX(), e.getY());
+	        	cropType = canResize(e.getX(), e.getY());
 	        	if (cropType == Resize.BOTTOMRIGHT || cropType == Resize.TOPLEFT) 
 	        		cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
 	        	
@@ -84,22 +91,23 @@ class CropTool extends ClickableTool {
 		});
 	}
 
-	private Resize atCorner(int x, int y) {
+	private Resize canResize(int x, int y) {
 		int x1 = layerToCrop.getX();
 		int y1 = layerToCrop.getY();
 		int x2 = layerToCrop.getEndX();
 		int y2 = layerToCrop.getEndY();
-	
-		if (0 < x2-x && x2-x <= 5 && 0 < y2-y && y2-y <= 5) return Resize.BOTTOMRIGHT;
-		else if (0 < x-x1 && x-x1 <= 5 && 0 < y2-y && y2-y <= 5) return Resize.BOTTOMLEFT;
-		else if (0 < x-x1 && x2-x <= 5 && 0 < y-y1 && y-y1 <= 5) return Resize.TOPRIGHT;
-		else if (0 < x-x1 && x-x1 <= 5 && 0 < y-y1 && y-y1 <= 5) return Resize.TOPLEFT;
-		else if (x1+5 < x && x < x2-5) {
-			if (y1 < y && y < y1+5) return Resize.TOP;
-			if (y2-5 < y && y < y2) return Resize.BOTTOM;
-		} else if (y1+5 < y && y < y2-5) {
-			if (x2-5 < x && x < x2) return Resize.RIGHT;
-			if (x1 < x && x < x1+5) return Resize.LEFT;
+		
+		int spacing = 10;
+		if (0 < x2-x && x2-x <= spacing && 0 < y2-y && y2-y <= spacing) return Resize.BOTTOMRIGHT;
+		else if (0 < x-x1 && x-x1 <= spacing && 0 < y2-y && y2-y <= spacing) return Resize.BOTTOMLEFT;
+		else if (0 < x-x1 && x2-x <= spacing && 0 < y-y1 && y-y1 <= spacing) return Resize.TOPRIGHT;
+		else if (0 < x-x1 && x-x1 <= spacing && 0 < y-y1 && y-y1 <= spacing) return Resize.TOPLEFT;
+		else if (x1+spacing < x && x < x2-spacing) {
+			if (y1 < y && y < y1+spacing) return Resize.TOP;
+			if (y2-spacing < y && y < y2) return Resize.BOTTOM;
+		} else if (y1+spacing < y && y < y2-spacing) {
+			if (x2-spacing < x && x < x2) return Resize.RIGHT;
+			if (x1 < x && x < x1+spacing) return Resize.LEFT;
 		} 
 	
 		return Resize.INVALID;

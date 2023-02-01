@@ -168,6 +168,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		if (prevLayerIdx == -1) return;
 
 		layers.set(prevLayerIdx, newLayer);
+		if (prevLayer == selectedLayer) selectedLayer = newLayer;
 	}
 
 	// Observer Pattern //

@@ -37,7 +37,7 @@ class SelectionTool extends ClickableTool {
                 if (!selectionBtn.isActive()) return;
 
                 layerToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-                if (layerToMove == null) return;
+                if (layerToMove == null) {layersHandler.updateCanvas(); return;}
 
                 layerToMove.drawBorder();
                 refreshCanvasSelection(layerToMove);

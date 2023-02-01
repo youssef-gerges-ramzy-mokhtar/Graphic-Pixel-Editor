@@ -201,7 +201,6 @@ abstract class LayerData {
 		g2d.drawImage(newLayer, x, y, null);
 	}
 
-
 	// Updates this layer size based on width and height and sets each pixel of this updated layer to the specified color
 	public void clear(int width, int height, Color col) {
 		layer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
