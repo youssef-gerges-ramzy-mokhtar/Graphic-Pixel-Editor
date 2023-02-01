@@ -11,4 +11,9 @@ class TextLayer extends ShapeLayer {
 	
 		return textGraphics;
 	}
+
+	public TextLayer getShapeLayerCopy() {
+		TextLayer copy = new TextLayer(layerWidth(), layerHeight(), Color.white);
+		return copy;
+	}
 }

@@ -10,7 +10,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	private int horizontalOffset;
 	private LayerData drawingLayer; // is the Main Layer on Canvas, same idea as the Background Layer in Photoshop
 	private LayerData selectedLayer;
-	private static LayersHandler layersHandler; // Singelton Design Pattern
+	private static LayersHandler layersHandler; // Singelton Design Pattern=
 
 	private LayersHandler(OurCanvas canvas) {
 		this.layers = new ArrayList<LayerData>();
@@ -26,7 +26,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		imgGraphics.setBackground(Color.white);
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		
-		this.drawingLayer = new LayerData(drawingImg);
+		this.drawingLayer = new ImageLayer(drawingImg);
 		layers.add(drawingLayer);	
 	}
 
@@ -145,6 +145,24 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		selectedLayer = layers.get(layerPos);
 	}
 
+	public ArrayList<LayerData> getLayersCopy() {
+		ArrayList<LayerData> layersCopy = new ArrayList<LayerData>();
+		for (LayerData layer: layers)
+			layersCopy.add(layer.getCopy());
+	
+		return layersCopy;
+	}
+
+	public void setLayers(ArrayList<LayerData> layers) {
+		this.layers = layers;
+		this.drawingLayer = layers.get(0);
+		changeSelectedLayer(0);
+
+		// Under Development
+		// canvas.updateCanvasSize(drawingLayer.getWidth(), drawingLayer.getHeight());
+		// updateCanvas();
+	}
+
 	// Observer Pattern //
 	// update() is called whenever a new Image is added to the Canvas, to add this image as a seperate layer to the layers
 	public void update(LayerData layerData) {
@@ -158,11 +176,9 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		updateCanvas();
 	}
 
-
 	// Singelton Pattern //
 	public static LayersHandler getLayersHandler(OurCanvas canvas) {
 		if (layersHandler == null) layersHandler = new LayersHandler(canvas);
-
 		return layersHandler;
 	}
 }

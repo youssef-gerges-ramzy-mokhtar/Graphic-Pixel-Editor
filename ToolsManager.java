@@ -1,3 +1,4 @@
+import java.util.*;
 import javax.swing.*;
 
 // ToolsManager is like a Facade that is responsible for creating the Tools and linking the different tools to each other
@@ -17,55 +18,70 @@ class ToolsManager {
 	private Delete delete;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
+    private UndoTool undo;
     
     private ImageLoader imageLoader;
     private LayersHandler layersHandler;
     private LayersSelectionPanel layersSelectionPanel;
 
     private MenuPanel menuPanel;
+    private Display display;
 
-	public ToolsManager() {
+    private ArrayList<ClickableTool> clickableContainers;
+
+	public ToolsManager(Display display) {
+		this.display = display;
+
 		this.canvas = new OurCanvas();
 		this.toolsPanel = new ToolsPanel();
 
-		this.selectionTool = new SelectionTool(canvas);
-		this.penTool = new PenTool(canvas);
-		this.eraserTool = new EraserTool(canvas);
-		this.fillTool = new FillTool(canvas);
+		this.undo = new UndoTool(canvas);
+		this.selectionTool = new SelectionTool(canvas, undo);
+		this.penTool = new PenTool(canvas, undo);
+		this.eraserTool = new EraserTool(canvas, undo);
+		this.fillTool = new FillTool(canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-		this.rectangleTool = new RectangleTool(canvas);
-		this.circleTool = new CircleTool(canvas);
-		this.triangleTool = new TriangleTool(canvas);
-		this.airBrush = new Airbrush(canvas);
-		this.text = new TextTool(canvas);
-		this.delete = new Delete(canvas);
+		this.rectangleTool = new RectangleTool(canvas, undo);
+		this.circleTool = new CircleTool(canvas, undo);
+		this.triangleTool = new TriangleTool(canvas, undo);
+		this.airBrush = new Airbrush(canvas, undo);
+		this.text = new TextTool(canvas, undo);
+		this.delete = new Delete(canvas, undo);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.imageLoader = new ImageLoader(canvas); // For Loading Images from the user computer
+        this.imageLoader = new ImageLoader(canvas, undo); // For Loading Images from the user computer
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
         this.menuPanel = new MenuPanel(canvas, imageLoader);
 
-		initToolPanel();
+        this.clickableContainers = new ArrayList<ClickableTool>();
+        initToolPanel();
 		initObservers();
 	}
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
-		toolsPanel.addClickable(selectionTool.getClickable());
-		toolsPanel.addClickable(penTool.getClickable());
-		toolsPanel.addClickable(eraserTool.getClickable());
-		toolsPanel.addClickable(fillTool.getClickable());
-		toolsPanel.addClickable(eyeDropperTool.getClickable());
-		toolsPanel.addClickable(rectangleTool.getClickable());
-		toolsPanel.addClickable(circleTool.getClickable());
-		toolsPanel.addClickable(triangleTool.getClickable());
-		toolsPanel.addClickable(airBrush.getClickable());
-		toolsPanel.addClickable(text.getClickable());
-		toolsPanel.addClickable(delete.getClickable());
+		clickableContainers.add(selectionTool);
+		clickableContainers.add(delete);
+		clickableContainers.add(penTool);
+		clickableContainers.add(eraserTool);
+		clickableContainers.add(fillTool);
+		clickableContainers.add(eyeDropperTool);
+		clickableContainers.add(rectangleTool);
+		clickableContainers.add(circleTool);
+		clickableContainers.add(triangleTool);
+		clickableContainers.add(airBrush);
+		clickableContainers.add(text);
+		clickableContainers.add(delete);
+		clickableContainers.add(undo);
+
+		for (ClickableTool clickableContainer: clickableContainers)
+			for (Clickable clickable: clickableContainer.getClickables())
+				toolsPanel.addClickable(clickable);
+
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 

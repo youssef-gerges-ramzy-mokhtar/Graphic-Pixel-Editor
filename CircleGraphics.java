@@ -27,6 +27,10 @@ public class CircleGraphics implements SpecificGraphic {
 		this.stroke_col = col;
 	}
 
+	public void setFillColor(Color col) {
+		this.fillCol = col;
+	}
+
 	public void setFillCol(Color col) {
 		this.fillCol = col;
 	}

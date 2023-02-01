@@ -18,7 +18,7 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		this.width = 800;
 		this.height = 600;
 		this.col = Color.white;
-		this.mainLayer = new LayerData(width, height, col);
+		this.mainLayer = new ImageLayer(width, height, col);
 
 		this.canvasObservers = new ArrayList<CanvasObserver>();
 		this.observers = new ArrayList<Observer>();
@@ -74,6 +74,12 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		mainLayer.clear(width, height, col);
 		repaint();
 		notifyCanvasObservers();
+	}
+
+	public void updateCanvasSize(int newWidth, int newHeight) {
+		this.width = newHeight;
+		this.height = newHeight;
+		updateCanvasSz();
 	}
 
 	public void paintComponent(Graphics g) {

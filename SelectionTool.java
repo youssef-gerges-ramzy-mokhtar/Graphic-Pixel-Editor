@@ -1,20 +1,32 @@
+import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
 
 // SelectionTool is used to move layers in the canvas
-class SelectionTool implements ClickableContainer {
+class SelectionTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private LayerData imgToMove;
 	private Clickable selectionBtn;
 	private boolean canDrag;
+	private boolean changeMade;
 
-	public SelectionTool(OurCanvas canvas) {
+	public SelectionTool(OurCanvas canvas, UndoTool undo) {
+		super(undo);
+
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
-		this.selectionBtn = new Clickable("Selection Tool");
+		this.changeMade = false;
 
 		addCanvasListener();
+	}
+
+	protected void initTool(UndoTool undo) {
+		this.selectionBtn = new Clickable("Selection Tool");
+		selectionBtn.addKeyBinding('v');
+		
+		addToolBtn(selectionBtn);
+		setAsChangeMaker(undo);
 	}
 
 	// addCanvasListener() attachs an Event Listener to the canvas
@@ -32,6 +44,12 @@ class SelectionTool implements ClickableContainer {
                 if (atCorner(e.getX(), e.getY())) canDrag = true;
                 else canDrag = false;
             }
+
+            public void mouseReleased(MouseEvent e) {
+            	if (!selectionBtn.isActive()) return;
+            	if (changeMade) recordChange();
+            	changeMade = false;
+            }
         });
 
 		// The layer that will be choose/selected will be decided by the layers handler class and the layers handler class will determine the layer to select based on the coordinates of the cursor
@@ -44,6 +62,7 @@ class SelectionTool implements ClickableContainer {
 				else imgToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
 
                 refreshCanvasSelection(imgToMove);
+                changeMade = true;
             }
 
             public void mouseMoved(MouseEvent e) {
@@ -81,7 +100,9 @@ class SelectionTool implements ClickableContainer {
 		return layersHandler;
 	}	
 
-	public Clickable getClickable() {
-		return selectionBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> selectionToolBtn = new ArrayList<Clickable>();
+		selectionToolBtn.add(selectionBtn);
+		return selectionToolBtn;
 	}
 }
