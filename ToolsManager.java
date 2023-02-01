@@ -27,7 +27,7 @@ class ToolsManager {
     private MenuPanel menuPanel;
     private Display display;
 
-    private ArrayList<ClickableContainer> clickableContainers;
+    private ArrayList<ClickableTool> clickableContainers;
 
 	public ToolsManager(Display display) {
 		this.display = display;
@@ -46,7 +46,7 @@ class ToolsManager {
 		this.triangleTool = new TriangleTool(canvas, undo);
 		this.airBrush = new Airbrush(canvas, undo);
 		this.text = new TextTool(canvas, undo);
-		this.delete = new Delete(canvas);
+		this.delete = new Delete(canvas, undo);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -57,10 +57,9 @@ class ToolsManager {
 
         this.menuPanel = new MenuPanel(canvas, imageLoader);
 
-        this.clickableContainers = new ArrayList<ClickableContainer>();
+        this.clickableContainers = new ArrayList<ClickableTool>();
         initToolPanel();
 		initObservers();
-		initShortcuts(); // Bad Design but couldn't think of anything else
 	}
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
@@ -79,8 +78,8 @@ class ToolsManager {
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
 
-		for (ClickableContainer clickableContainer: clickableContainers)
-			for (Clickable clickable: clickableContainer.getClickable())
+		for (ClickableTool clickableContainer: clickableContainers)
+			for (Clickable clickable: clickableContainer.getClickables())
 				toolsPanel.addClickable(clickable);
 
 		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
@@ -108,10 +107,6 @@ class ToolsManager {
         
         canvas.addObserver(toolsPanel);
 	} 
-
-	private void initShortcuts() {
-		undo.setShortcut(new Shortcut(display));		
-	}
 
 	// Getters //
 	public JPanel getToolsPanel() {

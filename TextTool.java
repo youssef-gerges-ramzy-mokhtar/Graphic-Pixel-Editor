@@ -10,6 +10,7 @@ class TextTool extends ShapeTool {
 	public TextTool(OurCanvas canvas, UndoTool undo) {
 		super(canvas, undo);
 		shapeBtn.setText("Text");
+		shapeBtn.addKeyBinding('s');
 	}
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {

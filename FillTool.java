@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // FillTool is used to pour large areas of paint onto the Canvas that expand until they find a border they cannot flow over.
-class FillTool extends ChangeMaker implements Observer, ClickableContainer {
+class FillTool extends ClickableTool implements Observer {
     private OurCanvas canvas;
     private Clickable fillBtn;
 	private Color barrierCol;
@@ -13,11 +13,18 @@ class FillTool extends ChangeMaker implements Observer, ClickableContainer {
 	public FillTool(OurCanvas canvas, UndoTool undo) {
 		super(undo);
 		this.canvas = canvas;
-		this.fillBtn = new Clickable("Fill");
 		this.barrierCol = Color.white;
 		this.fillCol = Color.black;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		addCanvasListener();
+	}
+
+	protected void initTool(UndoTool undo) {
+		this.fillBtn = new Clickable("Fill");
+		fillBtn.addKeyBinding('f');
+		
+		addToolBtn(fillBtn);
+		setAsChangeMaker(undo);
 	}
 
 	// addCanvasListener() is used to attach an Event Listener to the canvas

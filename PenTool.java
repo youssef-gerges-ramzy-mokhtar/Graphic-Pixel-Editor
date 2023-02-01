@@ -4,7 +4,9 @@ import java.awt.*;
 class PenTool extends DrawingTool implements Observer {
 	public PenTool(OurCanvas canvas, UndoTool undo) {
 		super(canvas, undo);
-		drawingBtn = new Clickable("Pen");
+		drawingBtn.setText("Pen");
+		drawingBtn.addKeyBinding('p');
+
 		brush = new Pen(1, Color.black);
 		lineGraphic = new LineGraphics(brush.getThickness(), brush.getCol());
 	}

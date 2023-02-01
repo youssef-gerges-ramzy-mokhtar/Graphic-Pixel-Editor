@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 // ShapeTool is responsible for adding & handling any generic Shape to the cavnas
-abstract class ShapeTool extends ChangeMaker implements Observer, ClickableContainer {
+abstract class ShapeTool extends ClickableTool implements Observer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point pivot;
@@ -20,10 +20,16 @@ abstract class ShapeTool extends ChangeMaker implements Observer, ClickableConta
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.strokeCol = Color.black;
 		this.fillCol = Color.white; // that is temp
-		this.shapeBtn = new Clickable("Dummy Shape");
 		this.shapeLayer = null;
 
 		addCanvasListener();
+	}
+
+	protected void initTool(UndoTool undo) {
+		this.shapeBtn = new Clickable("Dummy Shape");
+
+		addToolBtn(shapeBtn);
+		setAsChangeMaker(undo);
 	}
 
 	// addCanvasListener() is used to attach an Event Listner to the canvas, and adds a shape to the canvas based on the user click coordinates

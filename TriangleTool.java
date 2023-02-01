@@ -5,6 +5,7 @@ class TriangleTool extends ShapeTool {
 	public TriangleTool(OurCanvas canvas, UndoTool undo) {
 		super(canvas, undo);
 		shapeBtn.setText("Triangle");
+		shapeBtn.addKeyBinding('t');
 	}
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {

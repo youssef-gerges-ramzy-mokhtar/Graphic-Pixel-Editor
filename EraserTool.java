@@ -4,7 +4,9 @@ import java.awt.*;
 class EraserTool extends DrawingTool {
 	public EraserTool(OurCanvas canvas, UndoTool undo) {
 		super(canvas, undo);
-		drawingBtn = new Clickable("Eraser");
+		drawingBtn.setText("Eraser");
+		drawingBtn.addKeyBinding('e');
+
 		brush = new Pen(1, Color.black);
 		lineGraphic = new LineGraphics(brush.getThickness(), brush.getCol());
 	}

@@ -204,9 +204,6 @@ abstract class LayerData {
 		g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
 	}
 
-	abstract void resize(int width, int height);
-	abstract void resize(Point newLayerEndPos);
-
 	protected Point validPoint(Point p1, Point p2) {
 		int x1 = p1.x, y1 = p1.y;
 		int x2 = p2.x, y2 = p2.y;
@@ -245,14 +242,7 @@ abstract class LayerData {
 		return layerSelection;
 	}
 
+	abstract void resize(int width, int height);
+	abstract void resize(Point newLayerEndPos);
 	abstract public LayerData getCopy();
-	
-	// public LayerData getCopy() {
-	// 	LayerData copy = new LayerData(layer.getWidth(), layer.getHeight(), Color.white);
-	// 	copy.clear(new Color(0, 0, 0, 0));
-	// 	copy.mergeLayer(this.getImage(), 0, 0);
-	// 	copy.setLocation(new Point(layerPos.x, layerPos.y));
-	// 	copy.updateSelectionLayer();
-	// 	return copy;
-	// }
 }

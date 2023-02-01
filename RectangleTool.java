@@ -5,6 +5,7 @@ class RectangleTool extends ShapeTool {
 	public RectangleTool(OurCanvas canvas, UndoTool undo) {
 		super(canvas, undo);
 		shapeBtn.setText("Rectangle");
+		shapeBtn.addKeyBinding('r');
 	}
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {

@@ -76,6 +76,12 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		notifyCanvasObservers();
 	}
 
+	public void updateCanvasSize(int newWidth, int newHeight) {
+		this.width = newHeight;
+		this.height = newHeight;
+		updateCanvasSz();
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(mainLayer.getImage(), 0, 0, null);

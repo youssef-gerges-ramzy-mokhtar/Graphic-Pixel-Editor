@@ -1,4 +1,4 @@
-import javax.swing.JButton;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.awt.event.*;
 import java.awt.*;
@@ -10,13 +10,17 @@ class Clickable implements Observable {
 	private JButton btn;
 	private ArrayList<Observer> clickObservers;
 	private Color selectorCol;
-	private ArrayList<Character> shortcut;
+
+	private Display display;
+	private ArrayList<Character> keyBindings;
 
 	public Clickable(String title) {
 		this.clickObservers = new ArrayList<Observer>();
 		this.btnActive = false;
 		this.selectorCol = new Color(255, 242, 0);
 		this.btn = new JButton(title);
+		this.keyBindings = new ArrayList<Character>();
+
 		addBtnListener();
 	}
 
@@ -34,7 +38,7 @@ class Clickable implements Observable {
 	}
 
 	public void addKeyBinding(Character key) {
-		shortcut.add(key);
+		keyBindings.add(key);
 	}
 
 	// addBtnListener() is used to attach an Event Listener to the Button representing the Tool
@@ -44,6 +48,15 @@ class Clickable implements Observable {
                 selectBtn();
             }
         });
+
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+	  		public boolean dispatchKeyEvent(KeyEvent e) {
+				if (e.getID() != KeyEvent.KEY_PRESSED) return false;
+				
+				selectBtn(e.getKeyCode());
+	        	return false;
+	      	}
+		});
 	}
 
 	public void setText(String txt) {
@@ -54,6 +67,11 @@ class Clickable implements Observable {
 		notifyObservers();
         btnActive = true;
 		btn.setBackground(selectorCol);
+	}
+
+	private void selectBtn(int key) {
+		if (keyBindings.size() == 0) return;
+		if (key == KeyEvent.getExtendedKeyCodeForChar(keyBindings.get(0))) selectBtn();
 	}
 
 	private void deSelectBtn() {

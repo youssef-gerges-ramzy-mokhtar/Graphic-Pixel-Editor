@@ -8,6 +8,7 @@ class CircleTool extends ShapeTool {
 	public CircleTool(OurCanvas canvas, UndoTool undo) {
 		super(canvas, undo);
 		shapeBtn.setText("Circle");
+		shapeBtn.addKeyBinding('c');
 	}
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {

@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 // ImageLoader is used Loads Images from the User's Computer into the Program
-class ImageLoader extends ChangeMaker implements ImageObservable {
+class ImageLoader extends MenuClickableTool implements ImageObservable {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
     private ImageLayer lastLoadedImg;

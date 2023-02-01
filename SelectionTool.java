@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 // SelectionTool is used to move layers in the canvas
-class SelectionTool extends ChangeMaker implements ClickableContainer {
+class SelectionTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private LayerData imgToMove;
@@ -13,12 +13,20 @@ class SelectionTool extends ChangeMaker implements ClickableContainer {
 
 	public SelectionTool(OurCanvas canvas, UndoTool undo) {
 		super(undo);
+
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
-		this.selectionBtn = new Clickable("Selection Tool");
 		this.changeMade = false;
 
 		addCanvasListener();
+	}
+
+	protected void initTool(UndoTool undo) {
+		this.selectionBtn = new Clickable("Selection Tool");
+		selectionBtn.addKeyBinding('v');
+		
+		addToolBtn(selectionBtn);
+		setAsChangeMaker(undo);
 	}
 
 	// addCanvasListener() attachs an Event Listener to the canvas

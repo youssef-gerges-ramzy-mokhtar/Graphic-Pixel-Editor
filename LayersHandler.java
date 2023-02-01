@@ -10,7 +10,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	private int horizontalOffset;
 	private LayerData drawingLayer; // is the Main Layer on Canvas, same idea as the Background Layer in Photoshop
 	private LayerData selectedLayer;
-	private static LayersHandler layersHandler; // Singelton Design Pattern
+	private static LayersHandler layersHandler; // Singelton Design Pattern=
 
 	private LayersHandler(OurCanvas canvas) {
 		this.layers = new ArrayList<LayerData>();
@@ -157,6 +157,10 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		this.layers = layers;
 		this.drawingLayer = layers.get(0);
 		changeSelectedLayer(0);
+
+		// Under Development
+		// canvas.updateCanvasSize(drawingLayer.getWidth(), drawingLayer.getHeight());
+		// updateCanvas();
 	}
 
 	// Observer Pattern //
@@ -175,7 +179,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	// Singelton Pattern //
 	public static LayersHandler getLayersHandler(OurCanvas canvas) {
 		if (layersHandler == null) layersHandler = new LayersHandler(canvas);
-
 		return layersHandler;
 	}
 }

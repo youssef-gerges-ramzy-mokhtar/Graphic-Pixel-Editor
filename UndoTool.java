@@ -2,60 +2,65 @@ import java.util.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
 
-class UndoTool implements ClickableContainer {
+class UndoTool extends ClickableTool {
 	private OurCanvas canvas;
 	private Clickable undoBtn;
 	private Clickable redoBtn;
+	
 	private LayersHandler layersHandler;
 	private LinkedList<ArrayList<LayerData>> layersUndoHistory;
 	private LinkedList<ArrayList<LayerData>> layersRedoHistory;
 	private int historyLimit;
-	private Shortcut shortcut;
-
+	
 	public UndoTool(OurCanvas canvas) {
+		super(null);
 		this.canvas = canvas;
-		this.undoBtn = new Clickable("Undo");
-		this.redoBtn = new Clickable("Redo");
+		
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.layersUndoHistory = new LinkedList<ArrayList<LayerData>>();
 		this.layersRedoHistory = new LinkedList<ArrayList<LayerData>>();
 		this.historyLimit = 100;
-		this.shortcut = null;
 
 		this.recordHistory();
-		addCanvasListener();	
+		addCanvasListener();
+	}
+
+	protected void initTool(UndoTool undo) {
+		this.undoBtn = new Clickable("Undo");
+		this.redoBtn = new Clickable("Redo");
+		undoBtn.addKeyBinding((char) KeyEvent.VK_Z);
+		redoBtn.addKeyBinding((char) KeyEvent.VK_Y);
+		
+		addToolBtn(redoBtn);
+		addToolBtn(undoBtn);
+		setAsChangeMaker(null);
 	}
 
 	private void addCanvasListener() {
-		canvas.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent mouse) {
-                if (!undoBtn.isActive()) return;
-                if (layersUndoHistory.size() == 1) {
-                	layersHandler.setLayers(layersHandler.getLayersCopy());
-                	layersHandler.updateCanvas();
-                	return;
-                }
+		undoBtn.getBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				undo();                
+			}
+		});
 
-                recordRedoHistory();
-                layersUndoHistory.removeLast();
-                layersHandler.setLayers(layersUndoHistory.peekLast());
-                layersHandler.updateCanvas();
-            }
-        });
+		redoBtn.getBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				redo();
+			}
+		});
 
-        canvas.addMouseListener(new MouseAdapter() {
-        	public void mouseReleased(MouseEvent mouse) {
-	        	if (!redoBtn.isActive()) return;
-	        	if (layersRedoHistory.size() == 0) return;
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+	  		public boolean dispatchKeyEvent(KeyEvent e) {
+	  			if (e.getID() != KeyEvent.KEY_PRESSED) return false;
 
-	        	layersHandler.setLayers(layersRedoHistory.peekLast());
-	        	layersUndoHistory.add(layersRedoHistory.peekLast());
-	        	layersHandler.updateCanvas();
+				if (e.getKeyCode() == KeyEvent.VK_Z) undo();
+				if (e.getKeyCode() == KeyEvent.VK_Y) redo();
 
-	        	layersRedoHistory.removeLast();
-        	}
-        });
+	        	return false;
+	      	}
+		});
 	}
 
 	public void recordHistory() {
@@ -67,46 +72,26 @@ class UndoTool implements ClickableContainer {
 		layersRedoHistory.add(layersUndoHistory.peekLast());
 	}
 
-	public void setShortcut(Shortcut shortcut) {
-		this.shortcut = shortcut;
-		shortcut.setKeyBinding('r');
+	private void undo() {
+		if (layersUndoHistory.size() == 1) {
+        	layersHandler.setLayers(layersHandler.getLayersCopy());
+        	layersHandler.updateCanvas();
+        	return;
+        }
+
+        recordRedoHistory();
+        layersUndoHistory.removeLast();
+        layersHandler.setLayers(layersUndoHistory.peekLast());
+        layersHandler.updateCanvas();
 	}
 
-	public ArrayList<Clickable> getClickable() {
-		ArrayList<Clickable> historyBtns = new ArrayList<Clickable>();
-		historyBtns.add(undoBtn);
-		historyBtns.add(redoBtn);
-		return historyBtns;
-	}
-}
+	private void redo() {
+    	if (layersRedoHistory.size() == 0) return;
 
-class Shortcut {
-	char keyBinding;
-	Display display;
+    	layersHandler.setLayers(layersRedoHistory.peekLast());
+    	layersUndoHistory.add(layersRedoHistory.peekLast());
+    	layersHandler.updateCanvas();
 
-	public Shortcut(Display display) {
-		this.display = display;
-		addShortcutListener();
-	}
-
-	public Shortcut(char keyBinding, Display display) {
-		this.keyBinding = keyBinding;
-		this.display = display;
-		addShortcutListener();
-	}
-
-	public void setKeyBinding(char keyBinding) {
-		this.keyBinding = keyBinding;
-	}
-
-	private void addShortcutListener() {
-		display.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				System.out.println(e.getKeyChar());
-			}
-
-			public void keyReleased(KeyEvent e) {}
-			public void keyTyped(KeyEvent e) {}
-		});
+    	layersRedoHistory.removeLast();				
 	}
 }
