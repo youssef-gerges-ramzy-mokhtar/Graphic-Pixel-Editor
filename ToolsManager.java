@@ -19,6 +19,7 @@ class ToolsManager {
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
     private UndoTool undo;
+    private CropTool crop;
     
     private ImageLoader imageLoader;
     private LayersHandler layersHandler;
@@ -47,6 +48,7 @@ class ToolsManager {
 		this.airBrush = new Airbrush(canvas, undo);
 		this.text = new TextTool(canvas, undo);
 		this.delete = new Delete(canvas, undo);
+		this.crop = new CropTool(canvas, undo);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -77,6 +79,7 @@ class ToolsManager {
 		clickableContainers.add(text);
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
+		clickableContainers.add(crop);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())

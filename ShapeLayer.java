@@ -47,6 +47,11 @@ abstract class ShapeLayer extends LayerData {
 		return copy;
 	}
 
+	// Under Development for Cropping Shapes & for Using drawing toll with shape
+	// public ImageLayer rasterize() {
+
+	// }
+
 	protected abstract SpecificGraphic getSpecificGraphic(int width, int heights);
 	protected abstract ShapeLayer getShapeLayerCopy();
 }

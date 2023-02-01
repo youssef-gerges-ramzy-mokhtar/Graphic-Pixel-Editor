@@ -163,6 +163,13 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		// updateCanvas();
 	}
 
+	public void replaceLayer(LayerData prevLayer, LayerData newLayer) {
+		int prevLayerIdx = layers.indexOf(prevLayer);
+		if (prevLayerIdx == -1) return;
+
+		layers.set(prevLayerIdx, newLayer);
+	}
+
 	// Observer Pattern //
 	// update() is called whenever a new Image is added to the Canvas, to add this image as a seperate layer to the layers
 	public void update(LayerData layerData) {
