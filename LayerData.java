@@ -7,15 +7,6 @@ abstract class LayerData {
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
 
-	private static int BOTTOMRIGHT = 1;
-	private static int BOTTOMLEFT = 2;
-	private static int TOPRIGHT = 3;
-	private static int TOPLEFT = 4;
-	private static int TOP = 5;
-	private static int BOTTOM = 6;
-	private static int RIGHT = 7;
-	private static int LEFT = 8;
-
 	public LayerData(BufferedImage layer) {
 		this(layer, new Point(0, 0));
 	}
@@ -163,7 +154,7 @@ abstract class LayerData {
 		layer = tempLayer;
 	}
 
-	public void decreaseLayerSz(int width, int height, int corner) {
+	public void decreaseLayerSz(int width, int height, Resize corner) {
 		if (width < 0 || height < 0) return;
 		if (width > layer.getWidth() || height > layer.getHeight()) return;
 
@@ -171,10 +162,10 @@ abstract class LayerData {
 		int x_offset = 0, y_offset = 0;
 		int layerW = layer.getWidth(), layerH = layer.getHeight();
 
-		if (corner == BOTTOMRIGHT) {x_offset = 0; y_offset = 0;}
-		if (corner == BOTTOMLEFT) {x_offset = layerW-width; y_offset = 0;}
-		if (corner == TOPRIGHT) {x_offset = 0; y_offset = layerH-height;}
-		if (corner == TOPLEFT) {x_offset = layerW-width; y_offset = layerH-height;}
+		if (corner == Resize.BOTTOMRIGHT) {x_offset = 0; y_offset = 0;}
+		if (corner == Resize.BOTTOMLEFT) {x_offset = layerW-width; y_offset = 0;}
+		if (corner == Resize.TOPRIGHT) {x_offset = 0; y_offset = layerH-height;}
+		if (corner == Resize.TOPLEFT) {x_offset = layerW-width; y_offset = layerH-height;}
 
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
@@ -271,13 +262,14 @@ abstract class LayerData {
 		return layerSelection;
 	}
 
-	public void crop(Point newLayerEndPos, int cropType) {
+	public void crop(Point newLayerEndPos, Resize cropType) {
 		if (!pointInBounds(newLayerEndPos)) return;
+		if (cropType == Resize.INVALID) return;
 
 		int layerW = layer.getWidth();
 		int layerH = layer.getHeight();
 		int newWidth = 0, newHeight = 0;
-		int cornerType = -1;
+		Resize cornerType;
 	
 		int x_new = newLayerEndPos.x;
 		int y_new = newLayerEndPos.y;
@@ -286,47 +278,47 @@ abstract class LayerData {
 		int x2 = layerEndPos.x;
 		int y2 = layerEndPos.y;
 
-		if (cropType == TOP || cropType == LEFT) cornerType = TOPLEFT;
-		else if (cropType == BOTTOM || cropType == RIGHT) cornerType = BOTTOMRIGHT;
+		if (cropType == Resize.TOP || cropType == Resize.LEFT) cornerType = Resize.TOPLEFT;
+		else if (cropType == Resize.BOTTOM || cropType == Resize.RIGHT) cornerType = Resize.BOTTOMRIGHT;
 		else cornerType = cropType;
 
 		// Code Refactor if you can
-		if (cropType == TOP) {
+		if (cropType == Resize.TOP) {
 			newWidth = layerW;
 			newHeight = y2 - y_new;
 		}
 
-		if (cropType == BOTTOM) {
+		if (cropType == Resize.BOTTOM) {
 			newWidth = layerW;
 			newHeight = y_new - y1;
 		}
 
-		if (cropType == RIGHT) {
+		if (cropType == Resize.RIGHT) {
 			newWidth = x_new - x1;
 			newHeight = layerH;
 		}
 		
-		if (cropType == LEFT) {
+		if (cropType == Resize.LEFT) {
 			newWidth = x2 - x_new;
 			newHeight = layerH;
 		}
 
-		if (cropType == BOTTOMRIGHT) {
+		if (cropType == Resize.BOTTOMRIGHT) {
 			newWidth = x_new - x1;
 			newHeight = y_new - y1;
 		}
 
-		if (cropType == BOTTOMLEFT) {
+		if (cropType == Resize.BOTTOMLEFT) {
 			newWidth = x2 - x_new;
 			newHeight = y_new - y1;
 		}
 
-		if (cropType == TOPRIGHT) {
+		if (cropType == Resize.TOPRIGHT) {
 			newWidth = x_new - x1;
 			newHeight = y2 - y_new;
 		}
 
-		if (cropType == TOPLEFT) {
+		if (cropType == Resize.TOPLEFT) {
 			newWidth = x2 - x_new;
 			newHeight = y2 - y_new;
 		}

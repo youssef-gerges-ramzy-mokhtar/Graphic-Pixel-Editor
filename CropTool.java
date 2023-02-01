@@ -8,7 +8,7 @@ class CropTool extends ClickableTool {
 	private LayerData layerToCrop;
 	private Clickable cropBtn;
 	private boolean changeMade;
-	private int cropType;
+	private Resize cropType;
 
 	public CropTool(OurCanvas canvas, UndoTool undo) {
 		super(undo);
@@ -53,7 +53,7 @@ class CropTool extends ClickableTool {
 			public void mouseDragged(MouseEvent e) {
                 if (!cropBtn.isActive()) return;
                 if (layerToCrop == null) return;
-                if (cropType == -1) return;
+                if (cropType == Resize.INVALID) return;
 
                 layerToCrop.crop(new Point(e.getX(), e.getY()), cropType);
 				layersHandler.updateCanvasSelected(layerToCrop);
@@ -67,34 +67,41 @@ class CropTool extends ClickableTool {
 	        	Cursor cursor = Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
 
 	        	cropType = atCorner(e.getX(), e.getY());
-	        	if (cropType == 1 || cropType == 4) cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
-	        	if (cropType == 2 || cropType == 3) cursor = Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
-	        	if (cropType == 5 || cropType == 6) cursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-	        	if (cropType == 7 || cropType == 8) cursor = Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
+	        	if (cropType == Resize.BOTTOMRIGHT || cropType == Resize.TOPLEFT) 
+	        		cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+	        	
+	        	if (cropType == Resize.BOTTOMLEFT || cropType == Resize.TOPRIGHT) 
+	        		cursor = Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
+	        	
+	        	if (cropType == Resize.TOP || cropType == Resize.BOTTOM) 
+	        		cursor = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+	        	
+	        	if (cropType == Resize.RIGHT || cropType == Resize.LEFT) 
+	        		cursor = Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
 
 				canvas.setCursor(cursor);				
 			}
 		});
 	}
 
-	private int atCorner(int x, int y) {
+	private Resize atCorner(int x, int y) {
 		int x1 = layerToCrop.getX();
 		int y1 = layerToCrop.getY();
 		int x2 = layerToCrop.getEndX();
 		int y2 = layerToCrop.getEndY();
 	
-		if (0 < x2-x && x2-x <= 5 && 0 < y2-y && y2-y <= 5) return 1;
-		else if (0 < x-x1 && x-x1 <= 5 && 0 < y2-y && y2-y <= 5) return 2;
-		else if (0 < x-x1 && x2-x <= 5 && 0 < y-y1 && y-y1 <= 5) return 3;
-		else if (0 < x-x1 && x-x1 <= 5 && 0 < y-y1 && y-y1 <= 5) return 4;
+		if (0 < x2-x && x2-x <= 5 && 0 < y2-y && y2-y <= 5) return Resize.BOTTOMRIGHT;
+		else if (0 < x-x1 && x-x1 <= 5 && 0 < y2-y && y2-y <= 5) return Resize.BOTTOMLEFT;
+		else if (0 < x-x1 && x2-x <= 5 && 0 < y-y1 && y-y1 <= 5) return Resize.TOPRIGHT;
+		else if (0 < x-x1 && x-x1 <= 5 && 0 < y-y1 && y-y1 <= 5) return Resize.TOPLEFT;
 		else if (x1+5 < x && x < x2-5) {
-			if (y1 < y && y < y1+5) return 5;
-			if (y2-5 < y && y < y2) return 6;
+			if (y1 < y && y < y1+5) return Resize.TOP;
+			if (y2-5 < y && y < y2) return Resize.BOTTOM;
 		} else if (y1+5 < y && y < y2-5) {
-			if (x2-5 < x && x < x2) return 7;
-			if (x1 < x && x < x1+5) return 8;
+			if (x2-5 < x && x < x2) return Resize.RIGHT;
+			if (x1 < x && x < x1+5) return Resize.LEFT;
 		} 
 	
-		return -1;
+		return Resize.INVALID;
 	}
 }
