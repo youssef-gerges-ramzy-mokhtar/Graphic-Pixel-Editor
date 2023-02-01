@@ -156,7 +156,8 @@ abstract class LayerData {
 
 	public void decreaseLayerSz(int width, int height, Resize corner) {
 		if (width < 0 || height < 0) return;
-		if (width > layer.getWidth() || height > layer.getHeight()) return;
+		if (width > layer.getWidth()) width = layer.getWidth();
+		if (height > layer.getHeight()) height = layer.getHeight();
 
 		BufferedImage tempLayer = createBufferedImage(width, height);
 		int x_offset = 0, y_offset = 0;
@@ -327,9 +328,8 @@ abstract class LayerData {
 	}
 
 	private boolean pointInBounds(Point p) {
-		if (layerPos.x < p.x && p.x < layerEndPos.x)
-			if (layerPos.y < p.y && p.y < layerEndPos.y)
-				return true;
+		if (layerPos.x < p.x && p.x < layerEndPos.x) return true;
+		if (layerPos.y < p.y && p.y < layerEndPos.y) return true;
 
 		return false;
 	}
