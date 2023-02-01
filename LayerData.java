@@ -38,9 +38,13 @@ abstract class LayerData {
 		Graphics2D g2d = layerSelection.createGraphics();
 		g2d.drawImage(layer, 0, 0, null);
 
+		g2d.setColor(Color.white);
+		g2d.setStroke(new BasicStroke(2f));
+		drawBorder(g2d);
+
 		float[] dash1 = { 2f, 0f, 2f };
 		BasicStroke bs1 = new BasicStroke(
-			5, 
+			4, 
 	        BasicStroke.CAP_BUTT, 
 	        BasicStroke.JOIN_ROUND, 
 	        1.0f,
@@ -50,10 +54,7 @@ abstract class LayerData {
 
 		g2d.setStroke(bs1);
 		g2d.setColor(Color.black);
-		g2d.drawLine(0, 0, layer.getWidth(), 0);
-		g2d.drawLine(0, 0, 0, layer.getHeight());
-		g2d.drawLine(layer.getWidth(), 0, layer.getWidth(), layer.getHeight());
-		g2d.drawLine(0, layer.getHeight(), layer.getWidth(), layer.getHeight());
+		drawBorder(g2d);
 
 	}
 
@@ -218,9 +219,14 @@ abstract class LayerData {
 
 	public void drawBorder() {
 		Graphics2D g2d = getLayerSelectionGraphics();
+		
+		g2d.setColor(Color.white);
+		g2d.setStroke(new BasicStroke(2f));
+		drawBorder(g2d);
+
 		float[] dash1 = { 2f, 0f, 2f };
 		BasicStroke bs1 = new BasicStroke(
-			0.5f, 
+			4f, 
 	        BasicStroke.CAP_BUTT, 
 	        BasicStroke.JOIN_ROUND, 
 	        1.0f,
@@ -230,8 +236,12 @@ abstract class LayerData {
 
 		g2d.setStroke(bs1);
 		g2d.setColor(Color.black);
-		
+		drawBorder(g2d);
+	}
+
+	private void drawBorder(Graphics2D g2d) {
 		int spacing = 0;
+		
 		g2d.drawLine(spacing, spacing, layer.getWidth() + spacing, spacing);
 		g2d.drawLine(spacing, spacing, spacing, layer.getHeight() + spacing);
 		g2d.drawLine(layer.getWidth() + spacing, spacing, layer.getWidth() + spacing, layer.getHeight() + spacing);
