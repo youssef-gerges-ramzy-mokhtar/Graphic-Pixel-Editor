@@ -38,24 +38,7 @@ abstract class LayerData {
 		Graphics2D g2d = layerSelection.createGraphics();
 		g2d.drawImage(layer, 0, 0, null);
 
-		g2d.setColor(Color.white);
-		g2d.setStroke(new BasicStroke(2f));
-		drawBorder(g2d);
-
-		float[] dash1 = { 2f, 0f, 2f };
-		BasicStroke bs1 = new BasicStroke(
-			4, 
-	        BasicStroke.CAP_BUTT, 
-	        BasicStroke.JOIN_ROUND, 
-	        1.0f,
-	        dash1,
-	        20f
-	    );
-
-		g2d.setStroke(bs1);
-		g2d.setColor(Color.black);
-		drawBorder(g2d);
-
+		drawBorder();
 	}
 
 	public int layerWidth() {
@@ -162,16 +145,44 @@ abstract class LayerData {
 
 	// updateLayerSz() used to change the size of the layer based on the width & height and will move all previous pixels into the updated layer
 	public void updateLayerSz(int width, int height) {
-		BufferedImage tempLayer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D imgGraphics = tempLayer.createGraphics();
-		imgGraphics.setBackground(Color.white);
-		imgGraphics.clearRect(0, 0, width, height);
+		BufferedImage tempLayer = createBufferedImage(width, height);
 
 		for (int i = 0; i < Math.min(layer.getWidth(), width); i++)
     		for (int j = 0; j < Math.min(layer.getHeight(), height); j++)
 				tempLayer.setRGB(i, j, layer.getRGB(i, j));
 
 		layer = tempLayer;
+	}
+
+	public void decreaseLayerSz(int width, int height, Resize corner) {
+		if (width < 0 || height < 0) return;
+		if (width > layer.getWidth()) width = layer.getWidth();
+		if (height > layer.getHeight()) height = layer.getHeight();
+
+		BufferedImage tempLayer = createBufferedImage(width, height);
+		int x_offset = 0, y_offset = 0;
+		int layerW = layer.getWidth(), layerH = layer.getHeight();
+
+		if (corner == Resize.BOTTOMRIGHT) {x_offset = 0; y_offset = 0;}
+		if (corner == Resize.BOTTOMLEFT) {x_offset = layerW-width; y_offset = 0;}
+		if (corner == Resize.TOPRIGHT) {x_offset = 0; y_offset = layerH-height;}
+		if (corner == Resize.TOPLEFT) {x_offset = layerW-width; y_offset = layerH-height;}
+
+		for (int i = 0; i < width; i++)
+			for (int j = 0; j < height; j++)
+				tempLayer.setRGB(i, j, layer.getRGB(i + x_offset, j + y_offset));
+
+		layer = tempLayer;
+		setLocation(getX() + x_offset, getY() + y_offset);
+	}
+
+	private BufferedImage createBufferedImage(int width, int height) {
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D imgGraphics = img.createGraphics();
+		imgGraphics.setBackground(Color.white);
+		imgGraphics.clearRect(0, 0, width, height);
+
+		return img;
 	}
 
 	// mergeLayer merges the newLayer with this layer
@@ -190,7 +201,6 @@ abstract class LayerData {
 
 		g2d.drawImage(newLayer, x, y, null);
 	}
-
 
 	// Updates this layer size based on width and height and sets each pixel of this updated layer to the specified color
 	public void clear(int width, int height, Color col) {
@@ -238,7 +248,7 @@ abstract class LayerData {
 		g2d.setColor(Color.black);
 		drawBorder(g2d);
 	}
-
+	
 	private void drawBorder(Graphics2D g2d) {
 		int spacing = 0;
 		
@@ -250,6 +260,78 @@ abstract class LayerData {
 
 	public BufferedImage getSelectionImage() {
 		return layerSelection;
+	}
+
+	public void crop(Point newLayerEndPos, Resize cropType) {
+		if (!pointInBounds(newLayerEndPos)) return;
+		if (cropType == Resize.INVALID) return;
+
+		int layerW = layer.getWidth();
+		int layerH = layer.getHeight();
+		int newWidth = 0, newHeight = 0;
+		Resize cornerType;
+	
+		int x_new = newLayerEndPos.x;
+		int y_new = newLayerEndPos.y;
+		int x1 = layerPos.x;
+		int y1 = layerPos.y;
+		int x2 = layerEndPos.x;
+		int y2 = layerEndPos.y;
+
+		if (cropType == Resize.TOP || cropType == Resize.LEFT) cornerType = Resize.TOPLEFT;
+		else if (cropType == Resize.BOTTOM || cropType == Resize.RIGHT) cornerType = Resize.BOTTOMRIGHT;
+		else cornerType = cropType;
+
+		// Code Refactor if you can
+		if (cropType == Resize.TOP) {
+			newWidth = layerW;
+			newHeight = y2 - y_new;
+		}
+
+		if (cropType == Resize.BOTTOM) {
+			newWidth = layerW;
+			newHeight = y_new - y1;
+		}
+
+		if (cropType == Resize.RIGHT) {
+			newWidth = x_new - x1;
+			newHeight = layerH;
+		}
+		
+		if (cropType == Resize.LEFT) {
+			newWidth = x2 - x_new;
+			newHeight = layerH;
+		}
+
+		if (cropType == Resize.BOTTOMRIGHT) {
+			newWidth = x_new - x1;
+			newHeight = y_new - y1;
+		}
+
+		if (cropType == Resize.BOTTOMLEFT) {
+			newWidth = x2 - x_new;
+			newHeight = y_new - y1;
+		}
+
+		if (cropType == Resize.TOPRIGHT) {
+			newWidth = x_new - x1;
+			newHeight = y2 - y_new;
+		}
+
+		if (cropType == Resize.TOPLEFT) {
+			newWidth = x2 - x_new;
+			newHeight = y2 - y_new;
+		}
+
+		decreaseLayerSz(newWidth, newHeight, cornerType);
+		updateSelectionLayer();
+	}
+
+	private boolean pointInBounds(Point p) {
+		if (layerPos.x < p.x && p.x < layerEndPos.x) return true;
+		if (layerPos.y < p.y && p.y < layerEndPos.y) return true;
+
+		return false;
 	}
 
 	abstract void resize(int width, int height);

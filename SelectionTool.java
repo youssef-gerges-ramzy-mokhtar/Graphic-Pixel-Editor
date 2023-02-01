@@ -6,7 +6,7 @@ import java.awt.*;
 class SelectionTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
-	private LayerData imgToMove;
+	private LayerData layerToMove;
 	private Clickable selectionBtn;
 	private boolean canDrag;
 	private boolean changeMade;
@@ -22,7 +22,7 @@ class SelectionTool extends ClickableTool {
 	}
 
 	protected void initTool(UndoTool undo) {
-		this.selectionBtn = new Clickable("Selection Tool");
+		this.selectionBtn = new Clickable("Selection");
 		selectionBtn.addKeyBinding('v');
 		
 		addToolBtn(selectionBtn);
@@ -36,11 +36,11 @@ class SelectionTool extends ClickableTool {
             public void mousePressed(MouseEvent e) {
                 if (!selectionBtn.isActive()) return;
 
-                imgToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-                if (imgToMove == null) return;
+                layerToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
+                if (layerToMove == null) {layersHandler.updateCanvas(); return;}
 
-                imgToMove.drawBorder();
-                refreshCanvasSelection(imgToMove);
+                layerToMove.drawBorder();
+                refreshCanvasSelection(layerToMove);
                 if (atCorner(e.getX(), e.getY())) canDrag = true;
                 else canDrag = false;
             }
@@ -56,18 +56,18 @@ class SelectionTool extends ClickableTool {
         canvas.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (!selectionBtn.isActive()) return;
-                if (imgToMove == null) return;
+                if (layerToMove == null) return;
 
-                if (canDrag) imgToMove.resize(new Point(e.getX(), e.getY()));
-				else imgToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
+                if (canDrag) layerToMove.resize(new Point(e.getX(), e.getY()));
+				else layerToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
 
-                refreshCanvasSelection(imgToMove);
+                refreshCanvasSelection(layerToMove);
                 changeMade = true;
             }
 
             public void mouseMoved(MouseEvent e) {
             	if (!selectionBtn.isActive()) return;
-            	if (imgToMove == null) return;
+            	if (layerToMove == null) return;
 
             	if (atCorner(e.getX(), e.getY())) {
 					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
@@ -86,8 +86,8 @@ class SelectionTool extends ClickableTool {
 
 	private boolean atCorner(int x, int y) {
 		int cornerRange = 10;
-		if (Math.abs(x - imgToMove.getEndX()) <= cornerRange && Math.abs(y - imgToMove.getEndY()) <= cornerRange) return true;
-		if (Math.abs(x - imgToMove.getX()) <= cornerRange && Math.abs(y - imgToMove.getY()) <= cornerRange) return true;
+		if (Math.abs(x - layerToMove.getEndX()) <= cornerRange && Math.abs(y - layerToMove.getEndY()) <= cornerRange) return true;
+		if (Math.abs(x - layerToMove.getX()) <= cornerRange && Math.abs(y - layerToMove.getY()) <= cornerRange) return true;
 
 		return false;
 	}

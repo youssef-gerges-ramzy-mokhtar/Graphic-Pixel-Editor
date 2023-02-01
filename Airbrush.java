@@ -35,6 +35,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
 
         addToolBtn(airBrushBtn);
         setAsChangeMaker(undo);
+        setAsShapeRasterizer();
     }
 
     private void canvasListener() {
@@ -86,6 +87,9 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     //Physically paint selected points to screen
     private void drawPointBrush(Brush brush, Point[] points) {
         LayerData currentLayer = layersHandler.getSelectedLayer();
+        if (currentLayer instanceof ShapeLayer) currentLayer = rasterizeLayer(currentLayer, layersHandler);
+        if (currentLayer == null) return;
+
         for(Point point: points)
         {
             try{
