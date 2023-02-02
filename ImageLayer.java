@@ -10,8 +10,8 @@ class ImageLayer extends LayerData {
 	public void resize(int width, int height) {
 		if (width == 0 || height == 0) return;
 
-		Image scaledImg = getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
+		Image scaledImg = originalLayer.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		layer = new BufferedImage(width, height, layer.getType());
 		Graphics2D g2d = getLayerGraphics();
 		g2d.drawImage(scaledImg, 0, 0, null);
 
