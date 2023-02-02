@@ -50,18 +50,7 @@ class ToolsManager {
 		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
 		this.fillTool = new FillTool(layersOptions, canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-<<<<<<< Updated upstream
-
 		this.blur = new BlurTool(canvas);
-
-		this.rectangleTool = new RectangleTool(canvas, undo);
-		this.circleTool = new CircleTool(canvas, undo);
-		this.triangleTool = new TriangleTool(canvas, undo);
-		this.airBrush = new Airbrush(canvas, undo);
-		this.text = new TextTool(canvas, undo);
-		this.delete = new Delete(canvas, undo);
-		this.crop = new CropTool(canvas, undo);
-=======
 		this.rectangleTool = new RectangleTool(layersOptions, canvas, undo);
 		this.circleTool = new CircleTool(layersOptions, canvas, undo);
 		this.triangleTool = new TriangleTool(layersOptions, canvas, undo);
@@ -69,8 +58,6 @@ class ToolsManager {
 		this.text = new TextTool(layersOptions, canvas, undo);
 		this.delete = new Delete(layersOptions, canvas, undo);
 		this.crop = new CropTool(layersOptions, canvas, undo);
->>>>>>> Stashed changes
-
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
