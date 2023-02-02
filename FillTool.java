@@ -10,8 +10,8 @@ class FillTool extends ClickableTool implements Observer {
 	private Color fillCol;
     private LayersHandler layersHandler;
 
-	public FillTool(OurCanvas canvas, UndoTool undo) {
-		super(undo);
+	public FillTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 		this.canvas = canvas;
 		this.barrierCol = Color.white;
 		this.fillCol = Color.black;
@@ -25,6 +25,7 @@ class FillTool extends ClickableTool implements Observer {
 		
 		addToolBtn(fillBtn);
 		setAsChangeMaker(undo);
+		setAsLayerChanger();
 	}
 
 	// addCanvasListener() is used to attach an Event Listener to the canvas
@@ -36,6 +37,8 @@ class FillTool extends ClickableTool implements Observer {
             	if (!fillBtn.isActive()) return;
 
             	LayerData selectedLayer = layersHandler.getSelectedLayer();
+            	if (selectedLayer == null) return;
+
             	Point selectedLayerCoords = new Point(selectedLayer.getX(mouse.getX()), selectedLayer.getY(mouse.getY()));
             	if (selectedLayer.getPixel((int) selectedLayerCoords.getX(), (int) selectedLayerCoords.getY()) == null) return;
 
@@ -44,7 +47,8 @@ class FillTool extends ClickableTool implements Observer {
 				selectedLayer.updateSelectionLayer();
 				layersHandler.updateCanvas();
 
-				recordChange();
+				recordChange(); 
+				updateLayerObserver();
             }
         });
 	}

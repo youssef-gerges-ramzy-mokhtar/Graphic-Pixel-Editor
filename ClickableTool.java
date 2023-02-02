@@ -2,17 +2,24 @@ import java.util.*;
 import javax.swing.*;
 
 abstract class ClickableTool {
-	ArrayList<Clickable> toolBtns;
-	Display display;
-	boolean toolMakesChanges;
-	UndoTool undo;
-	boolean rasterizeShapes;
+	private ArrayList<Clickable> toolBtns;
+	private Display display;
+	private boolean toolMakesChanges;
+	private UndoTool undo;
+	private boolean rasterizeShapes;
 
-	public ClickableTool(UndoTool undo) {
+	private boolean affectsLayers;
+	private LayerObserver layerObserver;
+
+
+	public ClickableTool(LayerObserver layerObserver, UndoTool undo) {
 		this.toolBtns = new ArrayList<Clickable>();
 		this.toolMakesChanges = false;
 		this.undo = null;
 		this.rasterizeShapes = false;
+
+		this.affectsLayers = false;
+		this.layerObserver = layerObserver;
 
 		initTool(undo);
 	}
@@ -63,6 +70,15 @@ abstract class ClickableTool {
 		layersHandler.replaceLayer(shapeLayer, rasterizedShapeLayer);				
 
 		return rasterizedShapeLayer;
+	}
+
+	protected void setAsLayerChanger() {
+		affectsLayers = true;
+	}
+
+	protected void updateLayerObserver() {
+		if (!affectsLayers) return;
+		layerObserver.update();
 	}
 
 	abstract protected void initTool(UndoTool undo);

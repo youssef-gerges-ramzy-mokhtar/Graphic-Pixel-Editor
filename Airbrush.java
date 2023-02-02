@@ -17,9 +17,9 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     private LineGraphics lineGraphic;
     private LayersHandler layersHandler;
     
-    public Airbrush(OurCanvas canvas, UndoTool undo)
+    public Airbrush(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
-        super(undo);
+        super(layerObserver, undo);
         
         rand = new Random();
         this.canvas = canvas;
@@ -36,6 +36,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
         addToolBtn(airBrushBtn);
         setAsChangeMaker(undo);
         setAsShapeRasterizer();
+        setAsLayerChanger();
     }
 
     private void canvasListener() {
@@ -48,6 +49,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
             public void mouseReleased(MouseEvent e) {
                 if (!airBrushBtn.isActive()) return;
                 recordChange();
+                updateLayerObserver();
             }
 		});
 

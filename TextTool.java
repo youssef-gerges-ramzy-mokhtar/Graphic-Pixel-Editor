@@ -7,8 +7,8 @@ import javax.swing.JOptionPane;
 
 // RectangleTool is responsible for adding & handling Rectangles to the cavnas
 class TextTool extends ShapeTool {
-	public TextTool(OurCanvas canvas, UndoTool undo) {
-		super(canvas, undo);
+	public TextTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, canvas, undo);
 		shapeBtn.setText("Text");
 		shapeBtn.addKeyBinding('s');
 	}

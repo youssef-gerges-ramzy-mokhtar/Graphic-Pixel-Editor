@@ -10,7 +10,7 @@ public class EyeDropperTool extends ClickableTool implements Observable {
     private Color col;
 
     public EyeDropperTool(OurCanvas canvas) {
-        super(null);
+        super(null, null);
 
         this.canvas = canvas;
         this.colorObservers = new ArrayList<Observer>();
