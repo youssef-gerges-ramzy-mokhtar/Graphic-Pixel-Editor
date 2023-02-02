@@ -5,6 +5,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+import java.awt.geom.Ellipse2D;
+
 public class BlurTool implements Observer{
 
 
@@ -49,104 +56,57 @@ public class BlurTool implements Observer{
 
 
 
-	// Blurs the entire layer
+	// Blurs the small segment of the screen and applies it to the layer
 	private void blur(double xCoor, double yCoor) 
         throws IOException, InterruptedException
 	{
        
-        int radius=10;
-        pensize=50;
-        
-		Color color[];
+       
+      
+		
 
 		// converts the current layer into a buffered image
         LayerData currentLayer = layerHandler.getSelectedLayer();
 		BufferedImage bigImage = currentLayer.getImage();
-        BufferedImage convertedImg = new BufferedImage(bigImage.getWidth(), bigImage.getHeight(), bigImage.TYPE_INT_RGB);
-        convertedImg.getGraphics().drawImage(bigImage, 0, 0, null);
-       
-        BufferedImage input = bigImage.getSubimage((int)xCoor, (int)yCoor, pensize/2+50, pensize/2+50);
+    
+		//Takes a smaller part of the layer around the pen point.
+        BufferedImage input = bigImage.getSubimage((int)xCoor, (int)yCoor, pensize, pensize);
         
 
-		// Again creating an object of BufferedImage to
-		// create output Image
-		BufferedImage output = new BufferedImage(
-			input.getWidth(), input.getHeight(),
-			BufferedImage.TYPE_INT_RGB);
+		
+		
+		//Block blurs the BufferedImage
+   		Kernel kernel = new Kernel(3, 3, new float[] { 1f / 9f, 1f / 9f, 1f / 9f,
+        1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f });
+   		BufferedImageOp op = new ConvolveOp(kernel);
+		input = op.filter(input, null);
 
-		// Setting dimensions for the image to be processed
-		int i = 0;
-		int max = 400, rad = 10;
-		int a1 = 0, r1 = 0, g1 = 0, b1 = 0;
-		color = new Color[max];
+		//Block makes the bufferedImage a circle
+		int width = input.getWidth();
+		BufferedImage circleBuffer = new BufferedImage(width, width, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = circleBuffer.createGraphics();
+		g2.setClip(new Ellipse2D.Float(0, 0, width, width));
+		g2.drawImage(input, 0, 0, width, width, null);
+		
 
-		// Now this core section of code is responsible for
-		// blurring of an image
-
-		int x = 1, y = 1, x1, y1, ex = 5, d = 0;
-
-		// Running nested for loops for each pixel
-		// and blurring it
-		for (x = rad; x < input.getHeight() - rad; x++) {
-			for (y = rad; y < input.getWidth() - rad; y++) {
-				for (x1 = x - rad; x1 < x + rad; x1++) {
-					for (y1 = y - rad; y1 < y + rad; y1++) {
-						color[i++] = new Color(
-							input.getRGB(y1, x1));
-					}
-				}
-
-				// Smoothing colors of image
-				i = 0;
-				for (d = 0; d < max; d++) {
-					a1 = a1 + color[d].getAlpha();
-				}
-
-				a1 = a1 / (max);
-				for (d = 0; d < max; d++) {
-					r1 = r1 + color[d].getRed();
-				}
-
-				r1 = r1 / (max);
-				for (d = 0; d < max; d++) {
-					g1 = g1 + color[d].getGreen();
-				}
-
-				g1 = g1 / (max);
-				for (d = 0; d < max; d++) {
-					b1 = b1 + color[d].getBlue();
-				}
-
-				b1 = b1 / (max);
-				int sum1 = (a1 << 24) + (r1 << 16)
-						+ (g1 << 8) + b1;
-               
-				output.setRGB(y, x, (int)(sum1));
-			}
-		}
-
-		// Writing the blurred image on the disc where
-		// directory is passed as an argument
+		//Use this in future to save to files.____________________________________________________________________________________________________________
+		//ImageIO.write(circleBuffer, "JPEG", new File("/home/silsby/h-drive/scc210/coursework/scc210-2223-grp-67/scc210-2223-grp-67/BlurredImage.jpeg"));
+		
 		
       
-        output = output.getSubimage(radius, radius, pensize/2-10, pensize/2-10);
         
-        convertedImg.getGraphics().drawImage(output, (int)xCoor, (int)yCoor, null);
-        ImageIO.write(convertedImg, "JPEG", new File("/home/silsby/h-drive/scc210/coursework/scc210-2223-grp-67/scc210-2223-grp-67/BlurredImage.jpeg"));
-        ImageIO.write(output, "JPEG", new File("/home/silsby/h-drive/scc210/coursework/scc210-2223-grp-67/scc210-2223-grp-67/BlurredImage2.jpeg"));
+        //Stamps the smaller blurred image onto the big image
+        bigImage.getGraphics().drawImage(circleBuffer, (int)xCoor, (int)yCoor, null);
+		
 
-       
-        
-
-
-        currentLayer.setImage(convertedImg);
+		currentLayer.setImage(bigImage);
         layerHandler.updateCanvas();
 
         
 		
-		// program is successfully executed
-		System.out.println("Image blurred successfully !");
-        
+		
+
+       
 	}
 
     
@@ -157,7 +117,7 @@ public class BlurTool implements Observer{
 
 
     public void update(int thickness) {    
-        System.out.println("SIZE HAS CHANGED");
+       
 		pensize = thickness;
     }
 
@@ -166,13 +126,7 @@ public class BlurTool implements Observer{
 	}
 
     public void update3() {
-       /* try {
-            blur();
-          }
-          catch(IOException | InterruptedException e) {
-            System.out.println("Exception caught");
-          }
-          */ 
+       
        
     };
 }
