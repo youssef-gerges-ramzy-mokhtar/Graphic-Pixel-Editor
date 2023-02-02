@@ -7,13 +7,14 @@ import java.io.*;
 import java.util.*;
 
 // ImageLoader is used Loads Images from the User's Computer into the Program
-class ImageLoader implements ImageObservable {
+class ImageLoader extends MenuClickableTool implements ImageObservable {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
-    private LayerData lastLoadedImg;
+    private ImageLayer lastLoadedImg;
     private ArrayList<ImageObserver> observers;
 
-    public ImageLoader(OurCanvas canvas) {
+    public ImageLoader(OurCanvas canvas, UndoTool undo) {
+        super(undo);
     	this.canvas = canvas;
         this.observers = new ArrayList<ImageObserver>();
     	
@@ -32,6 +33,7 @@ class ImageLoader implements ImageObservable {
                 if (fileResponse != JFileChooser.APPROVE_OPTION) return;
 
 				loadImage(fileChooser.getSelectedFile().getAbsolutePath());                
+                recordChange();
 			}
         });
     }
@@ -43,7 +45,7 @@ class ImageLoader implements ImageObservable {
             BufferedImage img = ImageIO.read(imgFile);
             img = scaleImage(img);
 
-            lastLoadedImg = new LayerData(img);
+            lastLoadedImg = new ImageLayer(img);
             notifyObservers();
         } catch (Exception e) {}
     }

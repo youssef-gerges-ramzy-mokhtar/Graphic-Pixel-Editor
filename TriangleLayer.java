@@ -9,7 +9,13 @@ class TriangleLayer extends ShapeLayer {
 		TriangleGraphics triangleGraphics = new TriangleGraphics(new Point(0, 0));
 		triangleGraphics.setDimension(width, height);
 		triangleGraphics.setColor(strokeCol);
+		triangleGraphics.setFillColor(fillCol);
 	
 		return triangleGraphics;
+	}
+
+	protected TriangleLayer getShapeLayerCopy() {
+		TriangleLayer copy = new TriangleLayer(layerWidth(), layerHeight(), Color.white);
+		return copy;
 	}
 }

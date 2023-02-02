@@ -6,7 +6,7 @@ public class Display extends JFrame {
     private ToolsManager toolsManager;
 
     public Display() {
-        this.toolsManager = new ToolsManager();
+        this.toolsManager = new ToolsManager(this);
         initFrameProperties();
         initFrameLayout();
 
@@ -39,7 +39,7 @@ public class Display extends JFrame {
         revalidate();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Display dis = new Display();
     }
 }

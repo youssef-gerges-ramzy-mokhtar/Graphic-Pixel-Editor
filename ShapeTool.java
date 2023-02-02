@@ -1,8 +1,9 @@
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
 // ShapeTool is responsible for adding & handling any generic Shape to the cavnas
-abstract class ShapeTool implements Observer, ClickableContainer {
+abstract class ShapeTool extends ClickableTool implements Observer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point pivot;
@@ -13,15 +14,22 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	protected int layerWidth;
 	protected int layerHeight;
 
-	public ShapeTool(OurCanvas canvas) {
+	public ShapeTool(OurCanvas canvas, UndoTool undo) {
+		super(undo);
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.strokeCol = Color.black;
 		this.fillCol = Color.white; // that is temp
-		this.shapeBtn = new Clickable("Dummy Shape");
 		this.shapeLayer = null;
 
 		addCanvasListener();
+	}
+
+	protected void initTool(UndoTool undo) {
+		this.shapeBtn = new Clickable("Dummy Shape");
+
+		addToolBtn(shapeBtn);
+		setAsChangeMaker(undo);
 	}
 
 	// addCanvasListener() is used to attach an Event Listner to the canvas, and adds a shape to the canvas based on the user click coordinates
@@ -36,6 +44,7 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 			public void mouseReleased(MouseEvent e){
 				if (!shapeBtn.isActive()) return;
 				shapeLayer = null;
+				recordChange();
 			}
 		});
 
@@ -87,8 +96,10 @@ abstract class ShapeTool implements Observer, ClickableContainer {
 	// Creates a Layer to store a Shape
 	protected abstract ShapeLayer createShapeLayer(Point layerPos);
 
-	public Clickable getClickable() {
-		return shapeBtn;
+	public ArrayList<Clickable> getClickable() {
+		ArrayList<Clickable> shapeToolBtn = new ArrayList<Clickable>();
+		shapeToolBtn.add(shapeBtn);
+		return shapeToolBtn;
 	}
 
 	// Observer Pattern //

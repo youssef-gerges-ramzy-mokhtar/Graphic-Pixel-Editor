@@ -9,7 +9,13 @@ class RectangleLayer extends ShapeLayer {
 		RectangleGraphics rectangleGraphics = new RectangleGraphics(new Point(0, 0));
 		rectangleGraphics.setDimensions(width, height);
 		rectangleGraphics.setColor(strokeCol);
+		rectangleGraphics.setFillColor(fillCol);
 	
 		return rectangleGraphics;
+	}
+
+	protected RectangleLayer getShapeLayerCopy() {
+		RectangleLayer copy = new RectangleLayer(layerWidth(), layerHeight(), Color.white);
+		return copy;
 	}
 }
