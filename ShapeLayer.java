@@ -47,7 +47,6 @@ abstract class ShapeLayer extends LayerData {
 		return copy;
 	}
 
-	// Under Development for Cropping Shapes & for Using drawing toll with shape
 	public LayerData rasterize() {
 		// Code Refactor Here
 		ImageLayer rasterizedShape = new ImageLayer(layerWidth(), layerHeight(), Color.white);

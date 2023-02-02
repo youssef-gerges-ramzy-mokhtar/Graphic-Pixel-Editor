@@ -2,8 +2,10 @@ import java.awt.image.*;
 import java.awt.*;
 
 abstract class LayerData {
-	private BufferedImage layer; // layer holds all the pixels that represent any layer
+	protected BufferedImage layer; // layer holds all the pixels that represent any layer
+	protected BufferedImage originalLayer; // originalLayer is used mainly for avoiding image pixilation during resizing
 	private BufferedImage layerSelection; // layer holds all the pixels that represent any layer plus a selectin border
+	
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
 
@@ -14,7 +16,8 @@ abstract class LayerData {
 	public LayerData(BufferedImage layer, Point layerPos) {
 		this.layer = layer;
 		this.layerPos = layerPos;
-		layerEndPos = new Point((int) layerPos.getX() + layer.getWidth(), (int) layerPos.getY() + layer.getHeight());
+		this.layerEndPos = new Point((int) layerPos.getX() + layer.getWidth(), (int) layerPos.getY() + layer.getHeight());
+		this.originalLayer = layer;
 
 		updateSelectionLayer();
 	}
@@ -106,6 +109,7 @@ abstract class LayerData {
 
 	public void setImage(BufferedImage newImg) {
 		layer = newImg;
+		originalLayer = layer;
 	}
 
 	public Graphics2D getLayerGraphics() {
@@ -121,12 +125,14 @@ abstract class LayerData {
 	// update Graphics Takes a SpecificGraphic Object and updates the layer Drawing Based on the Draw Method
 	public void updateGraphics(SpecificGraphic g) {
 		g.draw(layer.createGraphics());
+		originalLayer = layer;
 		updateSelectionLayer();
 	}
 
 	public void setPixel(int x, int y, int rgb) {
 		if (!inRange(x, y)) return;
 		layer.setRGB(x, y, rgb);
+		originalLayer = layer;
 	}
 
 	public Integer getPixel(int x, int y) {
@@ -152,6 +158,7 @@ abstract class LayerData {
 				tempLayer.setRGB(i, j, layer.getRGB(i, j));
 
 		layer = tempLayer;
+		originalLayer = layer;
 	}
 
 	public void decreaseLayerSz(int width, int height, Resize corner) {
@@ -174,6 +181,8 @@ abstract class LayerData {
 
 		layer = tempLayer;
 		setLocation(getX() + x_offset, getY() + y_offset);
+
+		originalLayer = layer;
 	}
 
 	private BufferedImage createBufferedImage(int width, int height) {
@@ -200,6 +209,7 @@ abstract class LayerData {
         g2d.setRenderingHints(rh);
 
 		g2d.drawImage(newLayer, x, y, null);
+		originalLayer = layer;
 	}
 
 	// Updates this layer size based on width and height and sets each pixel of this updated layer to the specified color
@@ -213,6 +223,8 @@ abstract class LayerData {
 		Graphics2D g2d = (Graphics2D) layer.getGraphics();
 		g2d.setBackground(col);
 		g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
+
+		originalLayer = layer;
 	}
 
 	protected Point validPoint(Point p1, Point p2) {

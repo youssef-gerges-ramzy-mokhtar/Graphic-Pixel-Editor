@@ -29,9 +29,11 @@ class Delete extends ClickableTool {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
 				if (!deleteBtn.isActive()) return;
-                canvas.clearCanvas();
+				if (layersHandler.selectLayer(new Point(e.getX(), e.getY())) == null) return;
                 layersHandler.removeLayer(layersHandler.selectLayer(new Point(e.getX(), e.getY())));
                 layersHandler.updateCanvas();
+
+                recordChange();
             }
         });
 	}	
