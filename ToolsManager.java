@@ -55,6 +55,7 @@ class ToolsManager {
         this.optionsPanel = new OptionsPanel(colorGui);
 
         this.imageLoader = new ImageLoader(canvas, undo); // For Loading Images from the user computer
+		this.imageSaver = new SaveAs(canvas);
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
