@@ -9,7 +9,13 @@ class CircleLayer extends ShapeLayer {
 		CircleGraphics circleGraphics = new CircleGraphics(new Point(0, 0));
 		circleGraphics.setDimension(width, height);
 		circleGraphics.setColor(strokeCol);
-	
+		circleGraphics.setFillColor(fillCol);
+
 		return circleGraphics;
+	}
+
+	protected CircleLayer getShapeLayerCopy() {
+		CircleLayer copy = new CircleLayer(layerWidth(), layerHeight(), Color.white);
+		return copy;
 	}
 }

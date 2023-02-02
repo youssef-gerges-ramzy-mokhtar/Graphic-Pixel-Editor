@@ -1,0 +1,14 @@
+selection: v
+crop: w
+pen: p
+eraser: e
+fill: f
+eye dropper: i
+rectangle: r
+circle: c
+triangle: t
+air brush: a
+text: s
+delet: d
+redo: (ctrl + y) or just y
+undo: (ctrl + z) or just z
