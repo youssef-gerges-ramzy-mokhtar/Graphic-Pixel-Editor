@@ -5,8 +5,8 @@ import java.util.*;
 
 // CircleTool is responsible for adding & handling Circles to the cavnas
 class CircleTool extends ShapeTool {
-	public CircleTool(OurCanvas canvas, UndoTool undo) {
-		super(canvas, undo);
+	public CircleTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, canvas, undo);
 		shapeBtn.setText("Circle");
 		shapeBtn.addKeyBinding('c');
 	}

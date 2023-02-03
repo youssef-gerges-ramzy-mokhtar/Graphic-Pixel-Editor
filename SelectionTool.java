@@ -12,7 +12,7 @@ class SelectionTool extends ClickableTool {
 	private boolean changeMade;
 
 	public SelectionTool(OurCanvas canvas, UndoTool undo) {
-		super(undo);
+		super(null, undo);
 
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);

@@ -12,7 +12,7 @@ import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.awt.geom.Ellipse2D;
 
-public class BlurTool implements Observer{
+public class BlurTool extends ClickableTool implements Observer {
 
 
     private LayersHandler layerHandler;
@@ -20,14 +20,23 @@ public class BlurTool implements Observer{
     private OurCanvas canvas;
     private int pensize=1;
     
-    public BlurTool(OurCanvas canvas)
+    public BlurTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
-        this.blurBtn = new Clickable("Blur");
+        super(layerObserver, undo);
         this.layerHandler = LayersHandler.getLayersHandler(canvas);
         this.canvas = canvas;
-        blurBtn.addObserver(this);
+        
         canvasListener();
     }
+
+    protected void initTool(UndoTool undo) {
+		this.blurBtn = new Clickable("Blur");
+		blurBtn.addKeyBinding('b');
+		
+		addToolBtn(blurBtn);
+		setAsChangeMaker(undo);
+		setAsLayerChanger();
+	}
 
     private void canvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
@@ -35,6 +44,12 @@ public class BlurTool implements Observer{
                 if (blurBtn.isActive())
                 System.out.println("this is currently working");
 			}
+
+            public void mouseReleased(MouseEvent e) {
+                if (!blurBtn.isActive()) return;
+                recordChange(); 
+				updateLayerObserver();
+            }
 		});
 
 		canvas.addMouseMotionListener(new MouseAdapter() {
@@ -67,7 +82,7 @@ public class BlurTool implements Observer{
 
 		// converts the current layer into a buffered image
         LayerData currentLayer = layerHandler.getSelectedLayer();
-		BufferedImage bigImage = currentLayer.getImage();
+        BufferedImage bigImage = currentLayer.getImage();
     
 		//Takes a smaller part of the layer around the pen point.
         BufferedImage input = bigImage.getSubimage(currentLayer.getX((int) xCoor), currentLayer.getY((int) yCoor), pensize, pensize);
@@ -83,7 +98,7 @@ public class BlurTool implements Observer{
 
 		//Block makes the bufferedImage a circle
 		int width = input.getWidth();
-		BufferedImage circleBuffer = new BufferedImage(width, width, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage circleBuffer = new BufferedImage(width, width, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = circleBuffer.createGraphics();
 		g2.setClip(new Ellipse2D.Float(0, 0, width, width));
 		g2.drawImage(input, 0, 0, width, width, null);
@@ -109,13 +124,6 @@ public class BlurTool implements Observer{
 
        
 	}
-
-    
-
-    public Clickable getClickable() {
-        return blurBtn;
-    }
-
 
     public void update(int thickness) {    
        

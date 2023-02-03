@@ -8,8 +8,8 @@ class Delete extends ClickableTool {
 	private LayersHandler layersHandler;
 	private Clickable deleteBtn;
 
-	public Delete(OurCanvas canvas, UndoTool undo) {
-		super(undo);
+	public Delete(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.canvas = canvas;
@@ -22,6 +22,7 @@ class Delete extends ClickableTool {
 		
 		addToolBtn(deleteBtn);
 		setAsChangeMaker(undo);
+		setAsLayerChanger();
 	}
 
 	/** addCanvasListener() attachs an Event Listener to the canvas **/
@@ -34,6 +35,7 @@ class Delete extends ClickableTool {
                 layersHandler.updateCanvas();
 
                 recordChange();
+                updateLayerObserver();
             }
         });
 	}	

@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.*;
 
 // LayersHandler is used to handle all the layers on the Canvas
-class LayersHandler implements ImageObserver, CanvasObserver {
+class LayersHandler implements CanvasObserver {
 	private ArrayList<LayerData> layers; // Here the Top Layer is the Layer at the end of the Array List
 	private OurCanvas canvas;
 	private int verticalOffset;
@@ -36,6 +36,8 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 
 	public void removeLayer(LayerData layer) {
 		if (layer == null) return;
+		if (layer == drawingLayer) return;
+
 		layers.remove(layer);
 	}
 
@@ -54,12 +56,27 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 			if (layers.get(i) == currentLayer) {moveToTopLayer(i); return;}
 	}
 
+	public void moveLayerUp(LayerData layer) {
+		int layer_pos = layers.indexOf(layer);
+		if (layer_pos == layers.size()-1) return;
+
+		Collections.swap(layers, layer_pos, layer_pos+1);
+	}
+
+	public void moveLayerDown(LayerData layer) {
+		int layer_pos = layers.indexOf(layer);
+		if (layer_pos == 0) return;
+
+		Collections.swap(layers, layer_pos, layer_pos-1);
+	}
+
 	// Select Layer takes in a position and based on this position will return the Top Most Layer at this gievn position
 	// and there is no layers at this position null will be returned
 	public LayerData selectLayer(Point pos) {
 		for (int i = layers.size() - 1; i >= 0; i--) {
 			LayerData layerData = layers.get(i);
 			if (layerData == drawingLayer) continue;
+			if (layerData.isHidden()) continue;
             
             if (pos.getX() >= layerData.getX() && pos.getX() <= layerData.getEndX())
                 if (pos.getY() >= layerData.getY() && pos.getY() <= layerData.getEndY()) {
@@ -75,8 +92,10 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	// updateCanvas() is used to refresh the canvas by redrawing all the layers into the canvas
 	public void updateCanvas() {
 		canvas.clearCanvas();
-		for (LayerData layerData: layers)
+		for (LayerData layerData: layers) {
+			if (layerData.isHidden()) continue;
 			canvas.drawLayer(layerData);
+		}
 	}
 
 	public void updateCanvasSelected(LayerData selectedLayer) {
@@ -134,6 +153,7 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 
 	// Retunrs the Current Selected Layer
 	public LayerData getSelectedLayer() {
+		if (selectedLayer.isHidden()) return null;
 		return selectedLayer;
 	}
 
@@ -143,6 +163,11 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		if (layerPos >= layers.size()) return;
 
 		selectedLayer = layers.get(layerPos);
+	}
+
+	public void changeSelectedLayer(LayerData layer) {
+		if (!layers.contains(layer)) return;
+		selectedLayer = layer;
 	}
 
 	public ArrayList<LayerData> getLayersCopy() {
@@ -163,6 +188,10 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 		// updateCanvas();
 	}
 
+	public ArrayList<LayerData> getLayers() {
+		return layers;
+	}
+
 	public void replaceLayer(LayerData prevLayer, LayerData newLayer) {
 		int prevLayerIdx = layers.indexOf(prevLayer);
 		if (prevLayerIdx == -1) return;
@@ -172,12 +201,6 @@ class LayersHandler implements ImageObserver, CanvasObserver {
 	}
 
 	// Observer Pattern //
-	// update() is called whenever a new Image is added to the Canvas, to add this image as a seperate layer to the layers
-	public void update(LayerData layerData) {
-		addLayer(layerData);
-		updateCanvas();
-	}
-
 	// update() is called whenver the canvas is resized, and is used to resize the drawing area
 	public void update() {
 		resizeDrawingArea(canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());

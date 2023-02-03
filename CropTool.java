@@ -10,8 +10,8 @@ class CropTool extends ClickableTool {
 	private boolean changeMade;
 	private Resize cropType;
 
-	public CropTool(OurCanvas canvas, UndoTool undo) {
-		super(undo);
+	public CropTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
@@ -27,6 +27,7 @@ class CropTool extends ClickableTool {
 		addToolBtn(cropBtn);
 		setAsChangeMaker(undo);
 		setAsShapeRasterizer();
+		setAsLayerChanger();
 	}
 
 	private void addCanvasListener() {
@@ -51,7 +52,7 @@ class CropTool extends ClickableTool {
 
 			public void mouseReleased(MouseEvent e) {
 				if (!cropBtn.isActive()) return;
-				if (changeMade) recordChange();
+				if (changeMade) {recordChange(); updateLayerObserver();}
 				changeMade = false;
 			}
 		});

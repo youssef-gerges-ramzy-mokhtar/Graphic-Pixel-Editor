@@ -32,52 +32,51 @@ class ToolsManager {
 
     private MenuPanel menuPanel;
     private Display display;
+    private LayersOptions layersOptions;
 
     private ArrayList<ClickableTool> clickableContainers;
 
 	public ToolsManager(Display display) {
 		this.display = display;
-
 		this.canvas = new OurCanvas();
+		
+        this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
+        this.layersOptions = new LayersOptions(layersHandler);
+
 		this.toolsPanel = new ToolsPanel();
 
-		this.undo = new UndoTool(canvas);
+		this.undo = new UndoTool(layersOptions, canvas);
 		this.selectionTool = new SelectionTool(canvas, undo);
-		this.penTool = new PenTool(canvas, undo);
-		this.eraserTool = new EraserTool(canvas, undo);
-		this.fillTool = new FillTool(canvas, undo);
+		this.penTool = new PenTool(layersOptions, canvas, undo);
+		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
+		this.fillTool = new FillTool(layersOptions, canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-
-		this.blur = new BlurTool(canvas);
-
-		this.rectangleTool = new RectangleTool(canvas, undo);
-		this.circleTool = new CircleTool(canvas, undo);
-		this.triangleTool = new TriangleTool(canvas, undo);
-		this.airBrush = new Airbrush(canvas, undo);
-		this.text = new TextTool(canvas, undo);
-		this.delete = new Delete(canvas, undo);
-		this.crop = new CropTool(canvas, undo);
-
+		this.blur = new BlurTool(layersOptions, canvas, undo);
+		this.rectangleTool = new RectangleTool(layersOptions, canvas, undo);
+		this.circleTool = new CircleTool(layersOptions, canvas, undo);
+		this.triangleTool = new TriangleTool(layersOptions, canvas, undo);
+		this.airBrush = new Airbrush(layersOptions, canvas, undo);
+		this.text = new TextTool(layersOptions, canvas, undo);
+		this.delete = new Delete(layersOptions, canvas, undo);
+		this.crop = new CropTool(layersOptions, canvas, undo);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.imageLoader = new ImageLoader(canvas, undo); // For Loading Images from the user computer
-		this.imageSaver = new SaveAs(canvas);
-        this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
+        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
         this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
+        layersOptions.setUndo(undo);
+
         initToolPanel();
 		initObservers();
 	}
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
-
-		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
 
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
@@ -93,6 +92,7 @@ class ToolsManager {
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
+		clickableContainers.add(blur);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
@@ -101,7 +101,6 @@ class ToolsManager {
 
 	// initObservers() is used to add add Observers & attach Observables to tools that are related
 	private void initObservers() {
-        imageLoader.addObserver(layersHandler); // So whenever a user imports an image from his computer will automatically be added to the layersHandler
         canvas.addCanvasObserver(layersHandler); // For Observing Changes in the Canvas Size
 
         colorGui.addObserver(penTool); // so whenever the colorGui changes it will notify the Pen Tool to change color

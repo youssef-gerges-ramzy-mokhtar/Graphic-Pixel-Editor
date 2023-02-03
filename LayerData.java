@@ -8,6 +8,7 @@ abstract class LayerData {
 	
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
+	private boolean hidden = false;
 
 	public LayerData(BufferedImage layer) {
 		this(layer, new Point(0, 0));
@@ -27,7 +28,7 @@ abstract class LayerData {
 	}
 
 	public LayerData(int width, int height, Color col, Point layerPos) {
-		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB), layerPos);
+		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB), layerPos);
 
 		Graphics2D layerGraphics = layer.createGraphics();
 		layerGraphics.setBackground(col);
@@ -344,6 +345,18 @@ abstract class LayerData {
 		if (layerPos.y < p.y && p.y < layerEndPos.y) return true;
 
 		return false;
+	}
+
+	public void hide() {
+		this.hidden = true;
+	}
+
+	public void show() {
+		this.hidden = false;
+	}
+
+	public boolean isHidden() {
+		return hidden;
 	}
 
 	abstract void resize(int width, int height);

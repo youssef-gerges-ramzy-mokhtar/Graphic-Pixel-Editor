@@ -14,8 +14,8 @@ class UndoTool extends ClickableTool {
 	private LinkedList<ArrayList<LayerData>> layersRedoHistory;
 	private int historyLimit;
 	
-	public UndoTool(OurCanvas canvas) {
-		super(null);
+	public UndoTool(LayerObserver layerObserver, OurCanvas canvas) {
+		super(layerObserver, null);
 		this.canvas = canvas;
 		
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
@@ -36,12 +36,13 @@ class UndoTool extends ClickableTool {
 		addToolBtn(redoBtn);
 		addToolBtn(undoBtn);
 		setAsChangeMaker(null);
+		setAsLayerChanger();
 	}
 
 	private void addCanvasListener() {
 		undoBtn.getBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				undo();                
+				undo();     
 			}
 		});
 
@@ -66,6 +67,10 @@ class UndoTool extends ClickableTool {
 	public void recordHistory() {
 		if (layersUndoHistory.size() == historyLimit) layersUndoHistory.removeFirst();
 		layersUndoHistory.add(layersHandler.getLayersCopy());
+		System.out.println("Recording History: {");
+		for (ArrayList<LayerData> layers: layersUndoHistory)
+			System.out.println(layers);
+		System.out.println("{");
 	}
 
 	private void recordRedoHistory() {
@@ -83,6 +88,13 @@ class UndoTool extends ClickableTool {
         layersUndoHistory.removeLast();
         layersHandler.setLayers(layersUndoHistory.peekLast());
         layersHandler.updateCanvas();
+
+        System.out.println("Removing History: {");
+        for (ArrayList<LayerData> layers: layersUndoHistory)
+        	System.out.println(layers);
+        System.out.println("}");
+
+        updateLayerObserver();
 	}
 
 	private void redo() {
@@ -93,5 +105,6 @@ class UndoTool extends ClickableTool {
     	layersHandler.updateCanvas();
 
     	layersRedoHistory.removeLast();				
+        updateLayerObserver();
 	}
 }

@@ -12,8 +12,8 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 	private Point dragPoint;
 	private boolean released;
 
-	public DrawingTool(OurCanvas canvas, UndoTool undo) {
-		super(undo);
+	public DrawingTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 
 		this.canvas = canvas;		
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
@@ -28,6 +28,7 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 		addToolBtn(drawingBtn);
 		setAsChangeMaker(undo);
 		setAsShapeRasterizer();
+		setAsLayerChanger();
 	}
 
 	private void canvasListener() {
@@ -44,6 +45,7 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 			public void mouseDragged(MouseEvent e) {
 				if (!drawingBtn.isActive()) return;
 				drawBrush(new Point(e.getX(), e.getY()));
+				updateLayerObserver();
 			}
 		});
 
@@ -51,6 +53,7 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 			public void mouseClicked(MouseEvent e) {
 				if (!drawingBtn.isActive()) return;
 				drawPointBrush(new Point(e.getX(), e.getY()));
+				updateLayerObserver();
 			}
 		});
 	}

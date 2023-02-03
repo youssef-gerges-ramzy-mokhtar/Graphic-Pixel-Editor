@@ -7,18 +7,23 @@ import java.io.*;
 import java.util.*;
 
 // ImageLoader is used Loads Images from the User's Computer into the Program
-class ImageLoader extends MenuClickableTool implements ImageObservable {
+class ImageLoader extends ClickableTool {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
     private ImageLayer lastLoadedImg;
     private ArrayList<ImageObserver> observers;
 
-    public ImageLoader(OurCanvas canvas, UndoTool undo) {
-        super(undo);
+    public ImageLoader(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+        super(layerObserver, undo);
     	this.canvas = canvas;
         this.observers = new ArrayList<ImageObserver>();
     	
         addOpenImageMenuListener();
+    }
+
+    protected void initTool(UndoTool undo) {
+        setAsChangeMaker(undo);
+        setAsLayerChanger();
     }
 
     // Used to attach an event handler to the Menu Button
@@ -34,6 +39,7 @@ class ImageLoader extends MenuClickableTool implements ImageObservable {
 
 				loadImage(fileChooser.getSelectedFile().getAbsolutePath());                
                 recordChange();
+                updateLayerObserver();
 			}
         });
     }
@@ -46,7 +52,8 @@ class ImageLoader extends MenuClickableTool implements ImageObservable {
             img = scaleImage(img);
 
             lastLoadedImg = new ImageLayer(img);
-            notifyObservers();
+            LayersHandler.getLayersHandler(canvas).addLayer(lastLoadedImg);
+            LayersHandler.getLayersHandler(canvas).updateCanvas();
         } catch (Exception e) {}
     }
 
@@ -74,20 +81,5 @@ class ImageLoader extends MenuClickableTool implements ImageObservable {
 
     public JMenu getMenu() {
     	return openImageMenu;
-    }
-
-    // Observer Pattern 
-    public void addObserver(ImageObserver observer) {
-        observers.add(observer);
-    }
-    
-    public void removeObserver(ImageObserver observer) {
-        observers.remove(observer);
-    }
-
-    // notifyObserver() notifies the LayersHandler to add the last loaded image to a separate layer
-    public void notifyObservers() {
-        for (ImageObserver observer: observers)
-            observer.update(lastLoadedImg);
     }
 }

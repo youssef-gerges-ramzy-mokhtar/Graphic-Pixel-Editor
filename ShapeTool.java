@@ -14,8 +14,8 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 	protected int layerWidth;
 	protected int layerHeight;
 
-	public ShapeTool(OurCanvas canvas, UndoTool undo) {
-		super(undo);
+	public ShapeTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.strokeCol = Color.black;
@@ -30,6 +30,7 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 
 		addToolBtn(shapeBtn);
 		setAsChangeMaker(undo);
+		setAsLayerChanger();
 	}
 
 	// addCanvasListener() is used to attach an Event Listner to the canvas, and adds a shape to the canvas based on the user click coordinates
@@ -45,6 +46,7 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 				if (!shapeBtn.isActive()) return;
 				shapeLayer = null;
 				recordChange();
+				updateLayerObserver();
 			}
 		});
 

@@ -2,8 +2,8 @@ import java.awt.*;
 
 // TriangleTool is responsible for adding & handling Triangles to the cavnas
 class TriangleTool extends ShapeTool {
-	public TriangleTool(OurCanvas canvas, UndoTool undo) {
-		super(canvas, undo);
+	public TriangleTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, canvas, undo);
 		shapeBtn.setText("Triangle");
 		shapeBtn.addKeyBinding('t');
 	}
