@@ -32,12 +32,14 @@ class SaveAs{
 
             public void menuSelected(MenuEvent e) {
                     try {
-                        ImageIO.write(canvas.getMainLayer().getImage(), "jpg", new File("output.jpg") );
+                        String fileName = JOptionPane.showInputDialog(null, "Please enter the text");
+
+                        ImageIO.write(canvas.getMainLayer().getImage(), "jpg", new File(fileName + ".jpg") );
                         System.out.println("image created");
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
-                        System.out.println("image not created");
+                        System.out.println("ERROR... Image Not Created");
                     }
                     
                 
