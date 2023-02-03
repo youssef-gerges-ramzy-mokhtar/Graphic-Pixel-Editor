@@ -1,11 +1,6 @@
-import java.awt.*;
 import javax.swing.*;
-import java.awt.image.*;
 import javax.swing.event.*;
-import javax.imageio.*;
 import java.io.*;
-import java.util.*;
-import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
@@ -13,13 +8,14 @@ import javax.imageio.ImageIO;
 class SaveAs{
     private JMenu saveMenu = new JMenu("Save As");
     private OurCanvas canvas;
-    private LayerData layer;
 
+    /* creates a button on the menu to save the canvas as a file */
     public SaveAs(OurCanvas canvas) {
     	this.canvas = canvas;
     	addSaveMenuListener();
     }
 
+    /* returns the JMenu for this button */
     public JMenu getMenu() {
     	return saveMenu;
     }
@@ -28,25 +24,19 @@ class SaveAs{
      private void addSaveMenuListener() {
     	saveMenu.addMenuListener(new MenuListener() {
             public void menuCanceled(MenuEvent e) {}
+
             public void menuDeselected(MenuEvent e) {}
 
             public void menuSelected(MenuEvent e) {
                     try {
-                        String fileName = JOptionPane.showInputDialog(null, "Please enter the text");
+                        String fileName = JOptionPane.showInputDialog(null, "Please enter the file name");  //takes a string for the file name
 
-                        ImageIO.write(canvas.getMainLayer().getImage(), "jpg", new File(fileName + ".jpg") );
+                        ImageIO.write(canvas.getMainLayer().getImage(), "jpg", new File(fileName + ".jpg") );       //creates an image using the layer data
                         System.out.println("image created");
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                         System.out.println("ERROR... Image Not Created");
                     }
-                    
-                
-
-                /*JFileChooser fileChooser = new JFileChooser();
-                int fileResponse = fileChooser.showOpenDialog(null);
-                if (fileResponse != JFileChooser.APPROVE_OPTION) return;*/
 			}
         });
     }
