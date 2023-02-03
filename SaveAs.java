@@ -5,6 +5,9 @@ import javax.swing.event.*;
 import javax.imageio.*;
 import java.io.*;
 import java.util.*;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 // SaveAs is used Loads Images from the User's Computer into the Program
 class SaveAs{
@@ -28,9 +31,20 @@ class SaveAs{
             public void menuDeselected(MenuEvent e) {}
 
             public void menuSelected(MenuEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
+                    try {
+                        ImageIO.write(canvas.getMainLayer().getImage(), "jpg", new File("output.jpg") );
+                        System.out.println("image created");
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                        System.out.println("image not created");
+                    }
+                    
+                
+
+                /*JFileChooser fileChooser = new JFileChooser();
                 int fileResponse = fileChooser.showOpenDialog(null);
-                if (fileResponse != JFileChooser.APPROVE_OPTION) return;
+                if (fileResponse != JFileChooser.APPROVE_OPTION) return;*/
 			}
         });
     }
