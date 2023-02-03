@@ -18,8 +18,12 @@ class ToolsManager {
 	private Delete delete;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
+
+	private BlurTool blur;
+
     private UndoTool undo;
     private CropTool crop;
+
     
     private ImageLoader imageLoader;
 	private SaveAs imageSaver;
@@ -43,6 +47,9 @@ class ToolsManager {
 		this.eraserTool = new EraserTool(canvas, undo);
 		this.fillTool = new FillTool(canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
+
+		this.blur = new BlurTool(canvas);
+
 		this.rectangleTool = new RectangleTool(canvas, undo);
 		this.circleTool = new CircleTool(canvas, undo);
 		this.triangleTool = new TriangleTool(canvas, undo);
@@ -50,6 +57,7 @@ class ToolsManager {
 		this.text = new TextTool(canvas, undo);
 		this.delete = new Delete(canvas, undo);
 		this.crop = new CropTool(canvas, undo);
+
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -68,6 +76,9 @@ class ToolsManager {
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
+
+		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
+
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
 		clickableContainers.add(penTool);
@@ -86,8 +97,6 @@ class ToolsManager {
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
 				toolsPanel.addClickable(clickable);
-
-		toolsPanel.addClickable(new Clickable("Blur")); // Temporary Clickable
 	}
 
 	// initObservers() is used to add add Observers & attach Observables to tools that are related
@@ -109,6 +118,7 @@ class ToolsManager {
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
 		optionsPanel.getPenOptionsPanel().addObserver(text);
+		optionsPanel.getPenOptionsPanel().addObserver(blur);
         
         canvas.addObserver(toolsPanel);
 	} 

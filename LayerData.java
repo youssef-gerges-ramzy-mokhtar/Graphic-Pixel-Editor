@@ -27,7 +27,7 @@ abstract class LayerData {
 	}
 
 	public LayerData(int width, int height, Color col, Point layerPos) {
-		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB), layerPos);
+		this(new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB), layerPos);
 
 		Graphics2D layerGraphics = layer.createGraphics();
 		layerGraphics.setBackground(col);
