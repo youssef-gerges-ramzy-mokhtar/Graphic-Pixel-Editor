@@ -50,7 +50,7 @@ class ToolsManager {
 		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
 		this.fillTool = new FillTool(layersOptions, canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-		this.blur = new BlurTool(canvas);
+		this.blur = new BlurTool(layersOptions, canvas, undo);
 		this.rectangleTool = new RectangleTool(layersOptions, canvas, undo);
 		this.circleTool = new CircleTool(layersOptions, canvas, undo);
 		this.triangleTool = new TriangleTool(layersOptions, canvas, undo);
@@ -77,8 +77,6 @@ class ToolsManager {
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
 
-		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
-
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
 		clickableContainers.add(penTool);
@@ -93,6 +91,7 @@ class ToolsManager {
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
+		clickableContainers.add(blur);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
