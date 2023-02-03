@@ -26,6 +26,7 @@ class ToolsManager {
 
     
     private ImageLoader imageLoader;
+	private SaveAs imageSaver;
     private LayersHandler layersHandler;
     private LayersSelectionPanel layersSelectionPanel;
 
@@ -65,7 +66,7 @@ class ToolsManager {
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
-        this.menuPanel = new MenuPanel(canvas, imageLoader);
+        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
