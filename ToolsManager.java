@@ -95,8 +95,6 @@ class ToolsManager {
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
 				toolsPanel.addClickable(clickable);
-
-
 	}
 
 	// initObservers() is used to add add Observers & attach Observables to tools that are related

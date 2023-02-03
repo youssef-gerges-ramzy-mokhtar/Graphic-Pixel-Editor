@@ -70,7 +70,7 @@ public class BlurTool implements Observer{
 		BufferedImage bigImage = currentLayer.getImage();
     
 		//Takes a smaller part of the layer around the pen point.
-        BufferedImage input = bigImage.getSubimage((int)xCoor, (int)yCoor, pensize, pensize);
+        BufferedImage input = bigImage.getSubimage(currentLayer.getX((int) xCoor), currentLayer.getY((int) yCoor), pensize, pensize);
         
 
 		
@@ -96,11 +96,12 @@ public class BlurTool implements Observer{
       
         
         //Stamps the smaller blurred image onto the big image
-        bigImage.getGraphics().drawImage(circleBuffer, (int)xCoor, (int)yCoor, null);
+        bigImage.getGraphics().drawImage(circleBuffer, currentLayer.getX((int) xCoor), currentLayer.getY((int) yCoor), null);
 		
 
 		currentLayer.setImage(bigImage);
         layerHandler.updateCanvas();
+        currentLayer.updateSelectionLayer();
 
         
 		
