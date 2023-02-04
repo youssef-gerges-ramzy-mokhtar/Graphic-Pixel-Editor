@@ -1,7 +1,7 @@
 import java.awt.image.*;
 import java.awt.*;
 
-class TextLayer extends LayerData {
+class TextLayer extends ShapeLayer {
 	private String text;
 
 	public TextLayer(int width, int height, Color col, String text) {super(width, height, col); this.text = text;}
@@ -24,13 +24,13 @@ class TextLayer extends LayerData {
 
 	}
 
-	public LayerData getCopy() {
-		TextLayer copy = new TextLayer(width, height, Color.black, text);
-		copy.clear(new Color(0, 0, 0, 0));
+	// public LayerData getCopy() {
+	// 	TextLayer copy = new TextLayer(width, height, Color.black, text);
+	// 	copy.clear(new Color(0, 0, 0, 0));
 
-		copy.mergeLayer(this.getImage(), 0, 0);
-		copy.setLocation(new Point(getX(), egetY()));
-		copy.updateSelectionLayer();
-		return copy;
-	}
+	// 	copy.mergeLayer(this.getImage(), 0, 0);
+	// 	copy.setLocation(new Point(getX(), egetY()));
+	// 	copy.updateSelectionLayer();
+	// 	return copy;
+	// }
 }
