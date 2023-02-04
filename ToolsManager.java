@@ -63,9 +63,10 @@ class ToolsManager {
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
+        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
+        this.imageSaver = new SaveAs(canvas);
         this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
@@ -77,7 +78,6 @@ class ToolsManager {
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
-
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
 		clickableContainers.add(penTool);
@@ -109,14 +109,14 @@ class ToolsManager {
         colorGui.addObserver(circleTool); // so whenver the colorGui changes it will notify the Circle Tool to change stroke Color
 		colorGui.addObserver(triangleTool);
 		colorGui.addObserver(airBrush);
-		colorGui.addObserver(text);
+		// colorGui.addObserver(text);
 
         eyeDropperTool.addObserver(colorGui); // so whenver the eye Dropper Tool is used on cnavas it notifies the colorGui to updates the color preview
 	
         optionsPanel.getPenOptionsPanel().addObserver(penTool); // Pen Tool observers changes in the brush size
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
-		optionsPanel.getPenOptionsPanel().addObserver(text);
+		// optionsPanel.getPenOptionsPanel().addObserver(text);
 		optionsPanel.getPenOptionsPanel().addObserver(blur);
         
         canvas.addObserver(toolsPanel);

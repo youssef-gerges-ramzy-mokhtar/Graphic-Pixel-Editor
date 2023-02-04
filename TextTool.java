@@ -1,32 +1,57 @@
+import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
 import javax.swing.JOptionPane; 
 
+class TextTool extends ClickableTool {
+	private OurCanvas canvas;
+	private LayersHandler layersHandler;
+	private Clickable textBtn;
 
-
-// RectangleTool is responsible for adding & handling Rectangles to the cavnas
-class TextTool extends ShapeTool {
 	public TextTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
-		super(layerObserver, canvas, undo);
-		shapeBtn.setText("Text");
-		shapeBtn.addKeyBinding('s');
+		super(layerObserver, undo);
+		this.canvas = canvas;
+		this.layersHandler = LayersHandler.getLayersHandler(canvas);
+		addCanvasListener();
 	}
 
-	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
-		System.out.println("HI");
-        String dropText = JOptionPane.showInputDialog(null, "Please enter the text");
+	protected void initTool(UndoTool undo) {
+		this.textBtn = new Clickable("Text");
+		textBtn.addKeyBinding('s');
 
-		TextGraphics textGraphics = new TextGraphics(shapeLayer.getCoords(coords));
-		textGraphics.setColor(strokeCol);
-        textGraphics.setText(dropText);
-		textGraphics.setLen(layerWidth);
-
-		return textGraphics;
+		addToolBtn(textBtn);
+		setAsChangeMaker(undo);
+		setAsLayerChanger();
 	}
 
-	protected ShapeLayer createShapeLayer(Point layerPos) {
-		TextLayer textLayer = new TextLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
-		return textLayer;
+	private void addCanvasListener() {
+		canvas.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (!textBtn.isActive()) return;
+                String text = JOptionPane.showInputDialog(null, "Please Enter Text");  //takes a string for the file name
+             
+                int w = canvas.getMainLayer().getWidth() - e.getX();
+                int h = canvas.getMainLayer().getHeight() - e.getY();
+
+                TextGraphics txtGraphics = new TextGraphics(new Point(0, 0), text, w);
+                // Dimension layerDim = txtGraphics.getDimensions();
+                TextLayer txtLayer = new TextLayer(w, h, Color.white, text);
+
+                // int midLayerWidth = (int) layerDim.getWidth() / 2;
+                // int midLayerHeight = (int) layerDim.getHeight() / 2;
+                txtLayer.setLocation(e.getX(), e.getY());
+
+                // txtGraphics.setDimensions((int) layerDim.getWidth(), (int) layerDim.getHeight());
+                txtGraphics.setDimensions(w, h);
+                txtLayer.updateGraphics(txtGraphics);
+                txtLayer.updateSelectionLayer();
+                layersHandler.addLayer(txtLayer);
+                layersHandler.updateCanvas();
+
+				recordChange(); 
+				updateLayerObserver();
+			}
+		});
 	}
 }
