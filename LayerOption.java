@@ -32,9 +32,9 @@ class LayerOption extends JPanel {
 		mergeCheckBox = new JCheckBox();
 		layerIcon = new JLabel(new ImageIcon(layer.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
 		layerNumBtn = new JButton("" + layerNum);
-		moveUpBtn = new JButton("Move Up");
-		moveDownBtn = new JButton("Move Down");
-		deleteBtn = new JButton("delete");
+		moveUpBtn = new JButton("Up");
+		moveDownBtn = new JButton("Down");
+		deleteBtn = new JButton("del");
 		hideBtn = new JButton("hide");
 		showBtn = new JButton("show");
 

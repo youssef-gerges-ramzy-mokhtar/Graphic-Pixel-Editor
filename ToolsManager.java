@@ -138,4 +138,8 @@ class ToolsManager {
 	public JPanel getCanvas() {
 		return canvas;
 	}
+
+	public JPanel getLayerOptionsPanel() {
+		return layersOptions;
+	}
 }
