@@ -1,30 +1,106 @@
 import java.awt.image.*;
 import java.awt.*;
+import java.util.*;
+import java.awt.geom.*;
 
-class TextLayer extends ShapeLayer {
+class TextLayer extends LayerData {
+	private Color fontCol;
+	private int fontSz;
 	private String text;
+	private int canvasWidth;
 
-	public TextLayer(int width, int height, Color col, String text) {super(width, height, col); this.text = text;}
-	public TextLayer(int width, int height, Color col, Point layerPos, String text) {super(width, height, col, layerPos); this.text = text;}
-
-	public SpecificGraphic getSpecificGraphic(int width, int height) {
-		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), text, 700);
-		textGraphics.setFontColor(Color.black);
-		textGraphics.setDimensions(layerWidth(), layerHeight());
-
-		return textGraphics;
+	public TextLayer(Point layerLocation, Color fontCol, int fontSz, String text, int canvasWidth) {
+		super(1, 1, Color.white, layerLocation);
+		this.fontCol = fontCol;
+		this.fontSz = fontSz;
+		this.text = text;
+		this.canvasWidth = canvasWidth;
+	
+		initLayer();
 	}
 
-	public TextLayer getShapeLayerCopy() {
-		TextLayer copy = new TextLayer(layerWidth(), layerHeight(), Color.white, text);
-		return copy;
+	private void initLayer() {
+		ArrayList<ArrayList<String>> sentences = wordsDivider();
+
+		int width = canvasWidth - getX();
+		int height = (getTextHeight() * sentences.size());
+		width = Math.min(width, getTextWidth()+5);
+		clear(width, height, fontCol);
+		
+		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), sentences, fontSz, fontCol);
+		textGraphics.setDimensions(width, height);
+		updateGraphics(textGraphics);
 	}
 
+	public int getTextHeight() {
+    	BufferedImage dummyImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    	Graphics2D g2d = dummyImg.createGraphics();
+
+    	Font font = new Font("Arail", Font.PLAIN, fontSz);
+    	g2d.setFont(font);
+
+    	FontMetrics fontMetrics = g2d.getFontMetrics();
+    	Rectangle2D r2d = fontMetrics.getStringBounds(text, g2d);
+
+    	return (int) Math.ceil(r2d.getHeight());
+    } 
+
+    public int getTextWidth() {
+    	BufferedImage dummyImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    	Graphics2D g2d = dummyImg.createGraphics();
+
+    	Font font = new Font("Arail", Font.PLAIN, fontSz);
+    	g2d.setFont(font);
+
+    	FontMetrics fontInfo = g2d.getFontMetrics();
+    	return fontInfo.stringWidth(text);
+    }
+
+	private ArrayList<ArrayList<String>> wordsDivider() {
+		int maxWidth = canvasWidth - getX();
+
+		Font font = new Font(text, Font.PLAIN, fontSz);
+		Graphics2D g2d = getLayerGraphics();
+		g2d.setFont(font);
+		FontMetrics fontInfo = g2d.getFontMetrics();
+
+		String[] words = text.split(" ");
+		ArrayList<ArrayList<String>> word_divisoins = new ArrayList<ArrayList<String>>();
+
+		int idx = 0;
+		int remaining_width = maxWidth;
+		ArrayList<String> sequence = new ArrayList<String>();
+		while (idx < words.length) {
+			String current_word = words[idx];
+			Rectangle2D r2d = fontInfo.getStringBounds(current_word + " ", g2d);
+			int word_width = (int) Math.ceil(r2d.getWidth());
+
+			System.out.println(word_width);
+			if (word_width < remaining_width) {
+				sequence.add(current_word);
+				remaining_width -= word_width;
+			} else {
+				word_divisoins.add(sequence);
+				sequence = new ArrayList<String>();
+				sequence.add(current_word);
+				remaining_width = maxWidth;
+				remaining_width -= word_width;
+			}
+
+			idx++;
+		}
+
+		word_divisoins.add(sequence);
+		return word_divisoins;
+	}
+
+	//////////////////////////// Stil Under Implementation ////////////////////////////
 	public void resize(Point newLayerEndPos) {
 
 	}
+	public void resize(int width, int height) {}
 
-	// public LayerData getCopy() {
+	public LayerData getCopy() {
 	// 	TextLayer copy = new TextLayer(width, height, Color.black, text);
 	// 	copy.clear(new Color(0, 0, 0, 0));
 
@@ -32,5 +108,21 @@ class TextLayer extends ShapeLayer {
 	// 	copy.setLocation(new Point(getX(), egetY()));
 	// 	copy.updateSelectionLayer();
 	// 	return copy;
-	// }
+		return null;
+	}
+	
+	public SpecificGraphic getSpecificGraphic(int width, int height) {
+		// TextGraphics textGraphics = new TextGraphics(new Point(0, 0), text, 700);
+		// textGraphics.setFontColor(Color.black);
+		// textGraphics.setDimensions(layerWidth(), layerHeight());
+
+		// return textGraphics;
+		return null;
+	}
+
+	public TextLayer getShapeLayerCopy() {
+		// TextLayer copy = new TextLayer(layerWidth(), layerHeight(), Color.white, text);
+		// return copy;
+		return null;
+	}
 }

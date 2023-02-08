@@ -31,21 +31,21 @@ class TextTool extends ClickableTool {
 				if (!textBtn.isActive()) return;
                 String text = JOptionPane.showInputDialog(null, "Please Enter Text");  //takes a string for the file name
              
-                int w = canvas.getMainLayer().getWidth() - e.getX();
-                int h = canvas.getMainLayer().getHeight() - e.getY();
+                // int w = canvas.getMainLayer().getWidth() - e.getX();
+                // int h = canvas.getMainLayer().getHeight() - e.getY();
 
-                TextGraphics txtGraphics = new TextGraphics(new Point(0, 0), text, w);
+                // TextGraphics txtGraphics = new TextGraphics(new Point(0, 0), text, w);
                 // Dimension layerDim = txtGraphics.getDimensions();
-                TextLayer txtLayer = new TextLayer(w, h, Color.white, text);
+                TextLayer txtLayer = new TextLayer(new Point(e.getX(), e.getY()), Color.red, 20, text, canvas.getMainLayer().getWidth());
 
                 // int midLayerWidth = (int) layerDim.getWidth() / 2;
                 // int midLayerHeight = (int) layerDim.getHeight() / 2;
-                txtLayer.setLocation(e.getX(), e.getY());
+                // txtLayer.setLocation(e.getX(), e.getY());
 
                 // txtGraphics.setDimensions((int) layerDim.getWidth(), (int) layerDim.getHeight());
-                txtGraphics.setDimensions(w, h);
-                txtLayer.updateGraphics(txtGraphics);
-                txtLayer.updateSelectionLayer();
+                // txtGraphics.setDimensions(w, h);
+                // txtLayer.updateGraphics(txtGraphics);
+                
                 layersHandler.addLayer(txtLayer);
                 layersHandler.updateCanvas();
 
