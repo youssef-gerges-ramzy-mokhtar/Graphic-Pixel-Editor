@@ -10,7 +10,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     private Brush pen;
     private int penSize=1;
     private Color currentCol;
-   // private boolean mouseDown = false;
+    private boolean mouseDown = false;
     private ArrayList<Observer> observers = new ArrayList<Observer>();
     private ArrayList<Observer> clickObservers = new ArrayList<Observer>();
     private Boolean buttonSelected = false;

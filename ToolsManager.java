@@ -1,5 +1,6 @@
 import java.util.*;
 import javax.swing.*;
+import java.awt.event.*;  
 
 // ToolsManager is like a Facade that is responsible for creating the Tools and linking the different tools to each other
 class ToolsManager {
@@ -26,7 +27,6 @@ class ToolsManager {
 
     
     private ImageLoader imageLoader;
-	private SaveAs imageSaver;
     private LayersHandler layersHandler;
     private LayersSelectionPanel layersSelectionPanel;
 
@@ -35,10 +35,43 @@ class ToolsManager {
     private LayersOptions layersOptions;
 
     private ArrayList<ClickableTool> clickableContainers;
+	private JComboBox canvasDropList;
+
+	
+	private String canvasName[] = {"1","2","3"};
+	private JButton[] canvasButtons = new JButton[3];
+	
+	private CanvasHandler canvasHandler;
+
 
 	public ToolsManager(Display display) {
-		this.display = display;
+
 		this.canvas = new OurCanvas();
+		ActionListener listener = new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+				Object source = e.getSource();
+                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i);}
+                
+				
+            }
+        };
+
+		for (int i = 0; i < 3; i++) {
+			canvasButtons[i] = new JButton();
+			canvasButtons[i].addActionListener(listener);
+		 }
+
+		this.display = display;
+		
+		
+		canvasHandler = new CanvasHandler(canvas, canvasButtons);
+		
+		
+		
+
+
+		
 		
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersOptions = new LayersOptions(layersHandler);
@@ -51,7 +84,7 @@ class ToolsManager {
 		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
 		this.fillTool = new FillTool(layersOptions, canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-		this.blur = new BlurTool(layersOptions, canvas, undo);
+		this.blur = new BlurTool(canvas);
 		this.rectangleTool = new RectangleTool(layersOptions, canvas, undo);
 		this.circleTool = new CircleTool(layersOptions, canvas, undo);
 		this.triangleTool = new TriangleTool(layersOptions, canvas, undo);
@@ -66,7 +99,7 @@ class ToolsManager {
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
-        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
+        this.menuPanel = new MenuPanel(canvas, imageLoader);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
@@ -75,8 +108,18 @@ class ToolsManager {
 		initObservers();
 	}
 
+	public void changeCanvas(int canvasNum)
+	{
+		
+		
+		canvasHandler.updateCanvas(canvasNum);
+		//display.changeCanvas(canvas);
+	}
+
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
+
+		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
 
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
@@ -92,7 +135,6 @@ class ToolsManager {
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
-		clickableContainers.add(blur);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
@@ -137,5 +179,9 @@ class ToolsManager {
 
 	public JPanel getCanvas() {
 		return canvas;
+	}
+
+	public JButton[] getCanvasButtons() {
+		return canvasButtons;
 	}
 }
