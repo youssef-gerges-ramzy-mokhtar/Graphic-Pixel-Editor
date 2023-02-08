@@ -44,6 +44,7 @@ public class Display extends JFrame {
 
         for(int i=0; i<3; i++)
         {
+            canvasButtons[i].setBackground(Color.white);
             topPanel.add(canvasButtons[i]);
             
         }

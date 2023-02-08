@@ -10,7 +10,7 @@ public class CanvasHandler{
     private LayersHandler layersHandler;
     private OurCanvas canvas;
     private JButton[] canvasButtons;
-    private int currentCanvasNum;
+    private int currentCanvasNum=0;
 
     public CanvasHandler(OurCanvas canvas, JButton[] canvasButtons)
     {
@@ -32,7 +32,7 @@ public class CanvasHandler{
 
         ImageIcon img = changeIconSize(drawingImg);
 
-        
+      
 
         for(JButton button : canvasButtons)
         {
@@ -57,21 +57,21 @@ public class CanvasHandler{
     public void updateCanvas(int canvasNum)
     {
         ImageIcon icon = changeIconSize(layersHandler.getSelectedLayer().getImage());
-       
+      
 
         //Updates the current canvas with the new data
         if(currentCanvasNum == 0) { canvasLayers1 = layersHandler.getLayersCopy();   canvasButtons[0].setIcon(icon);}
         else if (currentCanvasNum == 1) { canvasLayers2 = layersHandler.getLayersCopy();  canvasButtons[1].setIcon(icon);}
         else {canvasLayers3 = layersHandler.getLayersCopy();  canvasButtons[2].setIcon(icon);}
-
         currentCanvasNum = canvasNum;
 
-
+        
         //Updates the layers in the layerHandler of the canvas to be displayed
-        if(canvasNum == 0)  layersHandler.setLayers(canvasLayers1);
-        else if (canvasNum == 1)  layersHandler.setLayers(canvasLayers2);
-        else  layersHandler.setLayers(canvasLayers3);
-
+        if(canvasNum == 0){  layersHandler.setLayers(canvasLayers1); }
+        else if (canvasNum == 1){  layersHandler.setLayers(canvasLayers2);}
+        else {layersHandler.setLayers(canvasLayers3);}
+        layersHandler.updateCanvas();
+       
         
 		
 		

@@ -38,7 +38,7 @@ class ToolsManager {
 	private JComboBox canvasDropList;
 
 	
-	private String canvasName[] = {"1","2","3"};
+
 	private JButton[] canvasButtons = new JButton[3];
 	
 	private CanvasHandler canvasHandler;
@@ -51,7 +51,7 @@ class ToolsManager {
             
             public void actionPerformed(ActionEvent e) {
 				Object source = e.getSource();
-                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i);}
+                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i); }
                 
 				
             }
@@ -66,7 +66,9 @@ class ToolsManager {
 		
 		
 		canvasHandler = new CanvasHandler(canvas, canvasButtons);
-		
+		changeCanvas(2);
+		changeCanvas(1);
+		changeCanvas(0);
 		
 		
 
