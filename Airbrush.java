@@ -8,7 +8,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     private Random rand;
     private Clickable airBrushBtn;
     private Brush pen;
-    private int penSize=1;
+    private int penSize=20;
     private Color currentCol;
     private boolean mouseDown = false;
     private ArrayList<Observer> observers = new ArrayList<Observer>();
@@ -127,7 +127,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
 	}
 
     public void update(int thickness) {    
-		penSize = thickness;
+		penSize = thickness +20;
     }
 
 	public void update2(Color col) {
