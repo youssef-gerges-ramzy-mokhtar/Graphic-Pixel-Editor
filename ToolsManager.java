@@ -69,12 +69,7 @@ class ToolsManager {
 		canvasHandler = new CanvasHandler(canvas, canvasButtons);
 		changeCanvas(2);
 		changeCanvas(1);
-		changeCanvas(0);
-		
-		
-
-
-		
+		changeCanvas(0);		
 		
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersOptions = new LayersOptions(layersHandler);
@@ -180,6 +175,10 @@ class ToolsManager {
 
 	public JPanel getCanvas() {
 		return canvas;
+	}
+
+	public JPanel getLayerOptionsPanel() {
+		return layersOptions;
 	}
 
 	public JButton[] getCanvasButtons() {

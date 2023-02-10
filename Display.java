@@ -35,8 +35,12 @@ public class Display extends JFrame {
         contentPane.setLayout(new BorderLayout());
         
         main.add(toolsManager.getToolsPanel(), BorderLayout.WEST);
+        // main.add(toolsManager.getLayerOptionsPanel(), BorderLayout.EAST);
         main.add(new JScrollPane(toolsManager.getCanvas(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
         contentPane.add(main, BorderLayout.CENTER);
+        contentPane.add(toolsManager.getOptionsPanel(), BorderLayout.NORTH);
+        contentPane.add(toolsManager.getLayerOptionsPanel(), BorderLayout.EAST);
+
         JPanel topPanel = new JPanel();
         contentPane.add(topPanel, BorderLayout.NORTH);
         topPanel.setLayout(new FlowLayout());
