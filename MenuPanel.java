@@ -5,8 +5,9 @@ class MenuPanel extends JMenuBar {
 	private ImageLoader imageLoaderMenu;
 	private OurCanvas canvas;
 
-	public MenuPanel(OurCanvas canvas, ImageLoader imageLoaderMenu) {
+	public MenuPanel(OurCanvas canvas, ImageLoader imageLoaderMenu, SaveAs imageSaver) {
 		this.imageLoaderMenu = imageLoaderMenu;
 		add(imageLoaderMenu.getMenu());
+		add(imageSaver.getMenu());
 	}
 }

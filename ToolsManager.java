@@ -27,6 +27,7 @@ class ToolsManager {
 
     
     private ImageLoader imageLoader;
+    private SaveAs imageSaver;
     private LayersHandler layersHandler;
     private LayersSelectionPanel layersSelectionPanel;
 
