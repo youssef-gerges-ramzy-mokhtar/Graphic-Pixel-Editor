@@ -172,9 +172,10 @@ class LayersHandler implements CanvasObserver {
 
 	public ArrayList<LayerData> getLayersCopy() {
 		ArrayList<LayerData> layersCopy = new ArrayList<LayerData>();
+		
 		for (LayerData layer: layers)
 			layersCopy.add(layer.getCopy());
-	
+		
 		return layersCopy;
 	}
 
@@ -212,4 +213,6 @@ class LayersHandler implements CanvasObserver {
 		if (layersHandler == null) layersHandler = new LayersHandler(canvas);
 		return layersHandler;
 	}
+
+	
 }
