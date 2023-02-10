@@ -98,10 +98,11 @@ class ToolsManager {
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
-        this.menuPanel = new MenuPanel(canvas, imageLoader);
+        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
+        this.imageSaver = new SaveAs(canvas);
+        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
@@ -120,9 +121,6 @@ class ToolsManager {
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
-
-		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
-
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
 		clickableContainers.add(penTool);

@@ -22,7 +22,6 @@ abstract class ShapeLayer extends LayerData {
 		Graphics2D g2d = getLayerGraphics();
 		updateGraphics(specificGraphic);
 
-		// mergeLayer(oldLayer, 0, 0); // that is the best what I could do to resize a Shape Layer with drawings on it and make the image pixelated
 		updateSelectionLayer();
 	}
 
