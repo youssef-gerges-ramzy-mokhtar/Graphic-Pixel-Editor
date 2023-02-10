@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // PenTool is used to represent the Pen Tool
-class PenTool extends DrawingTool implements Observer {
+class PenTool extends DrawingTool {
 	public PenTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, canvas, undo);
 		drawingBtn.setText("Pen");
@@ -13,8 +13,7 @@ class PenTool extends DrawingTool implements Observer {
 	
 	protected void setBrushProperties() {}
 
-	// Observer Pattern
-	
+	// Observer Pattern	
 	// update2() is used to observer changes in the color chooser
 	public void update2(Color col) {
 		brush.setColor(col);

@@ -41,21 +41,14 @@ public class TextGraphics implements SpecificGraphic {
     }
 
 	public void draw(Graphics2D g) {
-		// g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-		// g.fillRect(0, 0, width, height);
-		// g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-		g.setColor(Color.green);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		g.fillRect(0, 0, width, height);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
 		Font font = new Font("Arial", Font.PLAIN, fontSz);
 		g.setFont(font);
-		g.setColor(Color.black);
+		g.setColor(fontCol);
 		FontMetrics fontInfo = g.getFontMetrics();
-
-		System.out.println(fontCol + " " + fontSz);
-		// System.out.println(fm + "\n" + " " + fm.getHeight() + " " + fm.getAscent() + " " + fm.stringWidth("Youssef Gerges"));
-		// System.out.println(fm.getStringBounds(text, g));
-		// System.out.println(width + " " + height);
 
 		int y = fontInfo.getHeight();
 		int spacing = 10;

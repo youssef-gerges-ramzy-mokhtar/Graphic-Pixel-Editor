@@ -20,7 +20,7 @@ class TextLayer extends LayerData {
 	}
 
 	private void initLayer() {
-		ArrayList<ArrayList<String>> sentences = wordsDivider();
+		ArrayList<ArrayList<String>> sentences = wordsDivider(canvasWidth - getX());
 
 		int width = canvasWidth - getX();
 		int height = (getTextHeight() * sentences.size());
@@ -56,9 +56,7 @@ class TextLayer extends LayerData {
     	return fontInfo.stringWidth(text);
     }
 
-	private ArrayList<ArrayList<String>> wordsDivider() {
-		int maxWidth = canvasWidth - getX();
-
+	private ArrayList<ArrayList<String>> wordsDivider(int maxWidth) {
 		Font font = new Font(text, Font.PLAIN, fontSz);
 		Graphics2D g2d = getLayerGraphics();
 		g2d.setFont(font);
@@ -75,7 +73,6 @@ class TextLayer extends LayerData {
 			Rectangle2D r2d = fontInfo.getStringBounds(current_word + " ", g2d);
 			int word_width = (int) Math.ceil(r2d.getWidth());
 
-			System.out.println(word_width);
 			if (word_width < remaining_width) {
 				sequence.add(current_word);
 				remaining_width -= word_width;
@@ -94,35 +91,29 @@ class TextLayer extends LayerData {
 		return word_divisoins;
 	}
 
-	//////////////////////////// Stil Under Implementation ////////////////////////////
 	public void resize(Point newLayerEndPos) {
-
+		int layerWidth = Math.abs(newLayerEndPos.x - getX());
+		int layerHeight = Math.abs(newLayerEndPos.y - getY());
+		resize(layerWidth, layerHeight);
+		setLocation(validPoint(getCoords(), newLayerEndPos));
 	}
-	public void resize(int width, int height) {}
+	public void resize(int width, int height) {
+		if (width <= 0 || height <= 0) return;
+
+		ArrayList<ArrayList<String>> sentences = wordsDivider(width);
+		clear(width, height, fontCol);
+		
+		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), sentences, fontSz, fontCol);
+		textGraphics.setDimensions(width, height);
+		updateGraphics(textGraphics);
+	}
 
 	public LayerData getCopy() {
-	// 	TextLayer copy = new TextLayer(width, height, Color.black, text);
-	// 	copy.clear(new Color(0, 0, 0, 0));
+		TextLayer copy = new TextLayer(new Point(getX(), getY()), fontCol, fontSz, text, canvasWidth);
+		copy.clear(new Color(0, 0, 0, 0));
 
-	// 	copy.mergeLayer(this.getImage(), 0, 0);
-	// 	copy.setLocation(new Point(getX(), egetY()));
-	// 	copy.updateSelectionLayer();
-	// 	return copy;
-		return null;
-	}
-	
-	public SpecificGraphic getSpecificGraphic(int width, int height) {
-		// TextGraphics textGraphics = new TextGraphics(new Point(0, 0), text, 700);
-		// textGraphics.setFontColor(Color.black);
-		// textGraphics.setDimensions(layerWidth(), layerHeight());
-
-		// return textGraphics;
-		return null;
-	}
-
-	public TextLayer getShapeLayerCopy() {
-		// TextLayer copy = new TextLayer(layerWidth(), layerHeight(), Color.white, text);
-		// return copy;
-		return null;
+		copy.mergeLayer(this.getImage(), 0, 0);
+		copy.updateSelectionLayer();
+		return copy;
 	}
 }

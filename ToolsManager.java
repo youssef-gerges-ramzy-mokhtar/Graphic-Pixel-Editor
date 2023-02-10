@@ -109,14 +109,14 @@ class ToolsManager {
         colorGui.addObserver(circleTool); // so whenver the colorGui changes it will notify the Circle Tool to change stroke Color
 		colorGui.addObserver(triangleTool);
 		colorGui.addObserver(airBrush);
-		// colorGui.addObserver(text);
+		colorGui.addObserver(text);
 
         eyeDropperTool.addObserver(colorGui); // so whenver the eye Dropper Tool is used on cnavas it notifies the colorGui to updates the color preview
 	
         optionsPanel.getPenOptionsPanel().addObserver(penTool); // Pen Tool observers changes in the brush size
         optionsPanel.getPenOptionsPanel().addObserver(eraserTool); // Eraser Tool observers changes in the brush size
 		optionsPanel.getPenOptionsPanel().addObserver(airBrush);
-		// optionsPanel.getPenOptionsPanel().addObserver(text);
+		optionsPanel.getPenOptionsPanel().addObserver(text);
 		optionsPanel.getPenOptionsPanel().addObserver(blur);
         
         canvas.addObserver(toolsPanel);
