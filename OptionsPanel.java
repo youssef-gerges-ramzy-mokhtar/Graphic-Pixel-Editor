@@ -14,6 +14,7 @@ class OptionsPanel extends JPanel {
 		penOptionsPanel = new PenOptionsPanel();
 
 		setLayout(new FlowLayout());
+		
 		setBackground(Constants.mainColor);
         add(penOptionsPanel);
         add(tempToUpdate(colorGui));
@@ -27,6 +28,7 @@ class OptionsPanel extends JPanel {
 		main.add(colorGui.getBtn(), BorderLayout.SOUTH);
 		main.add(new ColorsPanel(colorGui), BorderLayout.CENTER);
 		main.add(label, BorderLayout.NORTH);
+	
 		main.setBackground(Constants.mainColor);
 
 		return main;

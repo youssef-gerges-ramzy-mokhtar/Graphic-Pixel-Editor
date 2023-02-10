@@ -1,44 +1,65 @@
 import java.awt.*;
+import java.awt.geom.*;
+import java.awt.image.*;
+import java.util.*;
 
 // TextGraphics is used to store properties of a Rectnalge and used to Draw a Rectnalge using a Layer's Graphics2D Object
 public class TextGraphics implements SpecificGraphic {
+    ArrayList<ArrayList<String>> sentences;
 	Point position;
-	float stroke_sz;
-	int len;
-	Color stroke_col;
-    String text;
+    int width;
+    int height;
+	int fontSz;
+	Color fontCol;
 
-	public TextGraphics(Point position) {
+	public TextGraphics(Point position, ArrayList<ArrayList<String>> sentences) {
+		this(position, sentences, 50, Color.black);
+	}
+
+	public TextGraphics(Point position, ArrayList<ArrayList<String>> sentences, int fontSz, Color fontCol) {
 		this.position = position;
-		stroke_sz = 2;
-		len = 3;
+		this.sentences = sentences;
+		this.fontSz = fontSz;
+		this.fontCol = fontCol;
 	}
 
 	public void setPoints(Point position) {
 		this.position = position;
 	}
 
-	public void setStrokeSize(float sz) {
-		this.stroke_sz = sz;
+	public void setFontSize(int sz) {
+		this.fontSz = sz;
 	}
 
-	public void setColor(Color col) {
-		this.stroke_col = col;
+	public void setFontColor(Color col) {
+		this.fontCol = col;
 	}
 
-	public void setLen(int len) {
-		this.len = len;
-	}
-
-    public void setText(String t){
-        this.text = t;
+    public void setDimensions(int width, int height) {
+    	this.width = width;
+    	this.height = height;
     }
 
 	public void draw(Graphics2D g) {
-		g.setStroke(new BasicStroke(stroke_sz));
-		g.setColor(stroke_col);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		g.fillRect(0, 0, width, height);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
-		g.drawString(text, 0, 0);
+		Font font = new Font("Arial", Font.PLAIN, fontSz);
+		g.setFont(font);
+		g.setColor(fontCol);
+		FontMetrics fontInfo = g.getFontMetrics();
+
+		int y = fontInfo.getHeight();
+		int spacing = 10;
+		for (ArrayList<String> sentence: sentences) {
+			String line = "";
+			for (String word: sentence)
+				line += word + " ";
+
+			g.drawString(line, 5, y);
+			y += spacing + (fontInfo.getAscent() - fontInfo.getDescent());
+		}
 
 		g.dispose();
 	}

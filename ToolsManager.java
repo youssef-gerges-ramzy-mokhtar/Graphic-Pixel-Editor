@@ -1,5 +1,6 @@
 import java.util.*;
 import javax.swing.*;
+import java.awt.event.*;  
 
 // ToolsManager is like a Facade that is responsible for creating the Tools and linking the different tools to each other
 class ToolsManager {
@@ -26,6 +27,7 @@ class ToolsManager {
 
     
     private ImageLoader imageLoader;
+    private SaveAs imageSaver;
     private LayersHandler layersHandler;
     private LayersSelectionPanel layersSelectionPanel;
 
@@ -34,10 +36,40 @@ class ToolsManager {
     private LayersOptions layersOptions;
 
     private ArrayList<ClickableTool> clickableContainers;
+	private JComboBox canvasDropList;
+
+	
+
+	private JButton[] canvasButtons = new JButton[3];
+	
+	private CanvasHandler canvasHandler;
+
 
 	public ToolsManager(Display display) {
-		this.display = display;
+
 		this.canvas = new OurCanvas();
+		ActionListener listener = new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+				Object source = e.getSource();
+                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i); }
+                
+				
+            }
+        };
+
+		for (int i = 0; i < 3; i++) {
+			canvasButtons[i] = new JButton();
+			canvasButtons[i].addActionListener(listener);
+		 }
+
+		this.display = display;
+		
+		
+		canvasHandler = new CanvasHandler(canvas, canvasButtons);
+		changeCanvas(2);
+		changeCanvas(1);
+		changeCanvas(0);		
 		
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersOptions = new LayersOptions(layersHandler);
@@ -62,10 +94,11 @@ class ToolsManager {
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
-        this.menuPanel = new MenuPanel(canvas, imageLoader);
+        this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
+        this.imageSaver = new SaveAs(canvas);
+        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
@@ -74,11 +107,16 @@ class ToolsManager {
 		initObservers();
 	}
 
+	public void changeCanvas(int canvasNum)
+	{
+		
+		
+		canvasHandler.updateCanvas(canvasNum);
+		//display.changeCanvas(canvas);
+	}
+
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
 	private void initToolPanel() {
-
-		toolsPanel.addClickable(blur.getClickable()); // Temporary Clickable
-
 		clickableContainers.add(selectionTool);
 		clickableContainers.add(delete);
 		clickableContainers.add(penTool);
@@ -141,5 +179,9 @@ class ToolsManager {
 
 	public JPanel getLayerOptionsPanel() {
 		return layersOptions;
+	}
+
+	public JButton[] getCanvasButtons() {
+		return canvasButtons;
 	}
 }

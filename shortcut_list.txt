@@ -1,4 +1,5 @@
 selection: v
+blur: b
 crop: w
 pen: p
 eraser: e

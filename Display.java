@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;  
+
 
 // Display is the Main Entry for the whole Program and it simply represents the Program Frame and all Gui Components on that Frame
 public class Display extends JFrame {
@@ -23,9 +25,11 @@ public class Display extends JFrame {
         getContentPane().setBackground(Constants.mainColor);  //change background colour
     }
 
+  
+    JPanel main;
     // initrameLayout() adds the different Gui Components to the Frame
     private void initFrameLayout() {
-        JPanel main = new JPanel(new BorderLayout());
+        main = new JPanel(new BorderLayout());
         main.setBounds(0, 100, 200, 200);
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -36,10 +40,29 @@ public class Display extends JFrame {
         contentPane.add(main, BorderLayout.CENTER);
         contentPane.add(toolsManager.getOptionsPanel(), BorderLayout.NORTH);
         contentPane.add(toolsManager.getLayerOptionsPanel(), BorderLayout.EAST);
+
+        JPanel topPanel = new JPanel();
+        contentPane.add(topPanel, BorderLayout.NORTH);
+        topPanel.setLayout(new FlowLayout());
+        JButton[] canvasButtons = toolsManager.getCanvasButtons();
+
+        for(int i=0; i<3; i++)
+        {
+            canvasButtons[i].setBackground(Color.white);
+            topPanel.add(canvasButtons[i]);
+            
+        }
+
+
+        
+
+
+        topPanel.add(toolsManager.getOptionsPanel());
         setJMenuBar(toolsManager.getMenuPanel());
         revalidate();
     }
 
+  
     public static void main(String[] args) {
         Display dis = new Display();
     }
