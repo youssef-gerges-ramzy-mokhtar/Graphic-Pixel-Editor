@@ -11,6 +11,7 @@ class LayerOption extends JPanel {
 	private JButton layerNumBtn;
 	private JButton moveUpBtn;
 	private JButton moveDownBtn;
+	private JButton copyBtn;
 	private JButton deleteBtn;
 	private JButton hideBtn;
 	private JButton showBtn;
@@ -32,8 +33,9 @@ class LayerOption extends JPanel {
 		mergeCheckBox = new JCheckBox();
 		layerIcon = new JLabel(new ImageIcon(layer.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
 		layerNumBtn = new JButton("" + layerNum);
-		moveUpBtn = new JButton("Up");
-		moveDownBtn = new JButton("Down");
+		moveUpBtn = new JButton("up");
+		moveDownBtn = new JButton("dwn");
+		copyBtn = new JButton("cpy");
 		deleteBtn = new JButton("del");
 		hideBtn = new JButton("hide");
 		showBtn = new JButton("show");
@@ -43,6 +45,7 @@ class LayerOption extends JPanel {
 		add(layerNumBtn);
 		add(moveUpBtn);
 		add(moveDownBtn);
+		add(copyBtn);
 		add(deleteBtn);
 		add(hideBtn);
 		add(showBtn);
@@ -61,6 +64,15 @@ class LayerOption extends JPanel {
 		moveDownBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layersHandler.moveLayerDown(layer);
+				update();
+			}
+		});
+
+		copyBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LayerData layerCopy = layer.getCopy();
+				layerCopy.setLocation(0, 0);
+				layersHandler.addLayer(layerCopy);
 				update();
 			}
 		});
