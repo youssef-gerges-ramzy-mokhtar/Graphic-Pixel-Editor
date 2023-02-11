@@ -40,6 +40,12 @@ class CropTool extends ClickableTool {
 				layerToCrop = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
 				if (layerToCrop == null) {layersHandler.updateCanvas(); return;}
 
+				if (layerToCrop instanceof ShapeLayer) {
+					layerToCrop = rasterizeLayer(layerToCrop, layersHandler);
+					layersHandler.updateCanvas();
+					return;
+				}
+
 				layerToCrop.drawBorder();
 				layersHandler.updateCanvasSelected(layerToCrop);
 
