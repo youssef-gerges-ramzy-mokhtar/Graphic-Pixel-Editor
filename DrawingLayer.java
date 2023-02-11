@@ -20,11 +20,7 @@ class DrawingLayer extends LayerData {
 
 	public DrawingLayer getCopy() {
 		DrawingLayer copy = new DrawingLayer(layerWidth(), layerHeight(), Color.white);
-		copy.clear(new Color(0, 0, 0, 0));
-
-		copy.mergeLayer(this.getImage(), 0, 0);
-		copy.setLocation(new Point(getX(), getY()));
-		copy.updateSelectionLayer();
+		resetLayerProperties(copy);
 		return copy;
 	}
 
