@@ -47,7 +47,9 @@ class LayersOptions extends JPanel implements LayerObserver {
         ArrayList<LayerData> layers = layersHandler.getLayers();
         for (int i = layers.size() - 1; i >= 0; i--) {
             LayerOption layerOption = new LayerOption(this, layersHandler, layers.get(i), undo);
-            if (layers.get(i) == layersHandler.getSelectedLayer()) layerOption.select();
+            if (layers.get(i) == layersHandler.getSelectedLayer()) {
+                layerOption.select();
+            } 
 
             mainPanel.add(layerOption, gbc);
         }

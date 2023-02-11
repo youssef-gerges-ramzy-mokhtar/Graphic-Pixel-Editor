@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import javax.imageio.*;
+import java.awt.image.*;
 
 class LayerOption extends JPanel {
 	private LayerData layer;
@@ -8,8 +11,6 @@ class LayerOption extends JPanel {
 
 	private JCheckBox mergeCheckBox; 
 	private JLabel layerIcon;
-	private JButton hideBtn;
-	private JButton showBtn;
 
 	private LayerObserver layerObserver;
 	private UndoTool undo;
@@ -25,35 +26,39 @@ class LayerOption extends JPanel {
 	}
 
 	private void initLayerOption() {
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 		mergeCheckBox = new JCheckBox();
+
+		try {
+			BufferedImage none = new BufferedImage(12, 12, BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g2d = (Graphics2D) none.getGraphics();
+			g2d.setBackground(new Color(0, 0, 0, 0));
+			g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
+
+			ImageIcon noneIcon = new ImageIcon(none);
+			ImageIcon visibleIcon = new ImageIcon("./visible.jpeg");
+
+			mergeCheckBox.setPreferredSize(new Dimension(20, 20));
+			mergeCheckBox.setIcon(noneIcon);
+			visibleIcon = new ImageIcon(visibleIcon.getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH));
+			mergeCheckBox.setSelectedIcon(visibleIcon);
+
+			if (!layer.isHidden()) mergeCheckBox.setSelected(true);
+		} catch (Exception e) {}
+
 		layerIcon = new JLabel(new ImageIcon(layer.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
-		hideBtn = new JButton("hide");
-		showBtn = new JButton("show");
 
 		add(mergeCheckBox);
 		add(layerIcon);
-		add(hideBtn);
-		add(showBtn);
 
 		setBackground(new Color(204, 204, 204));
 	}
 
 	private void addBtnListeners() {
-		hideBtn.addActionListener(new ActionListener() {
+		mergeCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (layer == layersHandler.getDrawingLayer()) return;
-				if (layer.isHidden()) return;
-
-				layer.hide();
-				update();
-			}
-		});
-
-		showBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!layer.isHidden()) return;
-
-				layer.show();
+				if (layer.isHidden()) layer.show();
+				else layer.hide();
 				update();
 			}
 		});
