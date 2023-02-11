@@ -28,7 +28,7 @@ class TextLayer extends LayerData {
 		clear(width, height, fontCol);
 		
 		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), sentences, fontSz, fontCol);
-		textGraphics.setDimensions(width, height);
+		textGraphics.setDimension(width, height);
 		updateGraphics(textGraphics);
 	}
 
@@ -104,7 +104,7 @@ class TextLayer extends LayerData {
 		clear(width, height, fontCol);
 		
 		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), sentences, fontSz, fontCol);
-		textGraphics.setDimensions(width, height);
+		textGraphics.setDimension(width, height);
 		updateGraphics(textGraphics);
 	}
 
