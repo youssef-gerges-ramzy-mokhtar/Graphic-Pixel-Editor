@@ -110,10 +110,7 @@ class TextLayer extends LayerData {
 
 	public LayerData getCopy() {
 		TextLayer copy = new TextLayer(new Point(getX(), getY()), fontCol, fontSz, text, canvasWidth);
-		copy.clear(new Color(0, 0, 0, 0));
-
-		copy.mergeLayer(this.getImage(), 0, 0);
-		copy.updateSelectionLayer();
+		resetLayerProperties(copy);
 		return copy;
 	}
 }

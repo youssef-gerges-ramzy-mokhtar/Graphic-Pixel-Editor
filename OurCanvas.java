@@ -112,6 +112,10 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		return mainLayer;
 	}
 
+	public Dimension getDimensions() {
+		return new Dimension(mainLayer.getWidth(), mainLayer.getHeight());
+	}
+
 	// Observer Pattern: Might change this part in the future //
 	
 	// notifyCanvasObservers() is used to notify the observers when the canvas is resized to increase the Drawing Area Size and refresh the canvas

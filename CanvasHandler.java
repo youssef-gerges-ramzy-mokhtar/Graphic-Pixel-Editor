@@ -56,7 +56,8 @@ public class CanvasHandler{
 
     public void updateCanvas(int canvasNum)
     {
-        ImageIcon icon = changeIconSize(layersHandler.getSelectedLayer().getImage());
+        // ImageIcon icon = changeIconSize(layersHandler.getSelectedLayer().getImage());
+        ImageIcon icon = changeIconSize(canvas.getMainLayer().getImage());
       
 
         //Updates the current canvas with the new data

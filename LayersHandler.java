@@ -10,7 +10,7 @@ class LayersHandler implements CanvasObserver {
 	private int horizontalOffset;
 	private LayerData drawingLayer; // is the Main Layer on Canvas, same idea as the Background Layer in Photoshop
 	private LayerData selectedLayer;
-	private static LayersHandler layersHandler; // Singelton Design Pattern=
+	private static LayersHandler layersHandler; // Singelton Design Pattern
 
 	private LayersHandler(OurCanvas canvas) {
 		this.layers = new ArrayList<LayerData>();
@@ -26,7 +26,7 @@ class LayersHandler implements CanvasObserver {
 		imgGraphics.setBackground(Color.white);
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		
-		this.drawingLayer = new ImageLayer(drawingImg);
+		this.drawingLayer = new DrawingLayer(drawingImg);
 		layers.add(drawingLayer);	
 	}
 
@@ -75,7 +75,7 @@ class LayersHandler implements CanvasObserver {
 	public LayerData selectLayer(Point pos) {
 		for (int i = layers.size() - 1; i >= 0; i--) {
 			LayerData layerData = layers.get(i);
-			if (layerData == drawingLayer) continue;
+			if (layerData instanceof DrawingLayer) continue;
 			if (layerData.isHidden()) continue;
             
             if (pos.getX() >= layerData.getX() && pos.getX() <= layerData.getEndX())
@@ -96,11 +96,15 @@ class LayersHandler implements CanvasObserver {
 			if (layerData.isHidden()) continue;
 			canvas.drawLayer(layerData);
 		}
+
+		///////////// Debugging Code /////////////
+		// System.out.println("Layers that is being updated " + layers);
 	}
 
 	public void updateCanvasSelected(LayerData selectedLayer) {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers) {
+			if (layerData.isHidden()) continue;
 			canvas.drawLayer(layerData);
 			if (layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
 		}
@@ -181,12 +185,13 @@ class LayersHandler implements CanvasObserver {
 
 	public void setLayers(ArrayList<LayerData> layers) {
 		this.layers = layers;
-		this.drawingLayer = layers.get(0);
-		changeSelectedLayer(0);
+		this.layers = getLayersCopy();
 
-		// Under Development
-		// canvas.updateCanvasSize(drawingLayer.getWidth(), drawingLayer.getHeight());
-		// updateCanvas();
+		for (LayerData layer: this.layers)
+			if (layer instanceof DrawingLayer) {this.drawingLayer = layer; break;}
+
+		changeSelectedLayer(0);
+		update();
 	}
 
 	public ArrayList<LayerData> getLayers() {
@@ -213,6 +218,4 @@ class LayersHandler implements CanvasObserver {
 		if (layersHandler == null) layersHandler = new LayersHandler(canvas);
 		return layersHandler;
 	}
-
-	
 }

@@ -27,11 +27,7 @@ class ImageLayer extends LayerData {
 
 	public ImageLayer getCopy() {
 		ImageLayer copy = new ImageLayer(layerWidth(), layerHeight(), Color.white);
-		copy.clear(new Color(0, 0, 0, 0));
-
-		copy.mergeLayer(this.getImage(), 0, 0);
-		copy.setLocation(new Point(getX(), getY()));
-		copy.updateSelectionLayer();
+		resetLayerProperties(copy);
 		return copy;
 	}
 }

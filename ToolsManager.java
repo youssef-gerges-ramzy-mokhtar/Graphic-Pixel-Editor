@@ -6,6 +6,9 @@ import java.awt.event.*;
 class ToolsManager {
 	private OurCanvas canvas;
 	private ToolsPanel toolsPanel;
+    private ColorGui colorGui;
+    private OptionsPanel optionsPanel;
+	
 	private SelectionTool selectionTool;
     private PenTool penTool;
     private EraserTool eraserTool;
@@ -17,14 +20,9 @@ class ToolsManager {
 	private Airbrush airBrush;
 	private TextTool text;
 	private Delete delete;
-    private ColorGui colorGui;
-    private OptionsPanel optionsPanel;
-
 	private BlurTool blur;
-
     private UndoTool undo;
     private CropTool crop;
-
     
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
@@ -37,31 +35,23 @@ class ToolsManager {
 
     private ArrayList<ClickableTool> clickableContainers;
 	private JComboBox canvasDropList;
-
 	
-
 	private JButton[] canvasButtons = new JButton[3];
-	
 	private CanvasHandler canvasHandler;
 
-
 	public ToolsManager(Display display) {
-
 		this.canvas = new OurCanvas();
 		ActionListener listener = new ActionListener() {
-            
             public void actionPerformed(ActionEvent e) {
 				Object source = e.getSource();
-                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i); }
-                
-				
+                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i);}
             }
         };
 
 		for (int i = 0; i < 3; i++) {
 			canvasButtons[i] = new JButton();
 			canvasButtons[i].addActionListener(listener);
-		 }
+		}
 
 		this.display = display;
 		

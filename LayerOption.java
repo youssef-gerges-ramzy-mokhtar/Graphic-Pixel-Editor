@@ -104,6 +104,7 @@ class LayerOption extends JPanel {
 	private void update() {
 		layersHandler.updateCanvas();
 		layerObserver.update();
+		undo.recordHistory();
 	}
 
 	private void recordHistory() {

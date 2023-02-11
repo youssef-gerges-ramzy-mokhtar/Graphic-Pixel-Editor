@@ -360,6 +360,16 @@ abstract class LayerData {
 		return hidden;
 	}
 
+	protected void resetLayerProperties(LayerData layerCopy) {
+		if (hidden) layerCopy.hide();
+		else layerCopy.show();
+
+		layerCopy.setLocation(new Point(getX(), getY()));
+		layerCopy.clear(new Color(0, 0, 0, 0));
+		layerCopy.mergeLayer(this.layer, 0, 0);
+		layerCopy.updateSelectionLayer();
+	}
+
 	abstract void resize(int width, int height);
 	abstract void resize(Point newLayerEndPos);
 	abstract public LayerData getCopy();
