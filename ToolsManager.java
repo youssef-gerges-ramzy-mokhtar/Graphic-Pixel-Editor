@@ -52,9 +52,7 @@ class ToolsManager {
             
             public void actionPerformed(ActionEvent e) {
 				Object source = e.getSource();
-                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i); }
-                
-				
+                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i);}
             }
         };
 

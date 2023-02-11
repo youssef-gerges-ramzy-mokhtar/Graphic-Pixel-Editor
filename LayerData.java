@@ -9,6 +9,7 @@ abstract class LayerData {
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
 	private boolean hidden = false;
+	private boolean isDrawingLayer = false;
 
 	public LayerData(BufferedImage layer) {
 		this(layer, new Point(0, 0));
