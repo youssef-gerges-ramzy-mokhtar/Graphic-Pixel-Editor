@@ -10,6 +10,7 @@ class SelectionTool extends ClickableTool {
 	private Clickable selectionBtn;
 	private boolean canDrag;
 	private boolean changeMade;
+	private final int spacingRange;
 
 	public SelectionTool(OurCanvas canvas, UndoTool undo) {
 		super(null, undo);
@@ -17,6 +18,7 @@ class SelectionTool extends ClickableTool {
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.changeMade = false;
+		this.spacingRange = 15;
 
 		addCanvasListener();
 	}
@@ -37,12 +39,11 @@ class SelectionTool extends ClickableTool {
                 if (!selectionBtn.isActive()) return;
 
                 layerToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-                System.out.println("Layer To Move = " + layerToMove);
                 if (layerToMove == null) {layersHandler.updateCanvas(); return;}
 
                 layerToMove.drawBorder();
                 refreshCanvasSelection(layerToMove);
-                if (atCorner(e.getX(), e.getY())) canDrag = true;
+                if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) canDrag = true;
                 else canDrag = false;
             }
 
@@ -70,27 +71,17 @@ class SelectionTool extends ClickableTool {
             	if (!selectionBtn.isActive()) return;
             	if (layerToMove == null) return;
 
-            	if (atCorner(e.getX(), e.getY())) {
+            	if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) {
 					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
      				canvas.setCursor(cursor);
 					return;
             	}
-
-				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
         });
 	}
 
 	private void refreshCanvasSelection(LayerData selectedLayer) {
 		layersHandler.updateCanvasSelected(selectedLayer);
-	}
-
-	private boolean atCorner(int x, int y) {
-		int cornerRange = 10;
-		if (Math.abs(x - layerToMove.getEndX()) <= cornerRange && Math.abs(y - layerToMove.getEndY()) <= cornerRange) return true;
-		if (Math.abs(x - layerToMove.getX()) <= cornerRange && Math.abs(y - layerToMove.getY()) <= cornerRange) return true;
-
-		return false;
 	}
 
 	public CanvasObserver getCanvasObserver() {

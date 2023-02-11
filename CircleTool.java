@@ -13,7 +13,7 @@ class CircleTool extends ShapeTool {
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
 		CircleGraphics circleGraphics = new CircleGraphics(shapeLayer.getCoords(coords));
-		circleGraphics.setColor(strokeCol);
+		circleGraphics.setStrokeColor(strokeCol);
 		circleGraphics.setDimension(layerWidth, layerHeight);
 
 		return circleGraphics;

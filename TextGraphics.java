@@ -4,11 +4,8 @@ import java.awt.image.*;
 import java.util.*;
 
 // TextGraphics is used to store properties of a Rectnalge and used to Draw a Rectnalge using a Layer's Graphics2D Object
-public class TextGraphics implements SpecificGraphic {
+public class TextGraphics extends LayerGraphics {
     ArrayList<ArrayList<String>> sentences;
-	Point position;
-    int width;
-    int height;
 	int fontSz;
 	Color fontCol;
 
@@ -17,14 +14,10 @@ public class TextGraphics implements SpecificGraphic {
 	}
 
 	public TextGraphics(Point position, ArrayList<ArrayList<String>> sentences, int fontSz, Color fontCol) {
-		this.position = position;
+		super(position);
 		this.sentences = sentences;
 		this.fontSz = fontSz;
 		this.fontCol = fontCol;
-	}
-
-	public void setPoints(Point position) {
-		this.position = position;
 	}
 
 	public void setFontSize(int sz) {
@@ -34,11 +27,6 @@ public class TextGraphics implements SpecificGraphic {
 	public void setFontColor(Color col) {
 		this.fontCol = col;
 	}
-
-    public void setDimensions(int width, int height) {
-    	this.width = width;
-    	this.height = height;
-    }
 
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));

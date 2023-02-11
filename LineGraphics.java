@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // LineGraphics is used to store properties of a Line and is used to Draw a Line using a Layer's Graphics2D Object
-public class LineGraphics implements SpecificGraphic {
+public class LineGraphics extends SpecificGraphic {
 	Point firstPoint, secondPoint;
 	float stroke_sz;
 	Color stroke_col;

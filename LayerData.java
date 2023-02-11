@@ -360,6 +360,27 @@ abstract class LayerData {
 		return hidden;
 	}
 
+	public Resize canResize(int x, int y, int spacingRange) {
+		int x1 = getX();
+		int y1 = getY();
+		int x2 = getEndX();
+		int y2 = getEndY();
+		
+		if (0 < x2-x && x2-x <= spacingRange && 0 < y2-y && y2-y <= spacingRange) return Resize.BOTTOMRIGHT;
+		else if (0 < x-x1 && x-x1 <= spacingRange && 0 < y2-y && y2-y <= spacingRange) return Resize.BOTTOMLEFT;
+		else if (0 < x-x1 && x2-x <= spacingRange && 0 < y-y1 && y-y1 <= spacingRange) return Resize.TOPRIGHT;
+		else if (0 < x-x1 && x-x1 <= spacingRange && 0 < y-y1 && y-y1 <= spacingRange) return Resize.TOPLEFT;
+		else if (x1+spacingRange < x && x < x2-spacingRange) {
+			if (y1 < y && y < y1+spacingRange) return Resize.TOP;
+			if (y2-spacingRange < y && y < y2) return Resize.BOTTOM;
+		} else if (y1+spacingRange < y && y < y2-spacingRange) {
+			if (x2-spacingRange < x && x < x2) return Resize.RIGHT;
+			if (x1 < x && x < x1+spacingRange) return Resize.LEFT;
+		} 
+	
+		return Resize.INVALID;
+	}
+
 	protected void resetLayerProperties(LayerData layerCopy) {
 		if (hidden) layerCopy.hide();
 		else layerCopy.show();

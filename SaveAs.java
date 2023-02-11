@@ -29,9 +29,12 @@ class SaveAs{
 
             public void menuSelected(MenuEvent e) {
                     try {
-                        String fileName = JOptionPane.showInputDialog(null, "Please enter the file name");  //takes a string for the file name
+                        JFileChooser fileChooser = new JFileChooser();
+                        int fileResponse = fileChooser.showSaveDialog(null);
+                        if (fileResponse != JFileChooser.APPROVE_OPTION) return;
 
-                        ImageIO.write(canvas.getMainLayer().getImage(), "jpg", new File(fileName + ".jpg") );       //creates an image using the layer data
+                        String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                        ImageIO.write(canvas.getMainLayer().getImage(), "png", new File(filePath + ".png"));       //creates an image using the layer data
                         System.out.println("image created");
                     } catch (IOException e1) {
                         e1.printStackTrace();
