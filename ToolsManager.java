@@ -72,7 +72,7 @@ class ToolsManager {
 		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
 		this.fillTool = new FillTool(layersOptions, canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-		this.blur = new BlurTool(canvas);
+		this.blur = new BlurTool(layersOptions, canvas, undo);
 		this.rectangleTool = new RectangleTool(layersOptions, canvas, undo);
 		this.circleTool = new CircleTool(layersOptions, canvas, undo);
 		this.triangleTool = new TriangleTool(layersOptions, canvas, undo);
@@ -121,6 +121,7 @@ class ToolsManager {
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
+		clickableContainers.add(blur);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
