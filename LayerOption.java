@@ -10,6 +10,7 @@ class LayerOption extends JPanel {
 	private LayersHandler layersHandler;
 
 	private JCheckBox mergeCheckBox; 
+	private JCheckBox visibilityCheckBox;
 	private JLabel layerIcon;
 
 	private LayerObserver layerObserver;
@@ -26,9 +27,12 @@ class LayerOption extends JPanel {
 	}
 
 	private void initLayerOption() {
+		// We can have a better code structure here
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		mergeCheckBox = new JCheckBox();
+		if (layer.isSelectedForMerge()) mergeCheckBox.setSelected(true);
 
+		visibilityCheckBox = new JCheckBox();
 		try {
 			BufferedImage none = new BufferedImage(12, 12, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = (Graphics2D) none.getGraphics();
@@ -38,28 +42,36 @@ class LayerOption extends JPanel {
 			ImageIcon noneIcon = new ImageIcon(none);
 			ImageIcon visibleIcon = new ImageIcon("./visible.jpeg");
 
-			mergeCheckBox.setPreferredSize(new Dimension(20, 20));
-			mergeCheckBox.setIcon(noneIcon);
+			visibilityCheckBox.setPreferredSize(new Dimension(20, 20));
+			visibilityCheckBox.setIcon(noneIcon);
 			visibleIcon = new ImageIcon(visibleIcon.getImage().getScaledInstance(12, 12, Image.SCALE_SMOOTH));
-			mergeCheckBox.setSelectedIcon(visibleIcon);
+			visibilityCheckBox.setSelectedIcon(visibleIcon);
 
-			if (!layer.isHidden()) mergeCheckBox.setSelected(true);
+			if (!layer.isHidden()) visibilityCheckBox.setSelected(true);
 		} catch (Exception e) {}
 
 		layerIcon = new JLabel(new ImageIcon(layer.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
 
 		add(mergeCheckBox);
+		add(visibilityCheckBox);
 		add(layerIcon);
 
 		setBackground(new Color(204, 204, 204));
 	}
 
 	private void addBtnListeners() {
-		mergeCheckBox.addActionListener(new ActionListener() {
+		visibilityCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (layer.isHidden()) layer.show();
 				else layer.hide();
 				update();
+			}
+		});
+
+		mergeCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layer.setSelectedForMerge(!layer.isSelectedForMerge());					
+				if (undo != null) undo.recordHistory();
 			}
 		});
 
