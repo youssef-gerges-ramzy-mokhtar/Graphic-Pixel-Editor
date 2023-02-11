@@ -8,45 +8,30 @@ class LayerOption extends JPanel {
 
 	private JCheckBox mergeCheckBox; 
 	private JLabel layerIcon;
-	private JButton layerNumBtn;
-	private JButton moveUpBtn;
-	private JButton moveDownBtn;
-	private JButton copyBtn;
-	private JButton deleteBtn;
 	private JButton hideBtn;
 	private JButton showBtn;
 
 	private LayerObserver layerObserver;
 	private UndoTool undo;
 
-	public LayerOption(LayerObserver layerObserver, LayersHandler layersHandler, LayerData layer, UndoTool undo, int layerNum) {
+	public LayerOption(LayerObserver layerObserver, LayersHandler layersHandler, LayerData layer, UndoTool undo) {
 		this.layersHandler = layersHandler;
 		this.layer = layer;
 		this.layerObserver = layerObserver;
 		this.undo = undo;
 
-		initLayerOption(layerNum);
+		initLayerOption();
 		addBtnListeners();
 	}
 
-	private void initLayerOption(int layerNum) {
+	private void initLayerOption() {
 		mergeCheckBox = new JCheckBox();
 		layerIcon = new JLabel(new ImageIcon(layer.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
-		layerNumBtn = new JButton("" + layerNum);
-		moveUpBtn = new JButton("up");
-		moveDownBtn = new JButton("dwn");
-		copyBtn = new JButton("cpy");
-		deleteBtn = new JButton("del");
 		hideBtn = new JButton("hide");
 		showBtn = new JButton("show");
 
 		add(mergeCheckBox);
 		add(layerIcon);
-		add(layerNumBtn);
-		add(moveUpBtn);
-		add(moveDownBtn);
-		add(copyBtn);
-		add(deleteBtn);
 		add(hideBtn);
 		add(showBtn);
 
@@ -54,36 +39,6 @@ class LayerOption extends JPanel {
 	}
 
 	private void addBtnListeners() {
-		moveUpBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layersHandler.moveLayerUp(layer);
-				update();
-			}
-		});
-
-		moveDownBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layersHandler.moveLayerDown(layer);
-				update();
-			}
-		});
-
-		copyBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				LayerData layerCopy = layer.getCopy();
-				layerCopy.setLocation(0, 0);
-				layersHandler.addLayer(layerCopy);
-				update();
-			}
-		});
-
-		deleteBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layersHandler.removeLayer(layer);
-				update();
-			}
-		});
-
 		hideBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (layer == layersHandler.getDrawingLayer()) return;
@@ -104,19 +59,35 @@ class LayerOption extends JPanel {
 		});
 
 		this.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (layer.isHidden()) return;
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					LayerOptionPopUp menuOptions = new LayerOptionPopUp();
+					menuOptions.show(e.getComponent(), e.getX(), e.getY());
+					return;
+				}
+
 				layersHandler.changeSelectedLayer(layer);
 				layerObserver.update();
-
 			}
 		});
+	}
+
+	public void delete() {
+		layersHandler.removeLayer(layer);
+		update();
+	}
+	public void copy() {
+		LayerData layerCopy = layer.getCopy();
+		layerCopy.setLocation(0, 0);
+		layersHandler.addLayer(layerCopy);
+		update();
 	}
 
 	private void update() {
 		layersHandler.updateCanvas();
 		layerObserver.update();
-		undo.recordHistory();
+		
+		if (undo != null) undo.recordHistory();
 	}
 
 	private void recordHistory() {
@@ -126,4 +97,50 @@ class LayerOption extends JPanel {
 	public void select() {
 		setBackground(new Color(126, 126, 126));
 	}
+}
+
+
+class LayerOptionPopUp extends JPopupMenu {
+	private JMenuItem delete;
+	private JMenuItem copy;
+	private JMenuItem merge;
+
+	public LayerOptionPopUp() {
+		initOptionChoices();
+		attachEventHandlers();
+	}
+
+	private void initOptionChoices() {
+		delete = new JMenuItem("delete");
+		copy = new JMenuItem("copy");
+		merge = new JMenuItem("merge layers");
+
+		add(delete);
+		add(copy);
+		add(merge);
+	}
+
+	private void attachEventHandlers() {
+		delete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LayerOption layerOption = (LayerOption) getInvoker();
+				layerOption.delete();
+			}
+		});
+
+		copy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LayerOption layerOption = (LayerOption) getInvoker();
+				layerOption.copy();
+			}
+		});
+
+		merge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LayerOption layerOption = (LayerOption) getInvoker();
+				System.out.println(layerOption);
+			}
+		});
+	}
+
 }
