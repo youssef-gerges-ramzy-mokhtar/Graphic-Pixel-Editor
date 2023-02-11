@@ -98,12 +98,13 @@ class LayersHandler implements CanvasObserver {
 		}
 
 		///////////// Debugging Code /////////////
-		System.out.println("Layers that is being updated " + layers);
+		// System.out.println("Layers that is being updated " + layers);
 	}
 
 	public void updateCanvasSelected(LayerData selectedLayer) {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers) {
+			if (layerData.isHidden()) continue;
 			canvas.drawLayer(layerData);
 			if (layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
 		}
@@ -186,12 +187,11 @@ class LayersHandler implements CanvasObserver {
 		this.layers = layers;
 		this.layers = getLayersCopy();
 
-		this.drawingLayer = layers.get(0);
-		changeSelectedLayer(0);
+		for (LayerData layer: this.layers)
+			if (layer instanceof DrawingLayer) {this.drawingLayer = layer; break;}
 
-		// Under Development
-		// canvas.updateCanvasSize(drawingLayer.getWidth(), drawingLayer.getHeight());
-		// updateCanvas();
+		changeSelectedLayer(0);
+		update();
 	}
 
 	public ArrayList<LayerData> getLayers() {
@@ -218,6 +218,4 @@ class LayersHandler implements CanvasObserver {
 		if (layersHandler == null) layersHandler = new LayersHandler(canvas);
 		return layersHandler;
 	}
-
-	
 }
