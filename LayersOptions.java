@@ -30,8 +30,8 @@ class LayersOptions extends JPanel implements LayerObserver {
     }
 
     public void update() {
-        removeAll();
         layersOptions.clear();
+        removeAll();
         revalidate();
 
         JPanel mainPanel = new JPanel(new GridBagLayout());

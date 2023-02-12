@@ -52,7 +52,11 @@ class LayerOption extends JPanel {
 			if (!layer.isHidden()) visibilityCheckBox.setSelected(true);
 		} catch (Exception e) {}
 
-		layerIcon = new JLabel(new ImageIcon(layer.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
+
+		LayerData drawingLayer = layersHandler.getDrawingLayer();
+		ImageLayer layerPreview = new ImageLayer(Math.max(drawingLayer.getWidth(), layer.getX()), Math.max(drawingLayer.getHeight(), layer.getY()), Color.white);
+		layerPreview.mergeLayer(layer);
+		layerIcon = new JLabel(new ImageIcon(layerPreview.getImage().getScaledInstance(60, 40, Image.SCALE_SMOOTH))); // In the future the Layer will scale based on its ration on the canvas
 
 		add(mergeCheckBox);
 		add(visibilityCheckBox);
@@ -85,11 +89,11 @@ class LayerOption extends JPanel {
 					return;
 				}
 
-				if (!ctrlClicked) {
+				if (ctrlClicked) select();
+				else {
 					layersHandler.changeSelectedLayer(layer);
+					layersHandler.updateCanvasSelected(layer);
 					layerObserver.update();
-				} else {
-					select();
 				}
 			}
 		});

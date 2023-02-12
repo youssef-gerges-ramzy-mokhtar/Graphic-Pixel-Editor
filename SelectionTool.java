@@ -12,8 +12,8 @@ class SelectionTool extends ClickableTool {
 	private boolean changeMade;
 	private final int spacingRange;
 
-	public SelectionTool(OurCanvas canvas, UndoTool undo) {
-		super(null, undo);
+	public SelectionTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
@@ -29,6 +29,7 @@ class SelectionTool extends ClickableTool {
 		
 		addToolBtn(selectionBtn);
 		setAsChangeMaker(undo);
+		setAsLayerChanger();
 	}
 
 	// addCanvasListener() attachs an Event Listener to the canvas
@@ -49,7 +50,7 @@ class SelectionTool extends ClickableTool {
 
             public void mouseReleased(MouseEvent e) {
             	if (!selectionBtn.isActive()) return;
-            	if (changeMade) recordChange();
+            	if (changeMade) {recordChange(); updateLayerObserver();}
             	changeMade = false;
             }
         });

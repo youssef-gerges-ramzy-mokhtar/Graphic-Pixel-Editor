@@ -66,7 +66,7 @@ class ToolsManager {
 		this.toolsPanel = new ToolsPanel();
 
 		this.undo = new UndoTool(layersOptions, canvas);
-		this.selectionTool = new SelectionTool(canvas, undo);
+		this.selectionTool = new SelectionTool(layersOptions, canvas, undo);
 		this.penTool = new PenTool(layersOptions, canvas, undo);
 		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
 		this.fillTool = new FillTool(layersOptions, canvas, undo);
