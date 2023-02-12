@@ -8,13 +8,15 @@ import java.awt.image.*;
 class LayerOption extends JPanel {
 	private LayerData layer;
 	private LayersHandler layersHandler;
+	private LayerObserver layerObserver;
+	private UndoTool undo;
 
 	private JCheckBox mergeCheckBox; 
 	private JCheckBox visibilityCheckBox;
 	private JLabel layerIcon;
 
-	private LayerObserver layerObserver;
-	private UndoTool undo;
+	private boolean ctrlClicked = false;
+	private boolean selected = false;
 
 	public LayerOption(LayerObserver layerObserver, LayersHandler layersHandler, LayerData layer, UndoTool undo) {
 		this.layersHandler = layersHandler;
@@ -83,21 +85,38 @@ class LayerOption extends JPanel {
 					return;
 				}
 
-				layersHandler.changeSelectedLayer(layer);
-				layerObserver.update();
+				if (!ctrlClicked) {
+					layersHandler.changeSelectedLayer(layer);
+					layerObserver.update();
+				} else {
+					select();
+				}
 			}
+		});
+
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+	  		public boolean dispatchKeyEvent(KeyEvent e) {
+	        	ctrlClicked = e.isControlDown();
+	        	return false;
+	      	}
 		});
 	}
 
-	public void delete() {
-		layersHandler.removeLayer(layer);
-		update();
-	}
 	public void copy() {
+		if (isSelected()) ((LayersOptions) layerObserver).copyCollection();	
+		else {copyOperation(); update();}
+	}
+	public void copyOperation() {
 		LayerData layerCopy = layer.getCopy();
 		layerCopy.setLocation(0, 0);
 		layersHandler.addLayer(layerCopy);
-		update();
+	}
+	public void delete() {
+		if (isSelected()) ((LayersOptions) layerObserver).deleteCollection();
+		else {deleteOperation(); update();}
+	}
+	public void deleteOperation() {
+		layersHandler.removeLayer(layer);
 	}
 
 	private void update() {
@@ -113,6 +132,10 @@ class LayerOption extends JPanel {
 
 	public void select() {
 		setBackground(new Color(126, 126, 126));
+		selected = true;
+	}
+	public boolean isSelected() {
+		return selected;
 	}
 }
 

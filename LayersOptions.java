@@ -6,15 +6,15 @@ import java.util.*;
 class LayersOptions extends JPanel implements LayerObserver {
 	private LayersHandler layersHandler;
     private UndoTool undo;
+    private ArrayList<LayerOption> layersOptions;
 
     private JButton moveUp;
     private JButton moveDown;
     private JButton merge;
 
-    private LayerData selectedLayer;
-
     public LayersOptions(LayersHandler layersHandler) {
         this.layersHandler = layersHandler;
+        this.layersOptions = new ArrayList<LayerOption>();
 
         setLayout(new BorderLayout());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -31,6 +31,7 @@ class LayersOptions extends JPanel implements LayerObserver {
 
     public void update() {
         removeAll();
+        layersOptions.clear();
         revalidate();
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -47,11 +48,10 @@ class LayersOptions extends JPanel implements LayerObserver {
         ArrayList<LayerData> layers = layersHandler.getLayers();
         for (int i = layers.size() - 1; i >= 0; i--) {
             LayerOption layerOption = new LayerOption(this, layersHandler, layers.get(i), undo);
-            if (layers.get(i) == layersHandler.getSelectedLayer()) {
-                layerOption.select();
-            } 
+            if (layers.get(i) == layersHandler.getSelectedLayer()) layerOption.select();
 
             mainPanel.add(layerOption, gbc);
+            layersOptions.add(layerOption);
         }
 
         revalidate();
@@ -118,6 +118,24 @@ class LayersOptions extends JPanel implements LayerObserver {
                 updateState();
             }
         });
+    }
+
+    public void copyCollection() {
+        for (LayerOption layerOption: layersOptions) {
+            if (!layerOption.isSelected()) continue;
+            layerOption.copyOperation();
+        }
+
+        updateState();
+    }
+
+    public void deleteCollection() {
+        for (LayerOption layerOption: layersOptions) {
+            if (!layerOption.isSelected()) continue;
+            layerOption.deleteOperation();
+        }
+
+        updateState();
     }
 
     private void updateState() {
