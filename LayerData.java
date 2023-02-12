@@ -8,7 +8,8 @@ abstract class LayerData {
 	
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
-	private boolean hidden = false;
+	private boolean hidden;
+	private boolean selectedForMerge;
 
 	public LayerData(BufferedImage layer) {
 		this(layer, new Point(0, 0));
@@ -19,6 +20,9 @@ abstract class LayerData {
 		this.layerPos = layerPos;
 		this.layerEndPos = new Point((int) layerPos.getX() + layer.getWidth(), (int) layerPos.getY() + layer.getHeight());
 		this.originalLayer = layer;
+
+		this.hidden = false;
+		this.selectedForMerge = false;
 
 		updateSelectionLayer();
 	}
@@ -197,7 +201,7 @@ abstract class LayerData {
 
 	// mergeLayer merges the newLayer with this layer
 	public void mergeLayer(LayerData newLayer) {
-		mergeLayer(newLayer.getImage(), newLayer.getX(), newLayer.getY()); // This might cause problems
+		mergeLayer(newLayer.getImage(), newLayer.getX() - getX(), newLayer.getY() - getY()); // This might cause problems
 	}
 
 	public void mergeLayerSelection(LayerData newLayer) {
@@ -381,10 +385,19 @@ abstract class LayerData {
 		return Resize.INVALID;
 	}
 
+	public boolean isSelectedForMerge() {
+		return selectedForMerge;
+	}
+
+	public void setSelectedForMerge(boolean selectedForMerge) {
+		this.selectedForMerge = selectedForMerge;
+	}
+
 	protected void resetLayerProperties(LayerData layerCopy) {
 		if (hidden) layerCopy.hide();
 		else layerCopy.show();
 
+		layerCopy.setSelectedForMerge(selectedForMerge);
 		layerCopy.setLocation(new Point(getX(), getY()));
 		layerCopy.clear(new Color(0, 0, 0, 0));
 		layerCopy.mergeLayer(this.layer, 0, 0);

@@ -39,7 +39,7 @@ public class Display extends JFrame {
         main.add(new JScrollPane(toolsManager.getCanvas(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
         contentPane.add(main, BorderLayout.CENTER);
         contentPane.add(toolsManager.getOptionsPanel(), BorderLayout.NORTH);
-        contentPane.add(toolsManager.getLayerOptionsPanel(), BorderLayout.EAST);
+        contentPane.add(new JScrollPane(toolsManager.getLayerOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.EAST);
 
         JPanel topPanel = new JPanel();
         contentPane.add(topPanel, BorderLayout.NORTH);
@@ -52,10 +52,6 @@ public class Display extends JFrame {
             topPanel.add(canvasButtons[i]);
             
         }
-
-
-        
-
 
         topPanel.add(toolsManager.getOptionsPanel());
         setJMenuBar(toolsManager.getMenuPanel());
