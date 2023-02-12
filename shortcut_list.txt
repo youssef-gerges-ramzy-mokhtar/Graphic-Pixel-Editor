@@ -10,6 +10,7 @@ circle: c
 triangle: t
 air brush: a
 text: s
-delet: d
+delete: d
+quick_selection: q
 redo: (ctrl + y) or just y
 undo: (ctrl + z) or just z

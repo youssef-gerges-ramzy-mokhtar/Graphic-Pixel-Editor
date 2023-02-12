@@ -23,7 +23,8 @@ class ToolsManager {
 	private BlurTool blur;
     private UndoTool undo;
     private CropTool crop;
-    
+    private QuickSelectTool quickSelection;
+	    
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
     private LayersHandler layersHandler;
@@ -79,6 +80,7 @@ class ToolsManager {
 		this.text = new TextTool(layersOptions, canvas, undo);
 		this.delete = new Delete(layersOptions, canvas, undo);
 		this.crop = new CropTool(layersOptions, canvas, undo);
+		this.quickSelection = new QuickSelectTool(layersOptions, canvas, undo);
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -119,6 +121,7 @@ class ToolsManager {
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
 		clickableContainers.add(blur);
+		clickableContainers.add(quickSelection);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())

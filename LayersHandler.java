@@ -206,6 +206,36 @@ class LayersHandler implements CanvasObserver {
 		if (prevLayer == selectedLayer) selectedLayer = newLayer;
 	}
 
+	private LayerData mergeAll() {
+		LayerData mergedLayer = new ImageLayer(drawingLayer.getWidth(), drawingLayer.getHeight(), Color.white);
+
+		for (LayerData layer: layers)
+			mergedLayer.mergeLayer(layer);
+
+		layers.clear();
+		drawingLayer.clear(Color.white);
+
+		layers.add(drawingLayer);
+		layers.add(mergedLayer);
+
+		changeSelectedLayer(0);
+		return mergedLayer;
+	}
+
+	public LayerData selectPart(Point startPos, Point endPos) {
+		LayerData mergedLayer = mergeAll();
+
+		BufferedImage selectedArea = mergedLayer.getSubImage(startPos.x, startPos.y, endPos.x, endPos.y);
+		ImageLayer selectedAreaLayer = new ImageLayer(selectedArea, startPos);
+		selectedAreaLayer.setImage(selectedArea);
+
+		mergedLayer.clearSubArea(startPos.x, startPos.y, endPos.x, endPos.y, Color.white);
+		mergedLayer.updateSelectionLayer();
+		layers.add(selectedAreaLayer);
+
+		return selectedAreaLayer;
+	}
+
 	// Observer Pattern //
 	// update() is called whenver the canvas is resized, and is used to resize the drawing area
 	public void update() {

@@ -115,6 +115,7 @@ abstract class LayerData {
 	public void setImage(BufferedImage newImg) {
 		layer = newImg;
 		originalLayer = layer;
+		updateSelectionLayer();
 	}
 
 	public Graphics2D getLayerGraphics() {
@@ -226,9 +227,19 @@ abstract class LayerData {
 
 	// Sets each pixel of this layer to the specified color
 	public void clear(Color col) {
+		// Graphics2D g2d = (Graphics2D) layer.getGraphics();
+		// g2d.setBackground(col);
+		// g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
+
+		// originalLayer = layer;
+
+		this.clearSubArea(0, 0, layer.getWidth(), layer.getHeight(), col);
+	}
+
+	public void clearSubArea(int x1, int y1, int x2, int y2, Color col) {
 		Graphics2D g2d = (Graphics2D) layer.getGraphics();
 		g2d.setBackground(col);
-		g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
+		g2d.clearRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1-x2), Math.abs(y1-y2));
 
 		originalLayer = layer;
 	}
@@ -392,6 +403,16 @@ abstract class LayerData {
 	public void setSelectedForMerge(boolean selectedForMerge) {
 		this.selectedForMerge = selectedForMerge;
 	}
+
+	public BufferedImage getSubImage(int x1, int y1, int x2, int y2) {
+		try {
+			return layer.getSubimage(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1-x2), Math.abs(y1-y2));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+
 
 	protected void resetLayerProperties(LayerData layerCopy) {
 		if (hidden) layerCopy.hide();
