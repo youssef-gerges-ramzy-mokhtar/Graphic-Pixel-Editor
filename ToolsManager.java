@@ -27,7 +27,6 @@ class ToolsManager {
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
     private LayersHandler layersHandler;
-    private LayersSelectionPanel layersSelectionPanel;
 
     private MenuPanel menuPanel;
     private Display display;
@@ -83,8 +82,6 @@ class ToolsManager {
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
-
-        this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
 
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.imageSaver = new SaveAs(canvas);

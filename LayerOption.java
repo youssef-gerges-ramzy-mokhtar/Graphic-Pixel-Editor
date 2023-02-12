@@ -103,7 +103,7 @@ class LayerOption extends JPanel {
 	}
 
 	public void copy() {
-		if (isSelected()) ((LayersOptions) layerObserver).copyCollection();	
+		if (isSelected()) ((LayersOptions) layerObserver).copyLayerOptoins();	
 		else {copyOperation(); update();}
 	}
 	public void copyOperation() {
@@ -112,11 +112,15 @@ class LayerOption extends JPanel {
 		layersHandler.addLayer(layerCopy);
 	}
 	public void delete() {
-		if (isSelected()) ((LayersOptions) layerObserver).deleteCollection();
+		if (isSelected()) ((LayersOptions) layerObserver).deleteLayerOptions();
 		else {deleteOperation(); update();}
 	}
 	public void deleteOperation() {
 		layersHandler.removeLayer(layer);
+	}
+	public void merge() {
+		if (!isSelected()) return;
+		((LayersOptions) layerObserver).mergeLayerOptions();
 	}
 
 	private void update() {
@@ -136,6 +140,10 @@ class LayerOption extends JPanel {
 	}
 	public boolean isSelected() {
 		return selected;
+	}
+
+	public LayerData getLayer() {
+		return layer;
 	}
 }
 
@@ -178,7 +186,8 @@ class LayerOptionPopUp extends JPopupMenu {
 		merge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LayerOption layerOption = (LayerOption) getInvoker();
-				System.out.println(layerOption);
+				if (!layerOption.isSelected()) return;
+				layerOption.merge();
 			}
 		});
 	}

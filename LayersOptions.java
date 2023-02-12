@@ -85,42 +85,12 @@ class LayersOptions extends JPanel implements LayerObserver {
 
         merge.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ArrayList<LayerData> layers = layersHandler.getLayers();
-                int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
-                int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE;
-                int layersMergeCount = 0;
-
-                for (LayerData layer: layers) {
-                    if (!layer.isSelectedForMerge()) continue;
-
-                    System.out.println(layer + " " + layer.getX() + " " + layer.getY() + " " + layer.getEndX() + " " + layer.getEndY());
-                    minX = Math.min(minX, layer.getX());
-                    minY = Math.min(minY, layer.getY());
-                    maxX = Math.max(maxX, layer.getEndX());
-                    maxY = Math.max(maxY, layer.getEndY());
-                    ++layersMergeCount;
-                }
-
-                if (layersMergeCount <= 1) return;
-
-                int width = maxX - minX;
-                int height = maxY - minY;
-                ImageLayer mergedLayer = new ImageLayer(width, height, Constants.transparentColor, new Point(minX, minY));
-
-                ArrayList<LayerData> unMergedLayers = new ArrayList<LayerData>();
-                for (LayerData layer: layers) {
-                    if (!layer.isSelectedForMerge()) {unMergedLayers.add(layer); continue;}
-                    mergedLayer.mergeLayer(layer);
-                }
-
-                unMergedLayers.add(mergedLayer);
-                layersHandler.setLayers(unMergedLayers);
-                updateState();
+                mergeLayers();
             }
         });
     }
 
-    public void copyCollection() {
+    public void copyLayerOptoins() {
         for (LayerOption layerOption: layersOptions) {
             if (!layerOption.isSelected()) continue;
             layerOption.copyOperation();
@@ -128,14 +98,61 @@ class LayersOptions extends JPanel implements LayerObserver {
 
         updateState();
     }
-
-    public void deleteCollection() {
+    public void deleteLayerOptions() {
         for (LayerOption layerOption: layersOptions) {
             if (!layerOption.isSelected()) continue;
             layerOption.deleteOperation();
         }
 
         updateState();
+    }
+    public void mergeLayers() {
+        ArrayList<LayerData> layers = layersHandler.getLayers();
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE;
+        int layersMergeCount = 0;
+
+        for (LayerData layer: layers) {
+            if (!layer.isSelectedForMerge()) continue;
+
+            System.out.println(layer + " " + layer.getX() + " " + layer.getY() + " " + layer.getEndX() + " " + layer.getEndY());
+            minX = Math.min(minX, layer.getX());
+            minY = Math.min(minY, layer.getY());
+            maxX = Math.max(maxX, layer.getEndX());
+            maxY = Math.max(maxY, layer.getEndY());
+            ++layersMergeCount;
+        }
+
+        if (layersMergeCount <= 1) return;
+
+        int width = maxX - minX;
+        int height = maxY - minY;
+        ImageLayer mergedLayer = new ImageLayer(width, height, Constants.transparentColor, new Point(minX, minY));
+
+        ArrayList<LayerData> unMergedLayers = new ArrayList<LayerData>();
+        for (LayerData layer: layers) {
+            if (!layer.isSelectedForMerge()) {unMergedLayers.add(layer); continue;}
+            mergedLayer.mergeLayer(layer);
+        }
+
+        unMergedLayers.add(mergedLayer);
+        layersHandler.setLayers(unMergedLayers);
+        updateState();
+    }
+    public void mergeLayerOptions() {
+        int layersMergeCount = 0;
+        for (LayerOption layerOption: layersOptions) {
+            if (!layerOption.isSelected()) continue;
+            ++layersMergeCount;
+        }
+        if (layersMergeCount <= 1) return;
+
+        for (LayerOption layerOption: layersOptions) {
+            if (!layerOption.isSelected()) continue;
+            layerOption.getLayer().setSelectedForMerge(true);
+        }
+
+        mergeLayers();
     }
 
     private void updateState() {
