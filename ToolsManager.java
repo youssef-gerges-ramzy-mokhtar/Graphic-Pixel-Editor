@@ -38,8 +38,11 @@ class ToolsManager {
 	private JButton[] canvasButtons = new JButton[3];
 	private CanvasHandler canvasHandler;
 
+	private Footer hamzaFooter;
+
 	public ToolsManager(Display display) {
 		this.canvas = new OurCanvas();
+
 		ActionListener listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 				Object source = e.getSource();
@@ -86,6 +89,7 @@ class ToolsManager {
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.imageSaver = new SaveAs(canvas);
         this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
+		this.hamzaFooter = new Footer(layersOptions, undo, canvas);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
@@ -171,5 +175,9 @@ class ToolsManager {
 
 	public JButton[] getCanvasButtons() {
 		return canvasButtons;
+	}
+
+	public Footer getFooter() {
+		return hamzaFooter;
 	}
 }

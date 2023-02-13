@@ -43,6 +43,8 @@ public class Display extends JFrame {
 
         JPanel topPanel = new JPanel();
         contentPane.add(topPanel, BorderLayout.NORTH);
+        contentPane.add(toolsManager.getFooter(), BorderLayout.SOUTH);
+
         topPanel.setLayout(new FlowLayout());
         JButton[] canvasButtons = toolsManager.getCanvasButtons();
 

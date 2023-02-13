@@ -393,6 +393,13 @@ abstract class LayerData {
 		this.selectedForMerge = selectedForMerge;
 	}
 
+	public void zoom(double factor) {
+		int zoomedWidth = (int) Math.floor(factor * layer.getWidth());
+		int zoomedHeight = (int) Math.floor(factor * layer.getHeight()); 
+		System.out.println(zoomedWidth + " " + zoomedHeight);
+		resize(zoomedWidth, zoomedHeight);
+	}
+
 	protected void resetLayerProperties(LayerData layerCopy) {
 		if (hidden) layerCopy.hide();
 		else layerCopy.show();
