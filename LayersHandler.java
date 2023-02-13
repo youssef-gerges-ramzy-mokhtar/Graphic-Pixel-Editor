@@ -206,6 +206,13 @@ class LayersHandler implements CanvasObserver {
 		if (prevLayer == selectedLayer) selectedLayer = newLayer;
 	}
 
+	public void zoomAllLayers(double factor) {
+		for (LayerData layer: layers)
+			layer.zoom(factor);
+		
+		updateCanvas();
+	}
+
 	// Observer Pattern //
 	// update() is called whenver the canvas is resized, and is used to resize the drawing area
 	public void update() {
