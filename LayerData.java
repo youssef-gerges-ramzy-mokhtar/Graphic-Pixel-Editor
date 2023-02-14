@@ -58,13 +58,13 @@ abstract class LayerData {
 	}
 
 	public int getX() {
-		if(layerPos!=null) return (int) layerPos.x;
-		else return(0);
+		if(layerPos != null) return layerPos.x;
+		else return 0;
 	}
 
 	public int getY() {
-		if(layerPos!=null) return (int) layerPos.y;
-		else return(0);
+		if(layerPos != null) return layerPos.y;
+		else return 0;
 	}
 
 	public Point getCoords() {

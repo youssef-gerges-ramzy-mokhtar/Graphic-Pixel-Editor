@@ -49,12 +49,11 @@ class SelectionTool extends ClickableTool {
             }
 
             public void mouseReleased(MouseEvent e) {
-				try{
-            	if (!selectionBtn.isActive()) return;
-
-            	if (changeMade) {recordChange(); updateLayerObserver();}
-            	changeMade = false;}catch(Exception exp){}
-
+				try {
+	            	if (!selectionBtn.isActive()) return;
+	            	if (changeMade) {recordChange(); updateLayerObserver();}
+            		changeMade = false;
+            	} catch(Exception exp) {}
             }
         });
 
@@ -64,17 +63,17 @@ class SelectionTool extends ClickableTool {
                 if (!selectionBtn.isActive()) return;
                 if (layerToMove == null) return;
 
-				try{
-                if (canDrag) layerToMove.resize(new Point(e.getX(), e.getY()));
-				else layerToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
+				try {
+	                if (canDrag) layerToMove.resize(new Point(e.getX(), e.getY()));
+					else layerToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
 
-                refreshCanvasSelection(layerToMove);
-                changeMade = true;
-				}catch(Exception exc){}
+	                refreshCanvasSelection(layerToMove);
+	                changeMade = true;
+				} catch(Exception exc) {}
             }
 
             public void mouseMoved(MouseEvent e) {
-				try{
+				try {
 					if (!selectionBtn.isActive()) return;
 					if (layerToMove == null) return;
 
@@ -82,29 +81,34 @@ class SelectionTool extends ClickableTool {
 						Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
 						canvas.setCursor(cursor);
 						return;
-            	}}catch(Exception exc){}
+            		}
+            	} catch(Exception exc) {}
 
 			}
         });
 	}
 
 	private void refreshCanvasSelection(LayerData selectedLayer) {
-		try{
-		layersHandler.updateCanvasSelected(selectedLayer);}catch(Exception e){}
+		try {
+			layersHandler.updateCanvasSelected(selectedLayer);
+		} catch(Exception e) {}
 	}
 
 
 	private boolean atCorner(int x, int y) {
 		try{
-		int cornerRange = 10;
-		System.out.println(x - layerToMove.getX());
-		System.out.println(y - layerToMove.getY());
-		
-		if(x - layerToMove.getX() <0 || y - layerToMove.getY() <0) return false; 
-		if (Math.abs(x - layerToMove.getEndX()) <= cornerRange && Math.abs(y - layerToMove.getEndY()) <= cornerRange) return true;
-		if (Math.abs(x - layerToMove.getX()) <= cornerRange && Math.abs(y - layerToMove.getY()) <= cornerRange) return true;
-		
-		return false; }catch(Exception e){return false;}
+			int cornerRange = 10;
+			System.out.println(x - layerToMove.getX());
+			System.out.println(y - layerToMove.getY());
+			
+			if(x - layerToMove.getX() <0 || y - layerToMove.getY() <0) return false; 
+			if (Math.abs(x - layerToMove.getEndX()) <= cornerRange && Math.abs(y - layerToMove.getEndY()) <= cornerRange) return true;
+			if (Math.abs(x - layerToMove.getX()) <= cornerRange && Math.abs(y - layerToMove.getY()) <= cornerRange) return true;
+			
+			return false; 
+		} catch(Exception e) {
+			return false;
+		}
 	}
 
 
