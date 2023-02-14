@@ -47,9 +47,10 @@ class SelectionTool extends ClickableTool {
             }
 
             public void mouseReleased(MouseEvent e) {
+				try{
             	if (!selectionBtn.isActive()) return;
             	if (changeMade) recordChange();
-            	changeMade = false;
+            	changeMade = false;}catch(Exception exp){}
             }
         });
 
@@ -59,14 +60,17 @@ class SelectionTool extends ClickableTool {
                 if (!selectionBtn.isActive()) return;
                 if (layerToMove == null) return;
 
+				try{
                 if (canDrag) layerToMove.resize(new Point(e.getX(), e.getY()));
 				else layerToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
 
                 refreshCanvasSelection(layerToMove);
                 changeMade = true;
+				}catch(Exception exc){}
             }
 
             public void mouseMoved(MouseEvent e) {
+				try{
             	if (!selectionBtn.isActive()) return;
             	if (layerToMove == null) return;
 
@@ -76,21 +80,27 @@ class SelectionTool extends ClickableTool {
 					return;
             	}
 
-				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
+				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));}catch(Exception Exc){}				
 			}
         });
 	}
 
 	private void refreshCanvasSelection(LayerData selectedLayer) {
-		layersHandler.updateCanvasSelected(selectedLayer);
+		try{
+		layersHandler.updateCanvasSelected(selectedLayer);}catch(Exception e){}
 	}
 
 	private boolean atCorner(int x, int y) {
+		try{
 		int cornerRange = 10;
+		System.out.println(x - layerToMove.getX());
+		System.out.println(y - layerToMove.getY());
+		
+		if(x - layerToMove.getX() <0 || y - layerToMove.getY() <0) return false; 
 		if (Math.abs(x - layerToMove.getEndX()) <= cornerRange && Math.abs(y - layerToMove.getEndY()) <= cornerRange) return true;
 		if (Math.abs(x - layerToMove.getX()) <= cornerRange && Math.abs(y - layerToMove.getY()) <= cornerRange) return true;
-
-		return false;
+		
+		return false; }catch(Exception e){return false;}
 	}
 
 	public CanvasObserver getCanvasObserver() {

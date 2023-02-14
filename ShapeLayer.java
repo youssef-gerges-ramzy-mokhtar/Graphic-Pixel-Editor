@@ -10,11 +10,14 @@ abstract class ShapeLayer extends LayerData {
 	public ShapeLayer(int width, int height, Color col, Point layerPos) {super(width, height, col, layerPos);}
 
 	public void resize(int width, int height) {
+		if (width <= 5 || height <= 5) return;
+		
+		
 		BufferedImage layerImg = getImage();
 		this.fillCol = new Color(layerImg.getRGB(layerImg.getWidth() / 2, layerImg.getHeight() / 2)); // That is not accurate because there might be drawings on the Shape Layer
 
 		specificGraphic = getSpecificGraphic(width, height);
-		if (width == 0 || height == 0) return;
+		
 		
 		BufferedImage oldLayer = getImage();
 
@@ -23,13 +26,24 @@ abstract class ShapeLayer extends LayerData {
 		updateGraphics(specificGraphic);
 
 		updateSelectionLayer();
+		
 	}
 
 	public void resize(Point newLayerEndPos) {
+		System.out.println(newLayerEndPos.x - getX());
+		System.out.println(newLayerEndPos.y - getY());
+		//System.out.println(newLayerEndPos);
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
 		int layerHeight = Math.abs(newLayerEndPos.y - getY());
+		if(layerWidth<15 || newLayerEndPos.x - getX() < 0) layerWidth=15;
+		if(layerHeight<15 || newLayerEndPos.y - getY() < 0) layerHeight=15;
+		
 		resize(layerWidth, layerHeight);
+		
+		if(newLayerEndPos.x - getX() > 15 && newLayerEndPos.y -getY() > 15)
 		setLocation(validPoint(getCoords(), newLayerEndPos));
+		
+
 	}
 
 	public void setStrokeCol(Color col) {
