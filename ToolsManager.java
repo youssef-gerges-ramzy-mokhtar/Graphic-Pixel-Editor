@@ -58,10 +58,7 @@ class ToolsManager {
 		this.display = display;
 		
 		
-		canvasHandler = new CanvasHandler(canvas, canvasButtons);
-		changeCanvas(2);
-		changeCanvas(1);
-		changeCanvas(0);		
+				
 		
         this.layersHandler = LayersHandler.getLayersHandler(canvas); // For Handling Layers
         this.layersOptions = new LayersOptions(layersHandler);
@@ -82,6 +79,7 @@ class ToolsManager {
 		this.text = new TextTool(layersOptions, canvas, undo);
 		this.delete = new Delete(layersOptions, canvas, undo);
 		this.crop = new CropTool(layersOptions, canvas, undo);
+		
 
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
@@ -93,6 +91,14 @@ class ToolsManager {
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
+
+		canvasHandler = new CanvasHandler(canvas, canvasButtons);
+		
+		canvasHandler.setUndo(undo);
+		changeCanvas(2);
+		changeCanvas(1);
+		changeCanvas(0);
+
 
         initToolPanel();
 		initObservers();

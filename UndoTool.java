@@ -19,7 +19,7 @@ class UndoTool extends ClickableTool {
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.layersUndoHistory = new LinkedList<ArrayList<LayerData>>();
 		this.layersRedoHistory = new LinkedList<ArrayList<LayerData>>();
-		this.historyLimit = 100;
+		this.historyLimit = 10;
 
 		this.recordHistory();
 		addCanvasListener();
@@ -107,6 +107,23 @@ class UndoTool extends ClickableTool {
 	private void clearRedo() {
 		layersRedoHistory.clear();
 	}
+
+	public void setRedoUndo(LinkedList<ArrayList<LayerData>> undo, LinkedList<ArrayList<LayerData>> redo)
+	{
+		layersUndoHistory = undo;
+		layersRedoHistory = redo;
+	}
+
+	public LinkedList<ArrayList<LayerData>> getUndo()
+	{
+		return(layersUndoHistory);
+	}
+
+	public LinkedList<ArrayList<LayerData>> getRedo()
+	{
+		return(layersRedoHistory);
+	}
+
 
 	// Temporary Helper Function for Debugging Purpose
 	void undo_debug(String msg, LinkedList<ArrayList<LayerData>> historyToDebug) {

@@ -11,6 +11,14 @@ public class CanvasHandler{
     private OurCanvas canvas;
     private JButton[] canvasButtons;
     private int currentCanvasNum=0;
+    private UndoTool undo;
+
+    private LinkedList<ArrayList<LayerData>> undo1 = new LinkedList<ArrayList<LayerData>>();
+	private LinkedList<ArrayList<LayerData>> redo1 = new LinkedList<ArrayList<LayerData>>();
+    private LinkedList<ArrayList<LayerData>> undo2 = new LinkedList<ArrayList<LayerData>>();
+	private LinkedList<ArrayList<LayerData>> redo2 = new LinkedList<ArrayList<LayerData>>();
+    private LinkedList<ArrayList<LayerData>> undo3 = new LinkedList<ArrayList<LayerData>>();
+	private LinkedList<ArrayList<LayerData>> redo3 = new LinkedList<ArrayList<LayerData>>();
 
     public CanvasHandler(OurCanvas canvas, JButton[] canvasButtons)
     {
@@ -26,12 +34,13 @@ public class CanvasHandler{
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
         canvasLayers2.add(new ImageLayer(drawingImg));
         canvasLayers3.add(new ImageLayer(drawingImg));
-
-
+        undo2.add(layersHandler.getLayersCopy());
+        undo3.add(layersHandler.getLayersCopy());
+      
         //Resize the image for the button
 
         ImageIcon img = changeIconSize(drawingImg);
-
+        
       
 
         for(JButton button : canvasButtons)
@@ -59,18 +68,18 @@ public class CanvasHandler{
         // ImageIcon icon = changeIconSize(layersHandler.getSelectedLayer().getImage());
         ImageIcon icon = changeIconSize(canvas.getMainLayer().getImage());
       
-
+        
         //Updates the current canvas with the new data
-        if(currentCanvasNum == 0) { canvasLayers1 = layersHandler.getLayersCopy();   canvasButtons[0].setIcon(icon);}
-        else if (currentCanvasNum == 1) { canvasLayers2 = layersHandler.getLayersCopy();  canvasButtons[1].setIcon(icon);}
-        else {canvasLayers3 = layersHandler.getLayersCopy();  canvasButtons[2].setIcon(icon);}
+        if(currentCanvasNum == 0) { canvasLayers1 = layersHandler.getLayersCopy();   canvasButtons[0].setIcon(icon); undo1 = undo.getUndo(); redo1 = undo.getRedo();}
+        else if (currentCanvasNum == 1) { canvasLayers2 = layersHandler.getLayersCopy();  canvasButtons[1].setIcon(icon); undo2 = undo.getUndo(); redo2 = undo.getRedo();}
+        else {canvasLayers3 = layersHandler.getLayersCopy();  canvasButtons[2].setIcon(icon); undo3 = undo.getUndo(); redo3 = undo.getRedo();}
         currentCanvasNum = canvasNum;
 
         
         //Updates the layers in the layerHandler of the canvas to be displayed
-        if(canvasNum == 0){  layersHandler.setLayers(canvasLayers1); }
-        else if (canvasNum == 1){  layersHandler.setLayers(canvasLayers2);}
-        else {layersHandler.setLayers(canvasLayers3);}
+        if(canvasNum == 0){  layersHandler.setLayers(canvasLayers1); undo.setRedoUndo(undo1, redo1);}
+        else if (canvasNum == 1){  layersHandler.setLayers(canvasLayers2); undo.setRedoUndo(undo2, redo2);}
+        else {layersHandler.setLayers(canvasLayers3); undo.setRedoUndo(undo3, redo3);}
         layersHandler.updateCanvas();
        
         
@@ -90,5 +99,10 @@ public class CanvasHandler{
         return(currentCanvasNum);
     }
 
+    public void setUndo(UndoTool undo)
+    {
+        this.undo = undo;
+       
+    }
 
 }
