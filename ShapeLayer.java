@@ -49,6 +49,9 @@ abstract class ShapeLayer extends LayerData {
 	public void setStrokeCol(Color col) {
 		this.strokeCol = col;
 	}
+	public void setFillCol(Color col) {
+		this.fillCol = col;
+	}
 
 	public ShapeLayer getCopy() {
 		ShapeLayer copy = getShapeLayerCopy();

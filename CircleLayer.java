@@ -8,7 +8,7 @@ class CircleLayer extends ShapeLayer {
 		CircleGraphics circleGraphics = new CircleGraphics(new Point(0, 0));
 		circleGraphics.setDimension(width, height);
 		circleGraphics.setStrokeColor(strokeCol);
-		circleGraphics.setFillColor(fillCol);
+		circleGraphics.setFillColor(strokeCol);
 
 		return circleGraphics;
 	}

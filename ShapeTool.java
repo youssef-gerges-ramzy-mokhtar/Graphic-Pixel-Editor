@@ -109,6 +109,7 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 	public void update2(Color col) {
 		this.fillCol = col;
 		this.strokeCol = col;
+		
 	}
 
 	public void update(int val) {}

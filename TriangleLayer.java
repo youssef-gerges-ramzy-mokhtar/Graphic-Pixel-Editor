@@ -9,6 +9,7 @@ class TriangleLayer extends ShapeLayer {
 		triangleGraphics.setDimension(width, height);
 		triangleGraphics.setStrokeColor(strokeCol);
 		triangleGraphics.setFillColor(fillCol);
+		
 	
 		return triangleGraphics;
 	}
