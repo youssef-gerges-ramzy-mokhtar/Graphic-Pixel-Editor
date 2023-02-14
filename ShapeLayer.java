@@ -52,11 +52,7 @@ abstract class ShapeLayer extends LayerData {
 
 	public ShapeLayer getCopy() {
 		ShapeLayer copy = getShapeLayerCopy();
-		copy.clear(new Color(0, 0, 0, 0));
-
-		copy.mergeLayer(this.getImage(), 0, 0);
-		copy.setLocation(new Point(getX(), getY()));
-		copy.updateSelectionLayer();
+		resetLayerProperties(copy);
 		return copy;
 	}
 

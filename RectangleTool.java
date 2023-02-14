@@ -10,8 +10,8 @@ class RectangleTool extends ShapeTool {
 
 	protected SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords) {
 		RectangleGraphics rectangleGraphics = new RectangleGraphics(shapeLayer.getCoords(coords));
-		rectangleGraphics.setColor(strokeCol);
-		rectangleGraphics.setDimensions(layerWidth, layerHeight);
+		rectangleGraphics.setStrokeColor(strokeCol);
+		rectangleGraphics.setDimension(layerWidth, layerHeight);
 
 		return rectangleGraphics;
 	}

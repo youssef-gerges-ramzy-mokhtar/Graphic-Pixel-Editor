@@ -10,13 +10,15 @@ class SelectionTool extends ClickableTool {
 	private Clickable selectionBtn;
 	private boolean canDrag;
 	private boolean changeMade;
+	private final int spacingRange;
 
-	public SelectionTool(OurCanvas canvas, UndoTool undo) {
-		super(null, undo);
+	public SelectionTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+		super(layerObserver, undo);
 
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.changeMade = false;
+		this.spacingRange = 15;
 
 		addCanvasListener();
 	}
@@ -27,6 +29,7 @@ class SelectionTool extends ClickableTool {
 		
 		addToolBtn(selectionBtn);
 		setAsChangeMaker(undo);
+		setAsLayerChanger();
 	}
 
 	// addCanvasListener() attachs an Event Listener to the canvas
@@ -37,20 +40,21 @@ class SelectionTool extends ClickableTool {
                 if (!selectionBtn.isActive()) return;
 
                 layerToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-                System.out.println("Layer To Move = " + layerToMove);
                 if (layerToMove == null) {layersHandler.updateCanvas(); return;}
 
                 layerToMove.drawBorder();
                 refreshCanvasSelection(layerToMove);
-                if (atCorner(e.getX(), e.getY())) canDrag = true;
+                if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) canDrag = true;
                 else canDrag = false;
             }
 
             public void mouseReleased(MouseEvent e) {
 				try{
             	if (!selectionBtn.isActive()) return;
-            	if (changeMade) recordChange();
+
+            	if (changeMade) {recordChange(); updateLayerObserver();}
             	changeMade = false;}catch(Exception exp){}
+
             }
         });
 
@@ -71,16 +75,15 @@ class SelectionTool extends ClickableTool {
 
             public void mouseMoved(MouseEvent e) {
 				try{
-            	if (!selectionBtn.isActive()) return;
-            	if (layerToMove == null) return;
+					if (!selectionBtn.isActive()) return;
+					if (layerToMove == null) return;
 
-            	if (atCorner(e.getX(), e.getY())) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
-     				canvas.setCursor(cursor);
-					return;
-            	}
+					if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) {
+						Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+						canvas.setCursor(cursor);
+						return;
+            	}}catch(Exception exc){}
 
-				canvas.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));}catch(Exception Exc){}				
 			}
         });
 	}
@@ -89,6 +92,7 @@ class SelectionTool extends ClickableTool {
 		try{
 		layersHandler.updateCanvasSelected(selectedLayer);}catch(Exception e){}
 	}
+
 
 	private boolean atCorner(int x, int y) {
 		try{
@@ -102,6 +106,7 @@ class SelectionTool extends ClickableTool {
 		
 		return false; }catch(Exception e){return false;}
 	}
+
 
 	public CanvasObserver getCanvasObserver() {
 		return layersHandler;

@@ -1,4 +1,3 @@
-import java.awt.image.*;
 import java.awt.*;
 
 class CircleLayer extends ShapeLayer {
@@ -8,7 +7,7 @@ class CircleLayer extends ShapeLayer {
 	public SpecificGraphic getSpecificGraphic(int width, int height) {
 		CircleGraphics circleGraphics = new CircleGraphics(new Point(0, 0));
 		circleGraphics.setDimension(width, height);
-		circleGraphics.setColor(strokeCol);
+		circleGraphics.setStrokeColor(strokeCol);
 		circleGraphics.setFillColor(fillCol);
 
 		return circleGraphics;

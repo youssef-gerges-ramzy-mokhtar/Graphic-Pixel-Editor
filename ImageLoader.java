@@ -17,7 +17,6 @@ class ImageLoader extends ClickableTool {
         super(layerObserver, undo);
     	this.canvas = canvas;
         this.observers = new ArrayList<ImageObserver>();
-    	
         addOpenImageMenuListener();
     }
 
@@ -50,8 +49,8 @@ class ImageLoader extends ClickableTool {
     		File imgFile = new File(filePath);
             BufferedImage img = ImageIO.read(imgFile);
             img = scaleImage(img);
-
             lastLoadedImg = new ImageLayer(img);
+
             LayersHandler.getLayersHandler(canvas).addLayer(lastLoadedImg);
             LayersHandler.getLayersHandler(canvas).updateCanvas();
         } catch (Exception e) {}

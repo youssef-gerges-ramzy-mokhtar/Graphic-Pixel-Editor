@@ -13,12 +13,14 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	private boolean canDrag = false;
 	private ArrayList<CanvasObserver> canvasObservers;
 	private ArrayList<Observer> observers;
+	private final int spacingRange;
 
 	public OurCanvas() {
 		this.width = 800;
 		this.height = 600;
 		this.col = Color.white;
 		this.mainLayer = new ImageLayer(width, height, col);
+		this.spacingRange = 10;
 
 		this.canvasObservers = new ArrayList<CanvasObserver>();
 		this.observers = new ArrayList<Observer>();
@@ -32,11 +34,12 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	private void addCanvasListener() {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (Math.abs(e.getX() - mainLayer.getWidth()) <= 5 && Math.abs(e.getY() - mainLayer.getHeight()) <= 5) {
+				if (mainLayer.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) {
 					canDrag = true; 
 					notifyObservers();
 					return;
 				}
+
 				canDrag = false;
 			}
 		});
@@ -53,11 +56,12 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 			}
 
 			public void mouseMoved(MouseEvent e) {
-				if (Math.abs(e.getX() - mainLayer.getWidth()) <= 5 && Math.abs(e.getY() - mainLayer.getHeight()) <= 5) {
+				if (mainLayer.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) {
 					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
      				setCursor(cursor);
 					return;
 				}
+
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));				
 			}
 		});
@@ -79,6 +83,12 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	public void updateCanvasSize(int newWidth, int newHeight) {
 		this.width = newHeight;
 		this.height = newHeight;
+		updateCanvasSz();
+	}
+
+	public void zoom(double factor) {
+		width = (int) Math.floor(factor * width);
+		height = (int) Math.floor(factor * height);
 		updateCanvasSz();
 	}
 
@@ -110,6 +120,10 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 
 	public LayerData getMainLayer() {
 		return mainLayer;
+	}
+
+	public Dimension getDimensions() {
+		return new Dimension(mainLayer.getWidth(), mainLayer.getHeight());
 	}
 
 	// Observer Pattern: Might change this part in the future //

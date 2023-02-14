@@ -10,7 +10,6 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     private Brush pen;
     private int penSize=20;
     private Color currentCol;
-    private boolean mouseDown = false;
     private ArrayList<Observer> observers = new ArrayList<Observer>();
     private ArrayList<Observer> clickObservers = new ArrayList<Observer>();
     private Boolean buttonSelected = false;
@@ -98,8 +97,8 @@ public class Airbrush extends ClickableTool implements Observable, Observer
                 brush.setPos(point);
                 int innerPenSize=penSize/10;
                 Point dragPoint = new Point(1,1);
-                int x = (int)point.getX();
-                int y = (int)point.getY();
+                int x = (int) currentLayer.getX((int) point.getX());
+                int y = (int) currentLayer.getY((int) point.getY());
                 brush.setPos(x,y);
                 dragPoint.setLocation(x+1,y+1);
                 

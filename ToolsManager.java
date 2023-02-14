@@ -6,6 +6,9 @@ import java.awt.event.*;
 class ToolsManager {
 	private OurCanvas canvas;
 	private ToolsPanel toolsPanel;
+    private ColorGui colorGui;
+    private OptionsPanel optionsPanel;
+	
 	private SelectionTool selectionTool;
     private PenTool penTool;
     private EraserTool eraserTool;
@@ -17,19 +20,13 @@ class ToolsManager {
 	private Airbrush airBrush;
 	private TextTool text;
 	private Delete delete;
-    private ColorGui colorGui;
-    private OptionsPanel optionsPanel;
-
 	private BlurTool blur;
-
     private UndoTool undo;
     private CropTool crop;
-
     
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
     private LayersHandler layersHandler;
-    private LayersSelectionPanel layersSelectionPanel;
 
     private MenuPanel menuPanel;
     private Display display;
@@ -37,31 +34,26 @@ class ToolsManager {
 
     private ArrayList<ClickableTool> clickableContainers;
 	private JComboBox canvasDropList;
-
 	
-
 	private JButton[] canvasButtons = new JButton[3];
-	
 	private CanvasHandler canvasHandler;
 
+	private Footer hamzaFooter;
 
 	public ToolsManager(Display display) {
-
 		this.canvas = new OurCanvas();
+
 		ActionListener listener = new ActionListener() {
-            
             public void actionPerformed(ActionEvent e) {
 				Object source = e.getSource();
-                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i); }
-                
-				
+                for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i);}
             }
         };
 
 		for (int i = 0; i < 3; i++) {
 			canvasButtons[i] = new JButton();
 			canvasButtons[i].addActionListener(listener);
-		 }
+		}
 
 		this.display = display;
 		
@@ -77,12 +69,12 @@ class ToolsManager {
 		this.toolsPanel = new ToolsPanel();
 
 		this.undo = new UndoTool(layersOptions, canvas);
-		this.selectionTool = new SelectionTool(canvas, undo);
+		this.selectionTool = new SelectionTool(layersOptions, canvas, undo);
 		this.penTool = new PenTool(layersOptions, canvas, undo);
 		this.eraserTool = new EraserTool(layersOptions, canvas, undo);
 		this.fillTool = new FillTool(layersOptions, canvas, undo);
 		this.eyeDropperTool = new EyeDropperTool(canvas);
-		this.blur = new BlurTool(canvas);
+		this.blur = new BlurTool(layersOptions, canvas, undo);
 		this.rectangleTool = new RectangleTool(layersOptions, canvas, undo);
 		this.circleTool = new CircleTool(layersOptions, canvas, undo);
 		this.triangleTool = new TriangleTool(layersOptions, canvas, undo);
@@ -94,11 +86,10 @@ class ToolsManager {
 		this.colorGui = new ColorGui();
         this.optionsPanel = new OptionsPanel(colorGui);
 
-        this.layersSelectionPanel = new LayersSelectionPanel(canvas, optionsPanel); // Update
-
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.imageSaver = new SaveAs(canvas);
         this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver);
+		this.hamzaFooter = new Footer(layersOptions, undo, canvas);
 
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
@@ -131,6 +122,7 @@ class ToolsManager {
 		clickableContainers.add(delete);
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
+		clickableContainers.add(blur);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
@@ -183,5 +175,9 @@ class ToolsManager {
 
 	public JButton[] getCanvasButtons() {
 		return canvasButtons;
+	}
+
+	public Footer getFooter() {
+		return hamzaFooter;
 	}
 }

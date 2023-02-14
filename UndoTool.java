@@ -1,7 +1,5 @@
 import java.util.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import javax.swing.*;
 import java.awt.*;
 
 class UndoTool extends ClickableTool {
@@ -67,10 +65,9 @@ class UndoTool extends ClickableTool {
 	public void recordHistory() {
 		if (layersUndoHistory.size() == historyLimit) layersUndoHistory.removeFirst();
 		layersUndoHistory.add(layersHandler.getLayersCopy());
-		System.out.println("Recording History: {");
-		for (ArrayList<LayerData> layers: layersUndoHistory)
-			System.out.println(layers);
-		System.out.println("{");
+		this.clearRedo();
+
+		// undo_debug("Recording History", layersUndoHistory); // temporary helper function
 	}
 
 	private void recordRedoHistory() {
@@ -89,11 +86,7 @@ class UndoTool extends ClickableTool {
         layersHandler.setLayers(layersUndoHistory.peekLast());
         layersHandler.updateCanvas();
 
-        System.out.println("Removing History: {");
-        for (ArrayList<LayerData> layers: layersUndoHistory)
-        	System.out.println(layers);
-        System.out.println("}");
-
+        // undo_debug("Removing History", layersUndoHistory); // temporary helper function
         updateLayerObserver();
 	}
 
@@ -104,7 +97,24 @@ class UndoTool extends ClickableTool {
     	layersUndoHistory.add(layersRedoHistory.peekLast());
     	layersHandler.updateCanvas();
 
-    	layersRedoHistory.removeLast();				
+    	layersRedoHistory.removeLast();
         updateLayerObserver();
+
+        // undo_debug("Redoing", layersRedoHistory);
+		// undo_debug("Recording History", layersUndoHistory);
+	}
+
+	private void clearRedo() {
+		layersRedoHistory.clear();
+	}
+
+	// Temporary Helper Function for Debugging Purpose
+	void undo_debug(String msg, LinkedList<ArrayList<LayerData>> historyToDebug) {
+		System.out.println(msg);
+
+		System.out.println("{");
+		for (ArrayList<LayerData> layers: historyToDebug)
+			System.out.println("	" + layers);
+		System.out.println("}");
 	}
 }

@@ -2,38 +2,48 @@
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-
-import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.awt.geom.Ellipse2D;
 
-public class BlurTool implements Observer{
-
-
+public class BlurTool extends ClickableTool implements Observer{
     private LayersHandler layerHandler;
     private Clickable blurBtn;
     private OurCanvas canvas;
     private int pensize=1;
     
-    public BlurTool(OurCanvas canvas)
+    public BlurTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
-        this.blurBtn = new Clickable("Blur");
+    	super(layerObserver, undo);
+
         this.layerHandler = LayersHandler.getLayersHandler(canvas);
         this.canvas = canvas;
-        blurBtn.addObserver(this);
+
         canvasListener();
     }
+
+    protected void initTool(UndoTool undo) {
+		blurBtn = new Clickable("Blur");
+		blurBtn.addKeyBinding('b');
+		addToolBtn(blurBtn);
+
+		setAsChangeMaker(undo);
+		setAsShapeRasterizer();
+		setAsLayerChanger();
+	}
 
     private void canvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
                 if (blurBtn.isActive())
                 System.out.println("this is currently working");
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				if (!blurBtn.isActive()) return;
+				recordChange();
 			}
 		});
 
@@ -42,6 +52,7 @@ public class BlurTool implements Observer{
 				if (!blurBtn.isActive()) return;
                 try {
                     blur(e.getX(),e.getY());
+                    updateLayerObserver();
                   }
                   catch(IOException | InterruptedException error) {
                     System.out.println("Exception caught");

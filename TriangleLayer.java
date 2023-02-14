@@ -1,4 +1,3 @@
-import java.awt.image.*;
 import java.awt.*;
 
 class TriangleLayer extends ShapeLayer {
@@ -8,7 +7,7 @@ class TriangleLayer extends ShapeLayer {
 	public SpecificGraphic getSpecificGraphic(int width, int height) {
 		TriangleGraphics triangleGraphics = new TriangleGraphics(new Point(0, 0));
 		triangleGraphics.setDimension(width, height);
-		triangleGraphics.setColor(strokeCol);
+		triangleGraphics.setStrokeColor(strokeCol);
 		triangleGraphics.setFillColor(fillCol);
 	
 		return triangleGraphics;

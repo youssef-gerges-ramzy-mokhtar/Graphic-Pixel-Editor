@@ -28,7 +28,7 @@ class TextLayer extends LayerData {
 		clear(width, height, fontCol);
 		
 		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), sentences, fontSz, fontCol);
-		textGraphics.setDimensions(width, height);
+		textGraphics.setDimension(width, height);
 		updateGraphics(textGraphics);
 	}
 
@@ -104,16 +104,13 @@ class TextLayer extends LayerData {
 		clear(width, height, fontCol);
 		
 		TextGraphics textGraphics = new TextGraphics(new Point(0, 0), sentences, fontSz, fontCol);
-		textGraphics.setDimensions(width, height);
+		textGraphics.setDimension(width, height);
 		updateGraphics(textGraphics);
 	}
 
 	public LayerData getCopy() {
 		TextLayer copy = new TextLayer(new Point(getX(), getY()), fontCol, fontSz, text, canvasWidth);
-		copy.clear(new Color(0, 0, 0, 0));
-
-		copy.mergeLayer(this.getImage(), 0, 0);
-		copy.updateSelectionLayer();
+		resetLayerProperties(copy);
 		return copy;
 	}
 }
