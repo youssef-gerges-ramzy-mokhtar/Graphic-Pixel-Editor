@@ -30,8 +30,7 @@ abstract class ShapeLayer extends LayerData {
 	}
 
 	public void resize(Point newLayerEndPos) {
-		System.out.println(newLayerEndPos.x - getX());
-		System.out.println(newLayerEndPos.y - getY());
+		
 		//System.out.println(newLayerEndPos);
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
 		int layerHeight = Math.abs(newLayerEndPos.y - getY());
