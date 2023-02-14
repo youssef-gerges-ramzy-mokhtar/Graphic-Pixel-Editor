@@ -1,4 +1,3 @@
-import java.awt.image.*;
 import java.awt.*;
 
 class TriangleLayer extends ShapeLayer {

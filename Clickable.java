@@ -5,13 +5,10 @@ import java.awt.*;
 
 // Clickable is used to represent a Button associated with a Tool and all the behaviour associated with this button
 class Clickable implements Observable {
-	// private Display display;
 	private boolean btnActive;
 	private JButton btn;
 	private ArrayList<Observer> clickObservers;
 	private Color selectorCol;
-
-	private Display display;
 	private ArrayList<Character> keyBindings;
 
 	public Clickable(String title) {

@@ -1,7 +1,4 @@
-import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
 
 // CircleTool is responsible for adding & handling Circles to the cavnas
 class CircleTool extends ShapeTool {

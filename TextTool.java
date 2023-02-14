@@ -1,7 +1,5 @@
 import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
-import java.io.*;
 import javax.swing.JOptionPane; 
 
 class TextTool extends ClickableTool implements Observer {
@@ -34,7 +32,7 @@ class TextTool extends ClickableTool implements Observer {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (!textBtn.isActive()) return;
-                String text = JOptionPane.showInputDialog(null, "Please Enter Text");  //takes a string for the file name
+                String text = JOptionPane.showInputDialog(null, "Please Enter Text");  //takes a string for text
                 TextLayer txtLayer = new TextLayer(new Point(e.getX(), e.getY()), fontCol, fontSz, text, canvas.getMainLayer().getWidth());
 
                 layersHandler.addLayer(txtLayer);

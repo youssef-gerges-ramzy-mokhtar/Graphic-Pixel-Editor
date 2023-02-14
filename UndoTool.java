@@ -1,7 +1,5 @@
 import java.util.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import javax.swing.*;
 import java.awt.*;
 
 class UndoTool extends ClickableTool {

@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import javax.imageio.*;
 import java.awt.image.*;
 
 class LayerOption extends JPanel {
