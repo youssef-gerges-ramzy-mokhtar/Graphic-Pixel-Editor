@@ -12,6 +12,7 @@ public class CanvasHandler{
     private JButton[] canvasButtons;
     private int currentCanvasNum=0;
     private UndoTool undo;
+    private LayersOptions layersOptions;
 
     private LinkedList<ArrayList<LayerData>> undo1 = new LinkedList<ArrayList<LayerData>>();
 	private LinkedList<ArrayList<LayerData>> redo1 = new LinkedList<ArrayList<LayerData>>();
@@ -20,11 +21,12 @@ public class CanvasHandler{
     private LinkedList<ArrayList<LayerData>> undo3 = new LinkedList<ArrayList<LayerData>>();
 	private LinkedList<ArrayList<LayerData>> redo3 = new LinkedList<ArrayList<LayerData>>();
 
-    public CanvasHandler(OurCanvas canvas, JButton[] canvasButtons)
+    public CanvasHandler(OurCanvas canvas, JButton[] canvasButtons, LayersOptions layersOptions)
     {
       
         this.canvasButtons = canvasButtons;
         this.canvas = canvas;
+        this.layersOptions = layersOptions;
         layersHandler = LayersHandler.getLayersHandler(canvas);
 
         //Puts a blank image into canvasLayers 2 and 3 so that they are not empty
@@ -81,6 +83,8 @@ public class CanvasHandler{
         else if (canvasNum == 1){  layersHandler.setLayers(canvasLayers2); undo.setRedoUndo(undo2, redo2);}
         else {layersHandler.setLayers(canvasLayers3); undo.setRedoUndo(undo3, redo3);}
         layersHandler.updateCanvas();
+        layersOptions.update();
+
        
         
 		

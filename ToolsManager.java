@@ -92,7 +92,7 @@ class ToolsManager {
         this.clickableContainers = new ArrayList<ClickableTool>();
         layersOptions.setUndo(undo);
 
-		canvasHandler = new CanvasHandler(canvas, canvasButtons);
+		canvasHandler = new CanvasHandler(canvas, canvasButtons, layersOptions);
 		
 		canvasHandler.setUndo(undo);
 		changeCanvas(2);
