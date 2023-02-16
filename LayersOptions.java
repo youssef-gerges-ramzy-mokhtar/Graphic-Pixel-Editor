@@ -139,6 +139,7 @@ class LayersOptions extends JPanel implements LayerObserver {
         layersHandler.setLayers(unMergedLayers);
         updateState();
     }
+
     public void mergeLayerOptions() {
         int layersMergeCount = 0;
         for (LayerOption layerOption: layersOptions) {

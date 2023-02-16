@@ -17,6 +17,10 @@ public class EyeDropperTool extends ClickableTool implements Observable {
         getColour();
     }
 
+    // initTool initialize the properties of the Eye Dropper Tool
+    /*
+        - A Eye Dropper Tool has shortcut 'i'
+    */
     protected void initTool(UndoTool undo) {
         this.eyeDropperBtn = new Clickable("Eye Dropper");
         eyeDropperBtn.addKeyBinding('i');
@@ -37,14 +41,7 @@ public class EyeDropperTool extends ClickableTool implements Observable {
         });
     }
 
-    public ArrayList<Clickable> getClickable() {
-        ArrayList<Clickable> eyeDropperToolBtn = new ArrayList<Clickable>();
-        eyeDropperToolBtn.add(eyeDropperBtn);
-        return eyeDropperToolBtn;
-    }
-
     // Observer Pattern //
-
     // notifyObservers() is used to notify the Color Picker preview button whenver the eye dropper detects a color on the canvas
     public void notifyObservers() {
         for (Observer observer : colorObservers)
