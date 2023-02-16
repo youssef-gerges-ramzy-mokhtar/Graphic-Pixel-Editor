@@ -23,6 +23,7 @@ class ToolsManager {
 	private BlurTool blur;
     private UndoTool undo;
     private CropTool crop;
+	private Clear clear;
     
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
@@ -79,6 +80,7 @@ class ToolsManager {
 		this.text = new TextTool(layersOptions, canvas, undo);
 		this.delete = new Delete(layersOptions, canvas, undo);
 		this.crop = new CropTool(layersOptions, canvas, undo);
+		this.clear = new Clear(layersOptions, canvas, undo);
 		
 
 		this.colorGui = new ColorGui();
@@ -106,10 +108,7 @@ class ToolsManager {
 
 	public void changeCanvas(int canvasNum)
 	{
-		
-		
 		canvasHandler.updateCanvas(canvasNum);
-		//display.changeCanvas(canvas);
 	}
 
 	// initToolPanel() is used to add every clickable associated with each Tool to the toolsPanel
@@ -129,6 +128,7 @@ class ToolsManager {
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
 		clickableContainers.add(blur);
+		clickableContainers.add(clear);
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
