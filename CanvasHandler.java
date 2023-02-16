@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;
 
-public class CanvasHandler{
+public class CanvasHandler {
     private ArrayList<LayerData> canvasLayers1 = new ArrayList<LayerData>();
     private ArrayList<LayerData> canvasLayers2 = new ArrayList<LayerData>();
     private ArrayList<LayerData> canvasLayers3 = new ArrayList<LayerData>();

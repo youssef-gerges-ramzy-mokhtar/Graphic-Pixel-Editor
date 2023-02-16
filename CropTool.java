@@ -1,6 +1,7 @@
 import java.awt.event.*;
 import java.awt.*;
 
+// Crop Tool is simply used to represent the Crop Tool
 class CropTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
@@ -8,7 +9,7 @@ class CropTool extends ClickableTool {
 	private Clickable cropBtn;
 	private boolean changeMade;
 	private Resize cropType;
-	private final int spacingRange;
+	private final int spacingRange; // spacingRange is used to specify the amount of space from the cursor to the layer that the user is allowed to move within to crop a layer
 
 	public CropTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
@@ -21,6 +22,13 @@ class CropTool extends ClickableTool {
 		addCanvasListener();
 	}
 
+	// initTool initialize the properties of the Crop Tool
+	/*
+		- The Crop Tool Affects the Undo Tool
+		- The Crop Tool Affects the Layers Panel
+		- The Crop Tool Rasterizes Shape Layers
+		- The Crop Tool has shortcut 'w'
+	*/
 	protected void initTool(UndoTool undo) {
 		this.cropBtn = new Clickable("Crop");
 		cropBtn.addKeyBinding('w');
@@ -33,24 +41,27 @@ class CropTool extends ClickableTool {
 
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
+			// mousePressed is used to select the layer that is going to be cropped
 			public void mousePressed(MouseEvent e) {
 				if (!cropBtn.isActive()) return;
 
 				layerToCrop = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-				if (layerToCrop == null) {layersHandler.updateCanvas(); return;}
+				if (layerToCrop == null) {layersHandler.updateCanvas(); return;} // this means that the user clicked at a point where no layers are present
 
+				// if a layer is a shape layer then we rasterize the shape Layer
 				if (layerToCrop instanceof ShapeLayer) {
 					layerToCrop = rasterizeLayer(layerToCrop, layersHandler);
 					layersHandler.updateCanvas();
 					return;
 				}
 
-				layerToCrop.drawBorder();
-				layersHandler.updateCanvasSelected(layerToCrop);
+				layerToCrop.drawBorder(); // draws a border on the layer to give the feeling that it is selected
+				layersHandler.updateCanvasSelected(layerToCrop); // refershes the canvas to show the selected layer
 
-				cropType = layerToCrop.canResize(e.getX(), e.getY(), spacingRange);
+				cropType = layerToCrop.canResize(e.getX(), e.getY(), spacingRange); // cropType stores the position that we will crop from
 			}
 
+			// mouseReleased is used to record the change for the undo tool and update the Layers Panel
 			public void mouseReleased(MouseEvent e) {
 				if (!cropBtn.isActive()) return;
 				if (changeMade) {recordChange(); updateLayerObserver();}
@@ -59,6 +70,7 @@ class CropTool extends ClickableTool {
 		});
 
 		canvas.addMouseMotionListener(new MouseMotionAdapter() {
+			// mouseDragged is used to crop the layer and refresh the canvas to display the change sthat has been made
 			public void mouseDragged(MouseEvent e) {
                 if (!cropBtn.isActive()) return;
                 if (layerToCrop == null) return;
@@ -69,6 +81,7 @@ class CropTool extends ClickableTool {
                 changeMade = true;
             }
 		
+			// mouseMoved is mainly used to change the cursor simply to indicate to the user that he can crop the current layer or not
             public void mouseMoved(MouseEvent e) {
 	        	if (!cropBtn.isActive()) return;
 	        	if (layerToCrop == null) return;

@@ -1,12 +1,14 @@
 import java.awt.image.*;
 import java.awt.*;
 
+// ImageLayer simply represents any Image Layer on the Canvas
 class ImageLayer extends LayerData {
 	public ImageLayer(BufferedImage layer) {super(layer);}
 	public ImageLayer(BufferedImage layer, Point layerPos) {super(layer, layerPos);}
 	public ImageLayer(int width, int height, Color col) {super(width, height, col);}
 	public ImageLayer(int width, int height, Color col, Point layerPos) {super(width, height, col, layerPos);}
 
+	// resize() is used to represent the layer to the specified width and height
 	public void resize(int width, int height) {
 		if (width < 15 || height < 15) return;
 
@@ -18,6 +20,7 @@ class ImageLayer extends LayerData {
 		updateSelectionLayer();
 	}
 
+	// resize() is used to get a coordinate on the canvas and resize the layer to reach this coordinate
 	public void resize(Point newLayerEndPos) {
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
 		int layerHeight = Math.abs(newLayerEndPos.y - getY());
@@ -30,6 +33,7 @@ class ImageLayer extends LayerData {
 		setLocation(validPoint(getCoords(), newLayerEndPos));
 	}
 
+	// getCopy return a Deep Copy of the Image Layer
 	public ImageLayer getCopy() {
 		ImageLayer copy = new ImageLayer(layerWidth(), layerHeight(), Color.white);
 		resetLayerProperties(copy);
