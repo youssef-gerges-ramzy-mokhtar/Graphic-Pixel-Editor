@@ -37,7 +37,6 @@ class LayersHandler implements CanvasObserver {
 	public void removeLayer(LayerData layer) {
 		if (layer == null) return;
 		if (layer == drawingLayer) return;
-
 		layers.remove(layer);
 	}
 
@@ -96,9 +95,6 @@ class LayersHandler implements CanvasObserver {
 			if (layerData.isHidden()) continue;
 			canvas.drawLayer(layerData);
 		}
-
-		///////////// Debugging Code /////////////
-		// System.out.println("Layers that is being updated " + layers);
 	}
 
 	public void updateCanvasSelected(LayerData selectedLayer) {

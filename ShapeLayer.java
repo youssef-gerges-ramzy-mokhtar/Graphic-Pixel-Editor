@@ -24,7 +24,6 @@ abstract class ShapeLayer extends LayerData {
 		setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
 		Graphics2D g2d = getLayerGraphics();
 		updateGraphics(specificGraphic);
-
 		updateSelectionLayer();
 		
 	}

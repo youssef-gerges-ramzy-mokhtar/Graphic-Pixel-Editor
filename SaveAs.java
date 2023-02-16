@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
-
 import javax.imageio.ImageIO;
 
 // SaveAs is used Loads Images from the User's Computer into the Program
