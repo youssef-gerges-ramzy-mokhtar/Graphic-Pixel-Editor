@@ -35,6 +35,7 @@ class LayersHandler implements CanvasObserver {
 	}
 
 	public void removeLayer(LayerData layer) {
+		if (layer instanceof DrawingLayer) return;
 		if (layer == null) return;
 		if (layer == drawingLayer) return;
 		layers.remove(layer);
@@ -215,6 +216,11 @@ class LayersHandler implements CanvasObserver {
 			layer.zoom(factor);
 		
 		updateCanvas();
+	}
+
+	public void clear() {
+		layers.clear();
+		layers.add(drawingLayer);
 	}
 
 	// Observer Pattern //

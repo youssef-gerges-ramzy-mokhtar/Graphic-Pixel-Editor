@@ -38,6 +38,7 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 
 				if (!drawingBtn.isActive()) return;
 				recordChange();
+				updateLayerObserver();
 			}
 		});
 
@@ -45,7 +46,6 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 			public void mouseDragged(MouseEvent e) {
 				if (!drawingBtn.isActive()) return;
 				drawBrush(new Point(e.getX(), e.getY()));
-				updateLayerObserver();
 			}
 		});
 
