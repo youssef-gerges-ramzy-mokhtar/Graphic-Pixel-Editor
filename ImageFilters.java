@@ -15,6 +15,8 @@ class ImageFilters extends JFrame implements ActionListener {
     private MyFilter greenFilter = new GreenFilter();
     private MyFilter blueFilter = new BlueFilter();
 
+    private LayerData selectedLayer = null;
+
     public ImageFilters(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
         this.canvas = canvas;
         this.layersHandler = layersHandler.getLayersHandler(canvas);
@@ -72,7 +74,7 @@ class ImageFilters extends JFrame implements ActionListener {
         canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    LayerData selectedLayer = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
+                    selectedLayer = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
 
                     if (selectedLayer == null || !(selectedLayer instanceof ImageLayer)) {
                         return; // this means that there are no layers at this coordinate
@@ -86,7 +88,7 @@ class ImageFilters extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String filterChosen = e.getActionCommand();
-        ImageLayer img = layersHandler.getFirstImage();
+        ImageLayer img = (ImageLayer) selectedLayer; 
         switch (filterChosen) {
         case "blur":
             if (img == null) return;

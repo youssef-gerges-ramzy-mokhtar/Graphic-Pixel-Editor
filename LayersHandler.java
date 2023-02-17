@@ -217,13 +217,6 @@ class LayersHandler implements CanvasObserver {
 		updateCanvas();
 	}
 
-	public ImageLayer getFirstImage() {
-		for (LayerData layer: layers)
-			if (layer instanceof ImageLayer) return (ImageLayer) layer;
-
-		return null;
-	}
-
 	// Observer Pattern //
 	// update() is called whenver the canvas is resized, and is used to resize the drawing area
 	public void update() {
