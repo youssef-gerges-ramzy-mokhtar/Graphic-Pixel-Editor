@@ -30,20 +30,7 @@ class Clear extends ClickableTool  implements CanvasObserver {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent mouse) {
 				if (!clearBtn.isActive()) return;
-
-				layers = layersHandler.getLayers();
-				ArrayList<LayerData> tempList = new ArrayList<>(); 
-					for(LayerData i : layers){
-						if (i != layersHandler.getDrawingLayer()){
-							layersHandler.getDrawingLayer().mergeLayer(i);
-							tempList.add(i);
-						}
-					}
-
-				for(LayerData i: tempList){
-					layersHandler.removeLayer(i);
-				}
-				layersHandler.getDrawingLayer().clear(Color.white);
+				layersHandler.clear();
 
                 recordChange();
 				layersHandler.updateCanvas();
