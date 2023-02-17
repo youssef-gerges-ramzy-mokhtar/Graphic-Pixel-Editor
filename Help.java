@@ -47,7 +47,6 @@ class Help {
             label[num] = new JLabel();
             label[num].setText(br.readLine());
             menu.add(label[num]);
-            System.out.println(br.readLine());
           }
           br.close();
           menu.setVisible(true);
