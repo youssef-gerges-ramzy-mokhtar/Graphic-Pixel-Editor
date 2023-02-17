@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.*;
+
+import java.awt.BorderLayout;
 import java.io.*;
 
 // Help is used Loads Images from the User's Computer into the Program
@@ -42,11 +44,11 @@ class Help {
           BufferedReader br = new BufferedReader(fr);
           JFrame menu = new JFrame();
           menu.setBounds(100, 100, 600, 600);
-          JLabel label[] = new JLabel[15];
-          for (int num = 0; num < 15; num++) {
+          JLabel label[] = new JLabel[16];
+          for (int num = 0; num < 16; num++) {
             label[num] = new JLabel();
             label[num].setText(br.readLine());
-            menu.add(label[num]);
+            menu.add(label[num], BorderLayout.CENTER);
           }
           br.close();
           menu.setVisible(true);
