@@ -48,7 +48,7 @@ class Help {
           for (int num = 0; num < 16; num++) {
             label[num] = new JLabel();
             label[num].setText(br.readLine());
-            menu.add(label[num], BorderLayout.CENTER);
+            menu.add(label[num]);
           }
           br.close();
           menu.setVisible(true);
