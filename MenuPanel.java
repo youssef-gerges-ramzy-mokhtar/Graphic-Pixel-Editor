@@ -4,9 +4,8 @@ import javax.swing.*;
 class MenuPanel extends JMenuBar {
 	private ImageLoader imageLoaderMenu;
 	private OurCanvas canvas;
-	private Help helpMenu;
 
-	public MenuPanel(OurCanvas canvas, ImageLoader imageLoaderMenu, SaveAs imageSaver, Help helpmenu) {
+	public MenuPanel(OurCanvas canvas, ImageLoader imageLoaderMenu, SaveAs imageSaver, Help helpMenu) {
 		this.imageLoaderMenu = imageLoaderMenu;
 		add(imageLoaderMenu.getMenu());
 		add(imageSaver.getMenu());

@@ -35,7 +35,7 @@ class Help{
             public void menuDeselected(MenuEvent e) {}
 
             public void menuSelected(MenuEvent e) {
-                                
+                
 			}
         });
     }
