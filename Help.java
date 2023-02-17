@@ -40,10 +40,17 @@ class Help {
         try {
           FileReader fr = new FileReader(file);
           BufferedReader br = new BufferedReader(fr);
-          while (br.ready()) {
+          JFrame menu = new JFrame();
+          menu.setBounds(100, 100, 600, 600);
+          JLabel label[] = new JLabel[15];
+          for (int num = 0; num < 15; num++) {
+            label[num] = new JLabel();
+            label[num].setText(br.readLine());
+            menu.add(label[num]);
             System.out.println(br.readLine());
           }
           br.close();
+          menu.setVisible(true);
         } catch (Exception ex) {
         }
       }
