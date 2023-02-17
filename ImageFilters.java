@@ -74,7 +74,7 @@ class ImageFilters extends JFrame implements ActionListener {
                 if (SwingUtilities.isRightMouseButton(e)) {
                     LayerData selectedLayer = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
 
-                    if (selectedLayer == null) {
+                    if (selectedLayer == null || !(selectedLayer instanceof ImageLayer)) {
                         return; // this means that there are no layers at this coordinate
                     }
                     popMenu.show(canvas, e.getX(), e.getY());
