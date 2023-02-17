@@ -2,6 +2,7 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.JOptionPane; 
 
+// Text Tool is used to add text into the canvas
 class TextTool extends ClickableTool implements Observer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
@@ -19,6 +20,12 @@ class TextTool extends ClickableTool implements Observer {
 		addCanvasListener();
 	}
 
+	// initTool initialize the properties of the Text Tool
+	/*
+		- The Text Tool Affects the Undo Tool
+		- The Text Tool Affects the Layers Panel
+		- The Text Tool has shortcut 's'
+	*/
 	protected void initTool(UndoTool undo) {
 		this.textBtn = new Clickable("Text");
 		textBtn.addKeyBinding('s');
@@ -32,7 +39,7 @@ class TextTool extends ClickableTool implements Observer {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (!textBtn.isActive()) return;
-                String text = JOptionPane.showInputDialog(null, "Please Enter Text");  //takes a string for text
+                String text = JOptionPane.showInputDialog(null, "Please Enter Text");  // prompting the user to input a string
                 TextLayer txtLayer = new TextLayer(new Point(e.getX(), e.getY()), fontCol, fontSz, text, canvas.getMainLayer().getWidth());
 
                 layersHandler.addLayer(txtLayer);
@@ -45,9 +52,13 @@ class TextTool extends ClickableTool implements Observer {
 	}
 
 	// Observer Pattern //
+
+	// update(fontSz) is called whenver the user updates the size slider
 	public void update(int fontSz) {
 		this.fontSz = fontSz;
 	}
+
+	// update(col) is used whenver the user picks a color from the color picker
 	public void update2(Color col) {
 		this.fontCol = col;
 	}

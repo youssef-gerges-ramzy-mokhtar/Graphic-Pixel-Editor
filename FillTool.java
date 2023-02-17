@@ -19,6 +19,12 @@ class FillTool extends ClickableTool implements Observer {
 		addCanvasListener();
 	}
 
+	// initTool initialize the properties of the Fill Tool
+	/*
+		- A Fill Tool Affects the Undo Tool
+		- A Fill Tool Affects the Layers Panel
+		- A Fill Tool has shortcut 'f'
+	*/
 	protected void initTool(UndoTool undo) {
 		this.fillBtn = new Clickable("Fill");
 		fillBtn.addKeyBinding('f');
@@ -79,12 +85,6 @@ class FillTool extends ClickableTool implements Observer {
 			{x_coord.push(x_pos); y_coord.push(y_pos + 1);}
 			{x_coord.push(x_pos); y_coord.push(y_pos - 1);}
 		}
-	}
-
-	public ArrayList<Clickable> getClickable() {
-		ArrayList<Clickable> fillToolBtn = new ArrayList<Clickable>();
-		fillToolBtn.add(fillBtn);
-		return fillToolBtn;
 	}
 
 	// Observer Pattern

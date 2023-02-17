@@ -1,6 +1,7 @@
 import java.awt.image.*;
 import java.awt.*;
 
+// ShapeLayer is used to represent the commont propertiese of all shape layers
 abstract class ShapeLayer extends LayerData {
 	private SpecificGraphic specificGraphic;
 	protected Color strokeCol;
@@ -9,10 +10,15 @@ abstract class ShapeLayer extends LayerData {
 	public ShapeLayer(int width, int height, Color col) {super(width, height, col);}
 	public ShapeLayer(int width, int height, Color col, Point layerPos) {super(width, height, col, layerPos);}
 
+	/*
+		Also note that when we resize a Shape Layer it doesn't get pixaleted because each time we resize a shape we redraw the shape again
+		based on the new width and height
+	*/
+
+	// resize() is used to represent the layer to the specified width and height
 	public void resize(int width, int height) {
 		if (width <= 5 || height <= 5) return;
-		
-		
+
 		BufferedImage layerImg = getImage();
 		this.fillCol = new Color(layerImg.getRGB(layerImg.getWidth() / 2, layerImg.getHeight() / 2)); // That is not accurate because there might be drawings on the Shape Layer
 
@@ -24,14 +30,11 @@ abstract class ShapeLayer extends LayerData {
 		setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
 		Graphics2D g2d = getLayerGraphics();
 		updateGraphics(specificGraphic);
-
 		updateSelectionLayer();
-		
-	}
+	}	
 
+	// resize() is used to get a coordinate on the canvas and resize the layer to reach this coordinate
 	public void resize(Point newLayerEndPos) {
-		
-		//System.out.println(newLayerEndPos);
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
 		int layerHeight = Math.abs(newLayerEndPos.y - getY());
 		if(layerWidth < 15 || newLayerEndPos.x - getX() < 0) layerWidth = 15;
@@ -52,12 +55,14 @@ abstract class ShapeLayer extends LayerData {
 		this.fillCol = col;
 	}
 
+	// getCopy return a Deep Copy of the Shape Layer
 	public ShapeLayer getCopy() {
 		ShapeLayer copy = getShapeLayerCopy();
 		resetLayerProperties(copy);
 		return copy;
 	}
 
+	// rasterize() is used to convert a Shape Layer to an Image Layer
 	public LayerData rasterize() {
 		// Code Refactor Here
 		ImageLayer rasterizedShape = new ImageLayer(layerWidth(), layerHeight(), Color.white);

@@ -37,7 +37,6 @@ class LayersHandler implements CanvasObserver {
 	public void removeLayer(LayerData layer) {
 		if (layer == null) return;
 		if (layer == drawingLayer) return;
-
 		layers.remove(layer);
 	}
 
@@ -56,6 +55,7 @@ class LayersHandler implements CanvasObserver {
 			if (layers.get(i) == currentLayer) {moveToTopLayer(i); return;}
 	}
 
+	// moveLayerUp is used to move the layer 1 step to the top
 	public void moveLayerUp(LayerData layer) {
 		int layer_pos = layers.indexOf(layer);
 		if (layer_pos == layers.size()-1) return;
@@ -63,6 +63,7 @@ class LayersHandler implements CanvasObserver {
 		Collections.swap(layers, layer_pos, layer_pos+1);
 	}
 
+	// moveLayerDown is used to move the layer 1 step to the bottom
 	public void moveLayerDown(LayerData layer) {
 		int layer_pos = layers.indexOf(layer);
 		if (layer_pos == 0) return;
@@ -96,11 +97,9 @@ class LayersHandler implements CanvasObserver {
 			if (layerData.isHidden()) continue;
 			canvas.drawLayer(layerData);
 		}
-
-		///////////// Debugging Code /////////////
-		// System.out.println("Layers that is being updated " + layers);
 	}
 
+	// updateCanvasSelected() is used to refresh the canvas by redrawing all the layers into the canvas and drawing the selectedLayer with a border
 	public void updateCanvasSelected(LayerData selectedLayer) {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers) {
@@ -169,11 +168,13 @@ class LayersHandler implements CanvasObserver {
 		selectedLayer = layers.get(layerPos);
 	}
 
+	// changes the selectedLayer to the layer that is passed to changeSelectedLayer() function
 	public void changeSelectedLayer(LayerData layer) {
 		if (!layers.contains(layer)) return;
 		selectedLayer = layer;
 	}
 
+	// returns a deep copy of all the layers that exist
 	public ArrayList<LayerData> getLayersCopy() {
 		ArrayList<LayerData> layersCopy = new ArrayList<LayerData>();
 		
@@ -183,6 +184,7 @@ class LayersHandler implements CanvasObserver {
 		return layersCopy;
 	}
 
+	// setLayers simply sets the layers based on the passed argument
 	public void setLayers(ArrayList<LayerData> layers) {
 		this.layers = layers;
 		this.layers = getLayersCopy();
@@ -198,6 +200,7 @@ class LayersHandler implements CanvasObserver {
 		return layers;
 	}
 
+	// replaceLayer simply replaces the Previous Layer with the New Layer
 	public void replaceLayer(LayerData prevLayer, LayerData newLayer) {
 		int prevLayerIdx = layers.indexOf(prevLayer);
 		if (prevLayerIdx == -1) return;
@@ -206,6 +209,7 @@ class LayersHandler implements CanvasObserver {
 		if (prevLayer == selectedLayer) selectedLayer = newLayer;
 	}
 
+	// zoomAllLayers is used to resize all layers based on the factor
 	public void zoomAllLayers(double factor) {
 		for (LayerData layer: layers)
 			layer.zoom(factor);
