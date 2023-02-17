@@ -8,6 +8,7 @@ class ToolsManager {
 	private ToolsPanel toolsPanel;
     private ColorGui colorGui;
     private OptionsPanel optionsPanel;
+	private ImageFilters imageFilters;
 	
 	private SelectionTool selectionTool;
     private PenTool penTool;
@@ -79,6 +80,7 @@ class ToolsManager {
 		this.text = new TextTool(layersOptions, canvas, undo);
 		this.delete = new Delete(layersOptions, canvas, undo);
 		this.crop = new CropTool(layersOptions, canvas, undo);
+		this.imageFilters = new ImageFilters(layersOptions, canvas, undo);
 		
 
 		this.colorGui = new ColorGui();
