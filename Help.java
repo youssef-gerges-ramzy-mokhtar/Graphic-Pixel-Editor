@@ -1,16 +1,10 @@
 import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.*;
-import javax.imageio.*;
-import java.util.*;
 
 // Help is used Loads Images from the User's Computer into the Program
 class Help {
   private JMenu helpMenu = new JMenu("Help");
-  private OurCanvas canvas;
 
   /**
    * creates a button on the menu to save the canvas as a file
@@ -18,7 +12,6 @@ class Help {
    * @param canvas
    */
   public Help(OurCanvas canvas) {
-    this.canvas = canvas;
     addhelpMenuListener();
   }
 
@@ -33,7 +26,7 @@ class Help {
 
   /**
    * Used to attach an event handler to the Menu Button
-   */
+   **/
   private void addhelpMenuListener() {
     helpMenu.addMenuListener(new MenuListener() {
       public void menuCanceled(MenuEvent e) {
@@ -50,6 +43,7 @@ class Help {
           while (br.ready()) {
             System.out.println(br.readLine());
           }
+          br.close();
         } catch (Exception ex) {
         }
       }
