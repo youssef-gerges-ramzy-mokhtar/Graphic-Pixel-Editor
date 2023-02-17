@@ -28,9 +28,8 @@ class Clear extends ClickableTool  implements CanvasObserver {
 	/** addCanvasListener() attachs an Event Listener to the canvas **/
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
+            public void mouseReleased(MouseEvent mouse) {
 				if (!clearBtn.isActive()) return;
-				if(layersHandler.getLayersCount() <= 1) return;
 
 				layers = layersHandler.getLayers();
 				ArrayList<LayerData> tempList = new ArrayList<>(); 
@@ -38,7 +37,6 @@ class Clear extends ClickableTool  implements CanvasObserver {
 						if (i != layersHandler.getDrawingLayer()){
 							layersHandler.getDrawingLayer().mergeLayer(i);
 							tempList.add(i);
-							updateLayerObserver();
 						}
 					}
 
