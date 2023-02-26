@@ -16,7 +16,7 @@ class CircleLayer extends ShapeLayer {
 	}
 
 	protected CircleLayer getShapeLayerCopy() {
-		CircleLayer copy = new CircleLayer(layerWidth(), layerHeight(), Color.white);
+		CircleLayer copy = new CircleLayer(layerWidth(), layerHeight(), new Color(0,0,0,0));
 		return copy;
 	}
 }

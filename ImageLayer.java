@@ -30,12 +30,12 @@ class ImageLayer extends LayerData {
 		resize(layerWidth, layerHeight);
 		
 		if(newLayerEndPos.x - getX() > 15 && newLayerEndPos.y -getY() > 15)
-		setLocation(validPoint(getCoords(), newLayerEndPos));
+		setLocation(validTopLeftPoint(getCoords(), newLayerEndPos));
 	}
 
 	// getCopy return a Deep Copy of the Image Layer
 	public ImageLayer getCopy() {
-		ImageLayer copy = new ImageLayer(layerWidth(), layerHeight(), Color.white);
+		ImageLayer copy = new ImageLayer(layerWidth(), layerHeight(), new Color(0,0,0,0));
 		resetLayerProperties(copy);
 		return copy;
 	}

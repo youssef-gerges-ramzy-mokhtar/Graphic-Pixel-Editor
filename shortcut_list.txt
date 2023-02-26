@@ -11,6 +11,7 @@ triangle: t
 air brush: a
 text: s
 delete: d
-quick_selection: q
+quick_cutter: q
+cutter: l
 redo: (ctrl + y) or just y
 undo: (ctrl + z) or just z

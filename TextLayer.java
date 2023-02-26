@@ -106,7 +106,7 @@ class TextLayer extends LayerData {
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
 		int layerHeight = Math.abs(newLayerEndPos.y - getY());
 		resize(layerWidth, layerHeight);
-		setLocation(validPoint(getCoords(), newLayerEndPos));
+		setLocation(validTopLeftPoint(getCoords(), newLayerEndPos));
 	}
 
 	// resize() is used to get a coordinate on the canvas and resize the text layer to reach this coordinate

@@ -47,6 +47,7 @@ abstract class LayerData {
 		layerSelection = new BufferedImage(layer.getWidth(), layer.getHeight(), layer.getType());
 		Graphics2D g2d = layerSelection.createGraphics();
 		g2d.drawImage(layer, 0, 0, null);
+		g2d.dispose();
 
 		drawBorder();
 	}
@@ -61,13 +62,13 @@ abstract class LayerData {
 
 	// getX() returns the x-coordinate of the layer on the canvas
 	public int getX() {
-		if(layerPos != null) return layerPos.x;
+		if (layerPos != null) return layerPos.x;
 		else return 0;
 	}
 
 	// getY() returns the y-coordinate of the layer on the canvas
 	public int getY() {
-		if(layerPos != null) return layerPos.y;
+		if (layerPos != null) return layerPos.y;
 		else return 0;
 	}
 
@@ -119,8 +120,8 @@ abstract class LayerData {
 	}
 
 	public void setImage(BufferedImage newImg) {
-		layer = newImg;
-		originalLayer = layer;
+		this.layer = newImg;
+		this.originalLayer = layer;
 		updateSelectionLayer();
 	}
 
@@ -235,33 +236,42 @@ abstract class LayerData {
 
 	// Sets each pixel of this layer to the specified color
 	public void clear(Color col) {
-		// Graphics2D g2d = (Graphics2D) layer.getGraphics();
-		// g2d.setBackground(col);
-		// g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
-
-		// originalLayer = layer;
-
 		this.clearSubArea(0, 0, layer.getWidth(), layer.getHeight(), col);
 	}
 
 	public void clearSubArea(int x1, int y1, int x2, int y2, Color col) {
-		Graphics2D g2d = (Graphics2D) layer.getGraphics();
+		Graphics2D g2d = (Graphics2D) this.layer.getGraphics();
 		g2d.setBackground(col);
-		g2d.clearRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1-x2), Math.abs(y1-y2));
+		g2d.clearRect(getX(Math.min(x1, x2)), getY(Math.min(y1, y2)), Math.abs(x1-x2), Math.abs(y1-y2));
 
 		originalLayer = layer;
+	
+		updateSelectionLayer();
+		g2d.dispose();
 	}
 
 	// is used to take in 2 points and return a Point representing the Top Left Corner Point based on the 2 given points
-	protected Point validPoint(Point p1, Point p2) {
+	public static Point validTopLeftPoint(Point p1, Point p2) {
 		int x1 = p1.x, y1 = p1.y;
 		int x2 = p2.x, y2 = p2.y;
 		
-		if (y2 > y1 && x2 > x1) return p1;
-		if (y2 < y1 && x2 > x1) return new Point(x1, y2);
-		if(x2 < x1 && y2 < y1) return p2;
-		if(x2 < x1 && y2 > y1) return new Point(x2, y1);
+		if (y2 > y1 && x2 > x1) return p1; // imagine as moving from top left corner to bottom right corner
+		if (y2 < y1 && x2 > x1) return new Point(x1, y2); // imagine as moving from bottom left corner to top right corner
+		if (x2 < x1 && y2 < y1) return p2; // imagine as moving from bottom right corner to top left corner
+		if (x2 < x1 && y2 > y1) return new Point(x2, y1); // imagine as moving from top right corner to the bottom left corner
 		
+		return null;
+	}
+
+	public static Point validBottomRightPoint(Point p1, Point p2) {
+		int x1 = p1.x, y1 = p1.y;
+		int x2 = p2.x, y2 = p2.y;
+
+		if (y2 > y1 && x2 > x1) return p2; // imagine as moving from top left corner to bottom right corner
+		if (y2 < y1 && x2 > x1) return new Point(x2, y1); // imagine as moving from bottom left corner to top right corner
+		if (x2 < x1 && y2 < y1) return p1; // imagine as moving from bottom right corner to top left corner
+		if (x2 < x1 && y2 > y1) return new Point(x1, y2); // imagine as moving from top right corner to the bottom left corner
+
 		return null;
 	}
 
@@ -286,6 +296,8 @@ abstract class LayerData {
 		g2d.setStroke(bs1);
 		g2d.setColor(Color.black);
 		drawBorder(g2d);
+
+		g2d.dispose();
 	}
 	
 	private void drawBorder(Graphics2D g2d) {
@@ -294,7 +306,7 @@ abstract class LayerData {
 		g2d.drawLine(spacing, spacing, layer.getWidth() + spacing, spacing);
 		g2d.drawLine(spacing, spacing, spacing, layer.getHeight() + spacing);
 		g2d.drawLine(layer.getWidth() + spacing, spacing, layer.getWidth() + spacing, layer.getHeight() + spacing);
-		g2d.drawLine(spacing, layer.getHeight() + spacing, layer.getWidth() + spacing, layer.getHeight() + spacing);
+		g2d.drawLine(spacing, layer.getHeight() + spacing, layer.getWidth() + spacing, layer.getHeight() + spacing);	
 	}
 
 	public BufferedImage getSelectionImage() {
@@ -370,8 +382,16 @@ abstract class LayerData {
 	// pointInBounds checks if a Point is contained inside the bounds of a layer on the canvas
 	// It checks if at this point on the canvas exists a layer or not
 	private boolean pointInBounds(Point p) {
-		if (layerPos.x < p.x && p.x < layerEndPos.x) return true;
-		if (layerPos.y < p.y && p.y < layerEndPos.y) return true;
+		System.out.println("Point In Bounds"); // debugging
+		System.out.println(layerPos.x + " " + layerEndPos.x); // debugging
+		System.out.println(layerPos.y + " " + layerEndPos.y); // debugging
+		if (layerPos.x < p.x && p.x < layerEndPos.x) {
+			System.out.println("Entered"); // debugging
+			if (layerPos.y < p.y && p.y < layerEndPos.y) {
+			System.out.println("Entered 2"); // debugging
+				return true;
+			} 
+		}
 
 		return false;
 	}
@@ -422,8 +442,21 @@ abstract class LayerData {
 	}
 
 	public BufferedImage getSubImage(int x1, int y1, int x2, int y2) {
+		int minX = Math.min(x1, x2);
+		int minY = Math.min(y1, y2);
+		System.out.println(minX + " " + minY); // debugging
+		if (!pointInBounds(new Point(minX, minY))) return null;
+
+		System.out.println("HI");
+		System.out.println(Math.min(Math.abs(x1-x2), layer.getWidth() - minX)); // debugging
+		System.out.println(Math.min(Math.abs(y1-y2), layer.getHeight() - minY)); // debugging
 		try {
-			return layer.getSubimage(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1-x2), Math.abs(y1-y2));
+			return layer.getSubimage(
+				getX(minX), 
+				getY(minY), 
+				Math.min(Math.abs(x1-x2), layer.getWidth() - getX(minX)),
+				Math.min(Math.abs(y1-y2), layer.getHeight() - getY(minY))
+			);
 		} catch (Exception e) {
 			return null;
 		}

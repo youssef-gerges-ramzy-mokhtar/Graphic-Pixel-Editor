@@ -105,8 +105,9 @@ class LayersHandler implements CanvasObserver {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers) {
 			if (layerData.isHidden()) continue;
-			canvas.drawLayer(layerData);
-			if (layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
+			
+			if (!(layerData instanceof DrawingLayer) && layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
+			else canvas.drawLayer(layerData);
 		}
 	}
 
@@ -210,7 +211,7 @@ class LayersHandler implements CanvasObserver {
 		if (prevLayer == selectedLayer) selectedLayer = newLayer;
 	}
 
-	private LayerData mergeAll() {
+	public LayerData mergeAll() {
 		LayerData mergedLayer = new ImageLayer(drawingLayer.getWidth(), drawingLayer.getHeight(), Color.white);
 
 		for (LayerData layer: layers)
@@ -218,26 +219,13 @@ class LayersHandler implements CanvasObserver {
 
 		layers.clear();
 		drawingLayer.clear(Color.white);
+		mergedLayer.updateSelectionLayer();
 
 		layers.add(drawingLayer);
 		layers.add(mergedLayer);
 
 		changeSelectedLayer(0);
 		return mergedLayer;
-	}
-
-	public LayerData selectPart(Point startPos, Point endPos) {
-		LayerData mergedLayer = mergeAll();
-
-		BufferedImage selectedArea = mergedLayer.getSubImage(startPos.x, startPos.y, endPos.x, endPos.y);
-		ImageLayer selectedAreaLayer = new ImageLayer(selectedArea, startPos);
-		selectedAreaLayer.setImage(selectedArea);
-
-		mergedLayer.clearSubArea(startPos.x, startPos.y, endPos.x, endPos.y, Color.white);
-		mergedLayer.updateSelectionLayer();
-		layers.add(selectedAreaLayer);
-
-		return selectedAreaLayer;
 	}
 
 	// zoomAllLayers is used to resize all layers based on the factor
@@ -250,6 +238,7 @@ class LayersHandler implements CanvasObserver {
 
 	public void clear() {
 		layers.clear();
+		drawingLayer.clear(Color.white);
 		layers.add(drawingLayer);
 	}
 

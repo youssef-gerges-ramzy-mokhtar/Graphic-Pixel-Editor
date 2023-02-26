@@ -25,7 +25,8 @@ class ToolsManager {
     private UndoTool undo;
     private CropTool crop;
 	private Clear clear;
-    private QuickSelectTool quickSelection;
+    private QuickCutterTool quickCutter;
+    private CutterTool cutter;
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
     private LayersHandler layersHandler;
@@ -68,7 +69,8 @@ class ToolsManager {
 		clickableContainers.add(undo);
 		clickableContainers.add(crop);
 		clickableContainers.add(blur);
-		clickableContainers.add(quickSelection);
+		clickableContainers.add(quickCutter);
+		clickableContainers.add(cutter);
 		clickableContainers.add(clear);
 
 		for (ClickableTool clickableContainer: clickableContainers)
@@ -114,7 +116,8 @@ class ToolsManager {
 		this.crop = new CropTool(layersOptions, canvas, undo);
 		this.clear = new Clear(layersOptions, canvas, undo);
 		this.imageFilters = new ImageFilters(layersOptions, canvas, undo);
-		this.quickSelection = new QuickSelectTool(layersOptions, canvas, undo);
+		this.quickCutter = new QuickCutterTool(layersOptions, canvas, undo);
+		this.cutter = new CutterTool(layersOptions, canvas, undo);
 		
 		this.colorGui = new ColorGui(); // colorGui Color Picker
         this.optionsPanel = new OptionsPanel(colorGui); // optionsPanel holds all the options available for the user on the top
