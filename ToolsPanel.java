@@ -10,7 +10,7 @@ class ToolsPanel extends JPanel implements Observer {
         this.clickables = new ArrayList<Clickable>();
         setBackground(new Color(63, 72, 204));      //set panel colour, store this color in the constants class
         setBounds(0, 100, 200, getHeight() - 100);      //set panel area
-        setLayout(new GridLayout(8,2)); //applies panel layout to panel
+        setLayout(new GridLayout(9,2)); //applies panel layout to panel
 	}
 
 	public void addClickable(Clickable clickable) {

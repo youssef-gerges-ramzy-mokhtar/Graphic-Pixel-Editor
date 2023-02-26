@@ -1,9 +1,7 @@
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
 import java.util.*;
 
-// TextGraphics is used to store properties of a Rectnalge and used to Draw a Rectnalge using a Layer's Graphics2D Object
+// TextGraphics is used to store properties of a Text and used to Draw Text using a Layer's Graphics2D Object
 public class TextGraphics extends LayerGraphics {
     ArrayList<ArrayList<String>> sentences;
 	int fontSz;

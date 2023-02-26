@@ -86,6 +86,12 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		updateCanvasSz();
 	}
 
+	public void zoom(double factor) {
+		width = (int) Math.floor(factor * width);
+		height = (int) Math.floor(factor * height);
+		updateCanvasSz();
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(mainLayer.getImage(), 0, 0, null);

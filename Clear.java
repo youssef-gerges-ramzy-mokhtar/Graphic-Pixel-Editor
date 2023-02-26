@@ -1,13 +1,15 @@
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.awt.*;
 
 /** DeleteTool is used to delete shapes and layers in the canvas **/
-class Delete extends ClickableTool {
+class Clear extends ClickableTool  implements CanvasObserver {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
-	private Clickable deleteBtn;
+	private Clickable clearBtn;
+	private ArrayList<LayerData> layers;
 
-	public Delete(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
+	public Clear(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
@@ -16,10 +18,9 @@ class Delete extends ClickableTool {
 	}
 
 	protected void initTool(UndoTool undo) {
-		this.deleteBtn = new Clickable("Delete Shape");
-		deleteBtn.addKeyBinding('d');
+		this.clearBtn = new Clickable("Clear Canvas");
 		
-		addToolBtn(deleteBtn);
+		addToolBtn(clearBtn);
 		setAsChangeMaker(undo);
 		setAsLayerChanger();
 	}
@@ -27,15 +28,20 @@ class Delete extends ClickableTool {
 	/** addCanvasListener() attachs an Event Listener to the canvas **/
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-				if (!deleteBtn.isActive()) return;
-				if (layersHandler.selectLayer(new Point(e.getX(), e.getY())) == null) return;
-                layersHandler.removeLayer(layersHandler.selectLayer(new Point(e.getX(), e.getY())));
-                layersHandler.updateCanvas();
+            public void mouseReleased(MouseEvent mouse) {
+				if (!clearBtn.isActive()) return;
+				layersHandler.clear();
 
                 recordChange();
+				layersHandler.updateCanvas();
                 updateLayerObserver();
             }
         });
+	}
+
+	public void update() {
+		
 	}	
+
+    
 }

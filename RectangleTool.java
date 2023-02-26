@@ -1,6 +1,6 @@
 import java.awt.*;
 
-// RectangleTool is responsible for adding & handling Rectangles to the cavnas
+// RectangleTool is a ShapeTool and is mainly used to set the shortcut specific to the Rectangle Tool and define the Graphical Properties of a Rectangle
 class RectangleTool extends ShapeTool {
 	public RectangleTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, canvas, undo);

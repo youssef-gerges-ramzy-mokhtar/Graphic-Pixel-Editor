@@ -5,13 +5,10 @@ import java.awt.*;
 
 // Clickable is used to represent a Button associated with a Tool and all the behaviour associated with this button
 class Clickable implements Observable {
-	// private Display display;
 	private boolean btnActive;
 	private JButton btn;
 	private ArrayList<Observer> clickObservers;
 	private Color selectorCol;
-
-	private Display display;
 	private ArrayList<Character> keyBindings;
 
 	public Clickable(String title) {
@@ -24,10 +21,12 @@ class Clickable implements Observable {
 		addBtnListener();
 	}
 
+	// isActive checks if a button is currently selected or not
 	public boolean isActive() {
 		return btnActive;
 	}
 
+	// deSelect deSelects the button
 	public void deSelect() {
 		btnActive = false;
 		deSelectBtn();
@@ -37,18 +36,21 @@ class Clickable implements Observable {
 		return btn;
 	}
 
+	// addKeyBinding() sets the shortcut of the button
 	public void addKeyBinding(Character key) {
 		keyBindings.add(key);
 	}
 
 	// addBtnListener() is used to attach an Event Listener to the Button representing the Tool
 	private void addBtnListener() {
+		// So this is used to handle selection of the button using clicking
 		btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent action) {
                 selectBtn();
             }
         });
 
+		// So this is used to handle selection of the button using its associated shortcut
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 	  		public boolean dispatchKeyEvent(KeyEvent e) {
 				if (e.getID() != KeyEvent.KEY_PRESSED) return false;
@@ -63,6 +65,7 @@ class Clickable implements Observable {
 		btn.setText(txt);
 	}
 
+	// selectBtn() is used to select the Button and notifyObservers() and the observers will deSelect the button that was previously selected
 	private void selectBtn() {
 		notifyObservers();
         btnActive = true;

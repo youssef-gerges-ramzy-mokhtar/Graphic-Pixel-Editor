@@ -1,6 +1,7 @@
 import java.awt.image.*;
 import java.awt.*;
 
+// LayerData is a generic class used to represent the common properties and behaviour that is shared among all existing layers
 abstract class LayerData {
 	protected BufferedImage layer; // layer holds all the pixels that represent any layer
 	protected BufferedImage originalLayer; // originalLayer is used mainly for avoiding image pixilation during resizing
@@ -8,8 +9,8 @@ abstract class LayerData {
 	
 	private Point layerPos; // layerPos represent the coordinates of the top left corner of the image
 	private Point layerEndPos; // layerEndPos represent the coordinates of the bottom right corner of the image
-	private boolean hidden;
-	private boolean selectedForMerge;
+	private boolean hidden; // a boolean stating if a layer is visible or not
+	private boolean selectedForMerge; // a boolean stating if a layer will be merged with other layers or not
 
 	public LayerData(BufferedImage layer) {
 		this(layer, new Point(0, 0));
@@ -41,6 +42,7 @@ abstract class LayerData {
 		updateSelectionLayer();
 	}
 
+	// updateSelectionLayer is used to change the selection layer to always be up-to date with the layer
 	protected void updateSelectionLayer() {
 		layerSelection = new BufferedImage(layer.getWidth(), layer.getHeight(), layer.getType());
 		Graphics2D g2d = layerSelection.createGraphics();
@@ -57,12 +59,16 @@ abstract class LayerData {
 		return layer.getHeight();
 	}
 
+	// getX() returns the x-coordinate of the layer on the canvas
 	public int getX() {
-		return (int) layerPos.x;
+		if(layerPos != null) return layerPos.x;
+		else return 0;
 	}
 
+	// getY() returns the y-coordinate of the layer on the canvas
 	public int getY() {
-		return (int) layerPos.y;
+		if(layerPos != null) return layerPos.y;
+		else return 0;
 	}
 
 	public Point getCoords() {
@@ -146,6 +152,7 @@ abstract class LayerData {
 		return layer.getRGB(x, y);
 	}
 
+	// inRange takes a x-coordinate and a y-coordinate and checks if this coordinates are within the layer bounds
 	private boolean inRange(int x, int y) {
 		if (x < 0) return false;
 		if (y < 0) return false;
@@ -167,6 +174,7 @@ abstract class LayerData {
 		originalLayer = layer;
 	}
 
+	// decreaseLayerSz() is used to crop the layer to a new width and height and adjust the layer position based on the Resize Type
 	public void decreaseLayerSz(int width, int height, Resize corner) {
 		if (width < 0 || height < 0) return;
 		if (width > layer.getWidth()) width = layer.getWidth();
@@ -244,6 +252,7 @@ abstract class LayerData {
 		originalLayer = layer;
 	}
 
+	// is used to take in 2 points and return a Point representing the Top Left Corner Point based on the 2 given points
 	protected Point validPoint(Point p1, Point p2) {
 		int x1 = p1.x, y1 = p1.y;
 		int x2 = p2.x, y2 = p2.y;
@@ -256,6 +265,7 @@ abstract class LayerData {
 		return null;
 	}
 
+	// drawBorder() is used to draw a border on the selection layer to indicate selection
 	public void drawBorder() {
 		Graphics2D g2d = getLayerSelectionGraphics();
 		
@@ -291,6 +301,7 @@ abstract class LayerData {
 		return layerSelection;
 	}
 
+	// crop() is used to crop a layer to reach the newLayerEndPos based on the type of Resizing
 	public void crop(Point newLayerEndPos, Resize cropType) {
 		if (!pointInBounds(newLayerEndPos)) return;
 		if (cropType == Resize.INVALID) return;
@@ -356,6 +367,8 @@ abstract class LayerData {
 		updateSelectionLayer();
 	}
 
+	// pointInBounds checks if a Point is contained inside the bounds of a layer on the canvas
+	// It checks if at this point on the canvas exists a layer or not
 	private boolean pointInBounds(Point p) {
 		if (layerPos.x < p.x && p.x < layerEndPos.x) return true;
 		if (layerPos.y < p.y && p.y < layerEndPos.y) return true;
@@ -363,10 +376,12 @@ abstract class LayerData {
 		return false;
 	}
 
+	// hide() is used to mark a layer as hidden
 	public void hide() {
 		this.hidden = true;
 	}
 
+	// show() is used to mark a layer as visible
 	public void show() {
 		this.hidden = false;
 	}
@@ -375,6 +390,7 @@ abstract class LayerData {
 		return hidden;
 	}
 
+	// canResize() takes the x-coordiante and the y-coordinate and a spacingRange and returns if at this point we can resize and the type of resize that can be applied
 	public Resize canResize(int x, int y, int spacingRange) {
 		int x1 = getX();
 		int y1 = getY();
@@ -400,6 +416,7 @@ abstract class LayerData {
 		return selectedForMerge;
 	}
 
+	// setSelectedForMerge() sets the layer to be ready for merge with other layers
 	public void setSelectedForMerge(boolean selectedForMerge) {
 		this.selectedForMerge = selectedForMerge;
 	}
@@ -412,8 +429,15 @@ abstract class LayerData {
 		}
 	}
 
+	// zoom() is used to resize the layer based on a factor
+	public void zoom(double factor) {
+		int zoomedWidth = (int) Math.floor(factor * layer.getWidth());
+		int zoomedHeight = (int) Math.floor(factor * layer.getHeight()); 
+		System.out.println(zoomedWidth + " " + zoomedHeight);
+		resize(zoomedWidth, zoomedHeight);
+	}
 
-
+	// resetLayerProperties() is used to copy all the properties of this layer to the layerCopy that is given as an argument 
 	protected void resetLayerProperties(LayerData layerCopy) {
 		if (hidden) layerCopy.hide();
 		else layerCopy.show();
@@ -425,6 +449,7 @@ abstract class LayerData {
 		layerCopy.updateSelectionLayer();
 	}
 
+	// resize() & getCopy() are abastract and should be defined by every concrete Layer
 	abstract void resize(int width, int height);
 	abstract void resize(Point newLayerEndPos);
 	abstract public LayerData getCopy();

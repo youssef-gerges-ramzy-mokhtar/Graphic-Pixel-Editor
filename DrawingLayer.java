@@ -1,6 +1,7 @@
 import java.awt.image.*;
 import java.awt.*;
 
+// The DrawingLayer is used to represent the Base/Background Layer 
 class DrawingLayer extends LayerData {
 	public DrawingLayer(BufferedImage layer) {
 		super(layer);
@@ -25,3 +26,10 @@ class DrawingLayer extends LayerData {
 	}
 
 }
+
+/* 
+	My Notes
+		- Also it is a bad design decision to create a complete seperate class that doesn't offer any new functionality a Draw Layer is technically just a Special Type of an ImageLayer
+		- The main reason I have created this class because there wer parts of the code logic that needed to identify the DrawingLayer that exists 
+		  inside the layers Collection and the quickest was to achieve that was just to create a seperate class for the Drawing Layer
+*/

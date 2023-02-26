@@ -29,8 +29,8 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 		this.shapeBtn = new Clickable("Dummy Shape");
 
 		addToolBtn(shapeBtn);
-		setAsChangeMaker(undo);
-		setAsLayerChanger();
+		setAsChangeMaker(undo); // this function call states that this tool will effect the undo tool
+		setAsLayerChanger(); // this function call states that this tool will have an effect on the layers panel
 	}
 
 	// addCanvasListener() is used to attach an Event Listner to the canvas, and adds a shape to the canvas based on the user click coordinates
@@ -109,6 +109,7 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 	public void update2(Color col) {
 		this.fillCol = col;
 		this.strokeCol = col;
+		
 	}
 
 	public void update(int val) {}

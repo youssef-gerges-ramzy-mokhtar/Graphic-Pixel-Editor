@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.*;
 import java.awt.geom.*;
 
+// TextLayer simply represents any Text Layer on the Canvas
 class TextLayer extends LayerData {
 	private Color fontCol;
 	private int fontSz;
@@ -19,8 +20,9 @@ class TextLayer extends LayerData {
 		initLayer();
 	}
 
+	// initLayer initialize the state of the Text Layer
 	private void initLayer() {
-		ArrayList<ArrayList<String>> sentences = wordsDivider(canvasWidth - getX());
+		ArrayList<ArrayList<String>> sentences = wordsDivider(canvasWidth - getX()); // we call wordsDivider to get the sentences of the text
 
 		int width = canvasWidth - getX();
 		int height = (getTextHeight() * sentences.size());
@@ -32,6 +34,7 @@ class TextLayer extends LayerData {
 		updateGraphics(textGraphics);
 	}
 
+	// getTextHeight returns the height of a single line of text
 	public int getTextHeight() {
     	BufferedImage dummyImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g2d = dummyImg.createGraphics();
@@ -45,6 +48,7 @@ class TextLayer extends LayerData {
     	return (int) Math.ceil(r2d.getHeight());
     } 
 
+    // getTextWidth returns the width needed by the text as a whole
     public int getTextWidth() {
     	BufferedImage dummyImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g2d = dummyImg.createGraphics();
@@ -56,6 +60,7 @@ class TextLayer extends LayerData {
     	return fontInfo.stringWidth(text);
     }
 
+    // wordsDivider is used to divide a string into several seperate lines based on the maxWidth
 	private ArrayList<ArrayList<String>> wordsDivider(int maxWidth) {
 		Font font = new Font(text, Font.PLAIN, fontSz);
 		Graphics2D g2d = getLayerGraphics();
@@ -91,12 +96,20 @@ class TextLayer extends LayerData {
 		return word_divisoins;
 	}
 
+	/*
+		Note that resize in the text layers doesn't increase the font size it just changes the dimensions of the layer and 
+		runs the wordsDivider() function to reposition the text based on the new width and height
+	*/	
+
+	// resize() is used to represent the text layer to the specified width and height
 	public void resize(Point newLayerEndPos) {
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
 		int layerHeight = Math.abs(newLayerEndPos.y - getY());
 		resize(layerWidth, layerHeight);
 		setLocation(validPoint(getCoords(), newLayerEndPos));
 	}
+
+	// resize() is used to get a coordinate on the canvas and resize the text layer to reach this coordinate
 	public void resize(int width, int height) {
 		if (width <= 0 || height <= 0) return;
 
@@ -108,6 +121,7 @@ class TextLayer extends LayerData {
 		updateGraphics(textGraphics);
 	}
 
+	// getCopy return a Deep Copy of the Text Layer
 	public LayerData getCopy() {
 		TextLayer copy = new TextLayer(new Point(getX(), getY()), fontCol, fontSz, text, canvasWidth);
 		resetLayerProperties(copy);

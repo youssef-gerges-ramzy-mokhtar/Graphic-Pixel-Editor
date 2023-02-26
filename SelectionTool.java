@@ -2,7 +2,7 @@ import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
 
-// SelectionTool is used to move layers in the canvas
+// SelectionTool is used to move & resize layers in the canvas
 class SelectionTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
@@ -23,6 +23,12 @@ class SelectionTool extends ClickableTool {
 		addCanvasListener();
 	}
 
+	// initTool initialize the properties of the Selection Tool
+	/*
+		- The Selection Tool Affects the Undo Tool
+		- The Selection Tool Affects the Layers Panel
+		- The Selection Tool has shortcut 'v'
+	*/
 	protected void initTool(UndoTool undo) {
 		this.selectionBtn = new Clickable("Selection");
 		selectionBtn.addKeyBinding('v');
@@ -34,24 +40,29 @@ class SelectionTool extends ClickableTool {
 
 	// addCanvasListener() attachs an Event Listener to the canvas
 	private void addCanvasListener() {
-		// when the mouse is pressed a border should appear
+		// mousePressed is used to select the layer
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (!selectionBtn.isActive()) return;
 
                 layerToMove = layersHandler.selectLayer(new Point(e.getX(), e.getY()));
-                if (layerToMove == null) {layersHandler.updateCanvas(); return;}
+                if (layerToMove == null) {layersHandler.updateCanvas(); return;} // this means that the user clicked at a point where no layers are present
 
-                layerToMove.drawBorder();
-                refreshCanvasSelection(layerToMove);
+                layerToMove.drawBorder(); // draws a border on the layer to give the feeling that it is selected
+                refreshCanvasSelection(layerToMove); // refershes the canvas to show the selected layer
+
+                // Here we are checking if the point where the user have clicked it the Bottom Right Corner if that is the case then the user can drag and resize the layer else the user only wants to move the layer around
                 if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) canDrag = true;
                 else canDrag = false;
             }
 
+			// mouseReleased is used to record the change for the undo tool and update the Layers Panel
             public void mouseReleased(MouseEvent e) {
-            	if (!selectionBtn.isActive()) return;
-            	if (changeMade) {recordChange(); updateLayerObserver();}
-            	changeMade = false;
+				try {
+	            	if (!selectionBtn.isActive()) return;
+	            	if (changeMade) {recordChange(); updateLayerObserver();}
+            		changeMade = false;
+            	} catch(Exception exp) {}
             }
         });
 
@@ -61,28 +72,36 @@ class SelectionTool extends ClickableTool {
                 if (!selectionBtn.isActive()) return;
                 if (layerToMove == null) return;
 
-                if (canDrag) layerToMove.resize(new Point(e.getX(), e.getY()));
-				else layerToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset());
+				try {
+	                if (canDrag) layerToMove.resize(new Point(e.getX(), e.getY())); // if we can drag then we resize the layer
+					else layerToMove.setLocation(e.getX() - layersHandler.getHorizontalOffset(), e.getY() - layersHandler.getVerticalOffset()); // here we are just moving the layer
 
-                refreshCanvasSelection(layerToMove);
-                changeMade = true;
+	                refreshCanvasSelection(layerToMove); // and after changing the layer we are refreshing the canvas to display the change that have taken place
+	                changeMade = true;
+				} catch(Exception exc) {}
             }
 
+			// mouseMoved is mainly used to change the cursor simply to indicate to the user that he can resize the current layer or not
             public void mouseMoved(MouseEvent e) {
-            	if (!selectionBtn.isActive()) return;
-            	if (layerToMove == null) return;
+				try {
+					if (!selectionBtn.isActive()) return;
+					if (layerToMove == null) return;
 
-            	if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) {
-					Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
-     				canvas.setCursor(cursor);
-					return;
-            	}
+					if (layerToMove.canResize(e.getX(), e.getY(), spacingRange) == Resize.BOTTOMRIGHT) {
+						Cursor cursor = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR); 
+						canvas.setCursor(cursor);
+						return;
+            		}
+            	} catch(Exception exc) {}
+
 			}
         });
 	}
 
 	private void refreshCanvasSelection(LayerData selectedLayer) {
-		layersHandler.updateCanvasSelected(selectedLayer);
+		try {
+			layersHandler.updateCanvasSelected(selectedLayer); // refresh the canvas to the display any changes that have been made
+		} catch(Exception e) {}
 	}
 
 	public CanvasObserver getCanvasObserver() {
@@ -92,10 +111,4 @@ class SelectionTool extends ClickableTool {
 	public LayersHandler getLayerHandler() {
 		return layersHandler;
 	}	
-
-	public ArrayList<Clickable> getClickable() {
-		ArrayList<Clickable> selectionToolBtn = new ArrayList<Clickable>();
-		selectionToolBtn.add(selectionBtn);
-		return selectionToolBtn;
-	}
 }
