@@ -128,7 +128,6 @@ class LayersOptions extends JPanel implements LayerObserver {
         for (LayerData layer: layers) {
             if (!layer.isSelectedForMerge()) continue;
 
-            System.out.println(layer + " " + layer.getX() + " " + layer.getY() + " " + layer.getEndX() + " " + layer.getEndY());
             minX = Math.min(minX, layer.getX());
             minY = Math.min(minY, layer.getY());
             maxX = Math.max(maxX, layer.getEndX());

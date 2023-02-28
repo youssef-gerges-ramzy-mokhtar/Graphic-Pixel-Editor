@@ -43,7 +43,7 @@ abstract class ShapeLayer extends LayerData {
 		resize(layerWidth, layerHeight);
 		
 		if(newLayerEndPos.x - getX() > 15 && newLayerEndPos.y -getY() > 15)
-		setLocation(validPoint(getCoords(), newLayerEndPos));
+		setLocation(validTopLeftPoint(getCoords(), newLayerEndPos));
 		
 
 	}
@@ -66,7 +66,7 @@ abstract class ShapeLayer extends LayerData {
 	public LayerData rasterize() {
 		// Code Refactor Here
 		ImageLayer rasterizedShape = new ImageLayer(layerWidth(), layerHeight(), Color.white);
-		rasterizedShape.clear(new Color(0, 0, 0, 0));
+		rasterizedShape.clear(Constants.transparentColor);
 
 		rasterizedShape.mergeLayer(this.getImage(), 0, 0);
 		rasterizedShape.setLocation(new Point(getX(), getY()));
