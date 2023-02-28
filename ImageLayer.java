@@ -35,7 +35,7 @@ class ImageLayer extends LayerData {
 
 	// getCopy return a Deep Copy of the Image Layer
 	public ImageLayer getCopy() {
-		ImageLayer copy = new ImageLayer(layerWidth(), layerHeight(), new Color(0,0,0,0));
+		ImageLayer copy = new ImageLayer(layerWidth(), layerHeight(), Constants.transparentColor);
 		resetLayerProperties(copy);
 		return copy;
 	}

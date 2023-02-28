@@ -17,7 +17,7 @@ class TriangleLayer extends ShapeLayer {
 	}
 
 	protected TriangleLayer getShapeLayerCopy() {
-		TriangleLayer copy = new TriangleLayer(layerWidth(), layerHeight(), new Color(0,0,0,0));
+		TriangleLayer copy = new TriangleLayer(layerWidth(), layerHeight(), Constants.transparentColor);
 		return copy;
 	}
 }

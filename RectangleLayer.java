@@ -16,7 +16,7 @@ class RectangleLayer extends ShapeLayer {
 	}
 
 	protected RectangleLayer getShapeLayerCopy() {
-		RectangleLayer copy = new RectangleLayer(layerWidth(), layerHeight(), new Color(0,0,0,0));
+		RectangleLayer copy = new RectangleLayer(layerWidth(), layerHeight(), Constants.transparentColor);
 		return copy;
 	}
 }

@@ -73,7 +73,7 @@ abstract class LayerData {
 	}
 
 	public Point getCoords() {
-		return layerPos;
+		return new Point(getX(), getY());
 	}
 
 	// Might Rename to Absolute
@@ -239,13 +239,20 @@ abstract class LayerData {
 		this.clearSubArea(0, 0, layer.getWidth(), layer.getHeight(), col);
 	}
 
+	// clears part of the layer based on 2 (x,y) coordinates a color
 	public void clearSubArea(int x1, int y1, int x2, int y2, Color col) {
 		Graphics2D g2d = (Graphics2D) this.layer.getGraphics();
 		g2d.setBackground(col);
-		g2d.clearRect(getX(Math.min(x1, x2)), getY(Math.min(y1, y2)), Math.abs(x1-x2), Math.abs(y1-y2));
+		// g2d.clearRect(getX(Math.min(x1, x2)), getY(Math.min(y1, y2)), Math.abs(x1-x2), Math.abs(y1-y2));
+		
+		g2d.clearRect(
+			Math.max(getX(Math.min(x1, x2)), 0), 
+			Math.max(getY(Math.min(y1, y2)), 0), 
+			Math.min(Math.abs(x1-x2), layer.getWidth() - Math.max(getX(Math.min(x1, x2)), 0)),
+			Math.min(Math.abs(y1-y2), layer.getHeight() - Math.max(getY(Math.min(y1, y2)), 0))
+		);
 
 		originalLayer = layer;
-	
 		updateSelectionLayer();
 		g2d.dispose();
 	}
@@ -263,6 +270,7 @@ abstract class LayerData {
 		return null;
 	}
 
+	// is used to take in 2 points and return a Point representing the Bottom Right Corner Point based on the 2 given points
 	public static Point validBottomRightPoint(Point p1, Point p2) {
 		int x1 = p1.x, y1 = p1.y;
 		int x2 = p2.x, y2 = p2.y;
@@ -381,17 +389,10 @@ abstract class LayerData {
 
 	// pointInBounds checks if a Point is contained inside the bounds of a layer on the canvas
 	// It checks if at this point on the canvas exists a layer or not
-	private boolean pointInBounds(Point p) {
-		System.out.println("Point In Bounds"); // debugging
-		System.out.println(layerPos.x + " " + layerEndPos.x); // debugging
-		System.out.println(layerPos.y + " " + layerEndPos.y); // debugging
-		if (layerPos.x < p.x && p.x < layerEndPos.x) {
-			System.out.println("Entered"); // debugging
-			if (layerPos.y < p.y && p.y < layerEndPos.y) {
-			System.out.println("Entered 2"); // debugging
+	public boolean pointInBounds(Point p) {
+		if (layerPos.x < p.x && p.x < layerEndPos.x)
+			if (layerPos.y < p.y && p.y < layerEndPos.y)
 				return true;
-			} 
-		}
 
 		return false;
 	}
@@ -441,24 +442,20 @@ abstract class LayerData {
 		this.selectedForMerge = selectedForMerge;
 	}
 
+	// getSubImage is used to return a subImage from a layer based on 2 (x,y) coordinates
 	public BufferedImage getSubImage(int x1, int y1, int x2, int y2) {
 		int minX = Math.min(x1, x2);
 		int minY = Math.min(y1, y2);
-		System.out.println(minX + " " + minY); // debugging
-		if (!pointInBounds(new Point(minX, minY))) return null;
 
-		System.out.println("HI");
-		System.out.println(Math.min(Math.abs(x1-x2), layer.getWidth() - minX)); // debugging
-		System.out.println(Math.min(Math.abs(y1-y2), layer.getHeight() - minY)); // debugging
 		try {
 			return layer.getSubimage(
-				getX(minX), 
-				getY(minY), 
-				Math.min(Math.abs(x1-x2), layer.getWidth() - getX(minX)),
-				Math.min(Math.abs(y1-y2), layer.getHeight() - getY(minY))
+				Math.max(getX(minX), 0), // specifying the x-coordinate inside the layer or zero if the x-cordinate is negative
+				Math.max(getY(minY), 0),  // specifying the y-coordinate inside the layer or zero if the y-coordinate is negative
+				Math.min(Math.abs(x1-x2), layer.getWidth() - Math.max(getX(minX), 0)), // specifying the width. Width will be from the start point to the end of the layer in case the width is outisde the layer
+				Math.min(Math.abs(y1-y2), layer.getHeight() - Math.max(getY(minY), 0)) // specfiying the height. Height will be from the start point to the end of the layer in case the height is outside the layer
 			);
 		} catch (Exception e) {
-			return null;
+			return null; // In case where all coordinates are outisde the layer
 		}
 	}
 
@@ -477,7 +474,7 @@ abstract class LayerData {
 
 		layerCopy.setSelectedForMerge(selectedForMerge);
 		layerCopy.setLocation(new Point(getX(), getY()));
-		layerCopy.clear(new Color(0, 0, 0, 0));
+		layerCopy.clear(Constants.transparentColor);
 		layerCopy.mergeLayer(this.layer, 0, 0);
 		layerCopy.updateSelectionLayer();
 	}

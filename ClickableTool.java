@@ -78,7 +78,7 @@ abstract class ClickableTool {
 
 		ShapeLayer shapeLayer = (ShapeLayer) layer;
 		LayerData rasterizedShapeLayer = shapeLayer.rasterize();
-		layersHandler.replaceLayer(shapeLayer, rasterizedShapeLayer);				
+		layersHandler.replaceLayer(shapeLayer, rasterizedShapeLayer);			
 
 		return rasterizedShapeLayer;
 	}
