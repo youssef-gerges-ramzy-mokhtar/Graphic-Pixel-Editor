@@ -236,6 +236,7 @@ class LayersHandler implements CanvasObserver {
 		updateCanvas();
 	}
 
+	// clear() is ued to remove all the layers on the canvas and clear the drawingLayer to white color
 	public void clear() {
 		layers.clear();
 		drawingLayer.clear(Color.white);

@@ -46,7 +46,7 @@ class ImageLoader extends ClickableTool {
         });
     }
 
-    // loadImage takes the filePath and loads the image and notify the LayersHandler to add the loaded image to a separate layer
+    // loadImage takes the filePath and loads the image from this filePath and returns the loaded image
     public BufferedImage loadImage(String filePath, boolean scaleImg) {
     	try {
     		File imgFile = new File(filePath);
@@ -55,7 +55,7 @@ class ImageLoader extends ClickableTool {
             
             return img;
         } catch (Exception e) {
-            return null;
+            return null; // if image couldn't be loaded from the user computer we return null
         }
     }
 

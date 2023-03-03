@@ -74,6 +74,7 @@ abstract class ShapeLayer extends LayerData {
 		return rasterizedShape;
 	}
 
+	// getLayerInfo() returns a String containg all the information of this shape layer
 	public String getLayerInfo(char seperator, int layerPos) {
 		String shapeSymbol = getShapeSymbol();
 		String width = Integer.toString(this.getWidth());

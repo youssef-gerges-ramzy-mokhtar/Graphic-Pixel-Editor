@@ -128,6 +128,7 @@ class TextLayer extends LayerData {
 		return copy;
 	}
 
+	// getLayerInfo() returns a String containg all the information of this text layer
 	public String getLayerInfo(char seperator, int layerPos) {
 		String textSymbol = "s";
 		String width = Integer.toString(this.getWidth());

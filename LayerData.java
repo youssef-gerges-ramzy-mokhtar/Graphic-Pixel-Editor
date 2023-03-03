@@ -480,12 +480,14 @@ abstract class LayerData {
 	}
 
 	public String getLayerInfo(int layerPos) {
-		return this.getLayerInfo(',', layerPos);
+		return this.getLayerInfo(',', layerPos); // getLayerInfo with a default seperator of ','
 	}
 
 	// resize() & getCopy() are abastract and should be defined by every concrete Layer
 	abstract void resize(int width, int height);
 	abstract void resize(Point newLayerEndPos);
 	abstract public LayerData getCopy();
-	abstract public String getLayerInfo(char seperator, int layerPos);
+
+	// getLayerInfo() is used to return a String containing all the information of a specific Layer and each piece of information if seperated by the seperator character
+	abstract public String getLayerInfo(char seperator, int layerPos); 
 }

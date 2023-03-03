@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+// ProjectSaver is used to Save the Layers State for later user re-access 
 class ProjectSaver {
 	private JMenu saveProjectMenu;
 	private OurCanvas canvas;
@@ -24,7 +25,6 @@ class ProjectSaver {
             public void menuDeselected(MenuEvent e) {}
 
             public void menuSelected(MenuEvent e) {
-            	System.out.println("HI");
                 JFileChooser fileChooser = new JFileChooser();
                 int fileResponse = fileChooser.showSaveDialog(null);
                 if (fileResponse != JFileChooser.APPROVE_OPTION) return;
@@ -34,13 +34,18 @@ class ProjectSaver {
         });
     }
 
+    /*
+		saveProject() takes the filePath where the user wants to save his project
+		and creates a text file with the 'scc210' extension to sae the layers information
+		and creates a .project folder that contains all images used in the project
+    */
 	private void saveProject(String filePath) {
 		File projectFile = new File(filePath + ".scc210");
 		File projectFolder = new File(filePath + ".project");
 
 		try {
-			projectFile.createNewFile();
-			projectFolder.mkdirs();
+			projectFile.createNewFile(); // create the project file
+			projectFolder.mkdirs(); // create the project folder
 		} catch (IOException e) {
 			System.out.println("An Error Occured");
 			projectFile = null;
@@ -51,12 +56,11 @@ class ProjectSaver {
 			return;
 		}
 
+		// Writing the all the layers information to the projectFile		
 		FileWriter fileWriter;
 		try {
 			fileWriter = new FileWriter(projectFile);
-
 			String layersInfo = this.getLayersInfo(filePath + ".project/");
-			System.out.println(layersInfo);
 
 			fileWriter.write(layersInfo);
 			fileWriter.close();
@@ -70,6 +74,7 @@ class ProjectSaver {
 		}
 	}
 
+	// getLayersInfo() is used to return a String containg all information for all layers
 	private String getLayersInfo(String filePath) {
 		AbstractList<LayerData> layers = layersHandler.getLayers();
 
@@ -85,6 +90,7 @@ class ProjectSaver {
 		return layersInfo;
 	}
 
+	// saveImage() is used to save an Image into the .project folder
 	private void saveImage(LayerData layer, int layerPos, String filePath) {
 		SaveAs imageSaver = new SaveAs(canvas);
 		imageSaver.saveImageAs(layer.getImage(), filePath + Integer.toString(layerPos));

@@ -40,6 +40,7 @@ class ImageLayer extends LayerData {
 		return copy;
 	}
 
+	// getLayerInfo() returns a String containg all the information of this image layer
 	public String getLayerInfo(char seperator, int layerPos) {
 		String imgSymbol = "i";
 		String xCoord = Integer.toString(this.getX());
