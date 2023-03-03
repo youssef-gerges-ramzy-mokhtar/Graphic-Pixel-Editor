@@ -122,6 +122,7 @@ class ToolsManager {
 		this.colorGui = new ColorGui(); // colorGui Color Picker
         this.optionsPanel = new OptionsPanel(colorGui); // optionsPanel holds all the options available for the user on the top
 
+		this.helpMenu = new Help(canvas);
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.imageSaver = new SaveAs(canvas); // For Saving Images to the User computer
         this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver); // MenuPanel for Dispalying the Buttons associated with the loading and saving classes

@@ -15,3 +15,4 @@ quick_cutter: q
 cutter: l
 redo: (ctrl + y) or just y
 undo: (ctrl + z) or just z
+Image Filters: Right Click on imported image
