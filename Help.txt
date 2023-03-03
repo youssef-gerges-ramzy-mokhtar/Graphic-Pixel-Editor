@@ -1,0 +1,18 @@
+Selection: v
+Blur: b
+Crop: w
+Pen: p
+Eraser: e
+Fill: f
+Eye dropper: i
+Rectangle: r
+Circle: c
+Triangle: t
+Air brush: a
+Text: s
+Delete: d
+Quick_cutter: q
+Cutter: l
+Redo: (ctrl + y) or just y
+Undo: (ctrl + z) or just z
+Image Filters: Right Click on imported image

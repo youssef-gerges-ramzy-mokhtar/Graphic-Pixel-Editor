@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.*;
-
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.io.*;
 
 // Help is used Loads Images from the User's Computer into the Program
@@ -38,19 +37,24 @@ class Help {
       }
 
       public void menuSelected(MenuEvent e) {
-        File file = new File("shortcut_list.txt");
+        File file = new File("Help.txt");
         try {
           FileReader fr = new FileReader(file);
           BufferedReader br = new BufferedReader(fr);
           JFrame menu = new JFrame();
+          JPanel panel = new JPanel();
           menu.setBounds(100, 100, 600, 600);
-          JLabel label[] = new JLabel[16];
-          for (int num = 0; num < 16; num++) {
+          panel.setBounds(100, 400, 600, 200);
+          panel.setBackground(Color.WHITE);
+          menu.add(panel);
+          JLabel label[] = new JLabel[18];
+          for (int num = 0; num < 18; num++) {
             label[num] = new JLabel();
-            label[num].setText(br.readLine());
-            menu.add(label[num]);
+            label[num].setText(br.readLine() + "                                                                 ");
+            panel.add(label[num]);
           }
           br.close();
+          fr.close();
           menu.setVisible(true);
         } catch (Exception ex) {
         }
