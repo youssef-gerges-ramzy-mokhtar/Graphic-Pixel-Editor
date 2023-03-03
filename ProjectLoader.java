@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.awt.image.*;
 
 class ProjectLoader extends ClickableTool {
 	private JMenu openProjectMenu;
@@ -80,7 +81,7 @@ class ProjectLoader extends ClickableTool {
 
 				if (info[0].equals("d")) {
 					System.out.println("Loading Drawing Layer");
-					loadDrawing(info);
+					loadDrawing(info, projectFolderPath);
 				}
 
 				if (info[0].equals("i")) {
@@ -148,11 +149,18 @@ class ProjectLoader extends ClickableTool {
 		String imgPath = projectFolderPath + "/" + imgInfo[imgInfo.length - 1];
 		int xCoord = Integer.parseInt(imgInfo[1]);
 		int yCoord = Integer.parseInt(imgInfo[2]);
-		imgLoader.loadImage(imgPath, false, xCoord, yCoord);
+		BufferedImage img = imgLoader.loadImage(imgPath, false);
+		
+		layersHandler.addLayer(new ImageLayer(img, new Point(xCoord, yCoord)));
 	}
 
-	private void loadDrawing(String[] drawingInfo) {
+	private void loadDrawing(String[] drawingInfo, String projectFolderPath) {
+		String drawingPath = projectFolderPath + "/" + drawingInfo[drawingInfo.length - 1];
+		int xCoord = Integer.parseInt(drawingInfo[1]);
+		int yCoord = Integer.parseInt(drawingInfo[2]);
+		BufferedImage img = imgLoader.loadImage(drawingPath, false);
 
+		layersHandler.setDrawingLayer(new DrawingLayer(img, new Point(xCoord, yCoord)));
 	}
 
 	public JMenu getOpenProjectMenu() {

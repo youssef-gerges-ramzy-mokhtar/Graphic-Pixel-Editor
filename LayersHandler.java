@@ -27,7 +27,7 @@ class LayersHandler implements CanvasObserver {
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		
 		this.drawingLayer = new DrawingLayer(drawingImg);
-		layers.add(drawingLayer);	
+		layers.add(drawingLayer);
 	}
 
 	public void addLayer(LayerData layer) {
@@ -240,6 +240,11 @@ class LayersHandler implements CanvasObserver {
 		layers.clear();
 		drawingLayer.clear(Color.white);
 		layers.add(drawingLayer);
+	}
+
+	public void setDrawingLayer(DrawingLayer drawingLayer) {
+		this.drawingLayer = drawingLayer;
+		this.layers.set(0, drawingLayer);
 	}
 
 	// Observer Pattern //
