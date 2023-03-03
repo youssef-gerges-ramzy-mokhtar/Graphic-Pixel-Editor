@@ -28,7 +28,8 @@ class ToolsManager {
     private CutterTool cutter;
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
-    private ProjectSaver prjoectSaver;
+    private Help helpMenu;
+	private ProjectSaver prjoectSaver;
     private ProjectLoader projectLoader;
     private LayersHandler layersHandler;
 
@@ -125,7 +126,7 @@ class ToolsManager {
 		this.helpMenu = new Help(canvas);
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.imageSaver = new SaveAs(canvas); // For Saving Images to the User computer
-        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver); // MenuPanel for Dispalying the Buttons associated with the loading and saving classes
+        this.menuPanel = new MenuPanel(canvas); // MenuPanel for Dispalying the Buttons associated with the loading and saving classes
 		this.prjoectSaver = new ProjectSaver(canvas); // For Saving a Project to the User Computer
 		this.projectLoader = new ProjectLoader(layersOptions, canvas, undo); // For Loading a Project from the User Computer
 
@@ -168,8 +169,11 @@ class ToolsManager {
 
 	// initMenus() is used to add Menu Buttons of every menu Tool to the menu panel
 	private void initMenus() {
-		menuPanel.add(prjoectSaver.getSaveProjectMenu());
-		menuPanel.add(projectLoader.getOpenProjectMenu());
+		menuPanel.add(imageLoader.getMenu());
+		menuPanel.add(imageSaver.getMenu());
+		menuPanel.add(prjoectSaver.getMenu());
+		menuPanel.add(projectLoader.getMenu());
+		menuPanel.add(helpMenu.getMenu());
 	}
 
 	// Getters //

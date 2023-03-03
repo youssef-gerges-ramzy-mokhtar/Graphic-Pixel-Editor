@@ -183,7 +183,7 @@ class ProjectLoader extends ClickableTool {
 		layersHandler.addLayer(textLayer);
 	}
 
-	public JMenu getOpenProjectMenu() {
+	public JMenu getMenu() {
 		return openProjectMenu;
 	}
 }

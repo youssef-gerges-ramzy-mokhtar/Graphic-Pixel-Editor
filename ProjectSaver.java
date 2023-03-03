@@ -96,7 +96,7 @@ class ProjectSaver {
 		imageSaver.saveImageAs(layer.getImage(), filePath + Integer.toString(layerPos));
 	}
 
-	public JMenu getSaveProjectMenu() {
+	public JMenu getMenu() {
 		return saveProjectMenu;
 	}
 }
