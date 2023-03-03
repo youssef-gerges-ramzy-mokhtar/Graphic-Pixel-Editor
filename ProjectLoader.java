@@ -88,6 +88,11 @@ class ProjectLoader extends ClickableTool {
 					System.out.println("Loading Image");
 					loadImage(info, projectFolderPath);
 				}
+
+				if (info[0].equals("s")) {
+					System.out.println("Loading Text");
+					loadText(info);
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("Error Occurred");
@@ -161,6 +166,22 @@ class ProjectLoader extends ClickableTool {
 		BufferedImage img = imgLoader.loadImage(drawingPath, false);
 
 		layersHandler.setDrawingLayer(new DrawingLayer(img, new Point(xCoord, yCoord)));
+		layersHandler.changeSelectedLayer(0);
+	}
+
+	private void loadText(String[] textInfo) {
+		int width = Integer.parseInt(textInfo[1]);
+		int height = Integer.parseInt(textInfo[2]);
+		int x = Integer.parseInt(textInfo[3]);
+		int y = Integer.parseInt(textInfo[4]);
+		int fontCol = Integer.parseInt(textInfo[5]);
+		int fontSz = Integer.parseInt(textInfo[6]);
+		String text = textInfo[7];
+
+		TextLayer textLayer = new TextLayer(new Point(x, y), new Color(fontCol), fontSz, text, canvas.getWidth());
+		textLayer.resize(width, height);
+
+		layersHandler.addLayer(textLayer);
 	}
 
 	public JMenu getOpenProjectMenu() {

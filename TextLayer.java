@@ -129,11 +129,13 @@ class TextLayer extends LayerData {
 	}
 
 	public String getLayerInfo(char seperator, int layerPos) {
-		String textSymbol = "t";
+		String textSymbol = "s";
 		String width = Integer.toString(this.getWidth());
 		String height = Integer.toString(this.getHeight());
 		String xCoord = Integer.toString(this.getX());
 		String yCoord = Integer.toString(this.getY());
+		String rgbFontCol = Integer.toString(fontCol.getRGB());
+		String fontSzStr = Integer.toString(fontSz);
 
 		return
 			textSymbol + seperator + 
@@ -141,6 +143,8 @@ class TextLayer extends LayerData {
 			height + seperator + 
 			xCoord + seperator + 
 			yCoord + seperator +
+			rgbFontCol + seperator +
+			fontSzStr + seperator +
 			text + "\n";
 	}
 }

@@ -80,10 +80,7 @@ abstract class ShapeLayer extends LayerData {
 		String height = Integer.toString(this.getHeight());
 		String xCoord = Integer.toString(this.getX());
 		String yCoord = Integer.toString(this.getY());
-		String rgbFillCol;
-
-		if (fillCol != null) rgbFillCol = Integer.toString(fillCol.getRGB());
-		else rgbFillCol = Integer.toString(Color.black.getRGB());
+		String rgbFillCol = Integer.toString(getImage().getRGB(getImage().getWidth() / 2, getImage().getHeight() / 2));
 
 		String endl = "\n";
 		return
