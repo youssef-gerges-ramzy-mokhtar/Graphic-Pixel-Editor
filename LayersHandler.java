@@ -27,7 +27,7 @@ class LayersHandler implements CanvasObserver {
 		imgGraphics.clearRect(0, 0, canvas.getMainLayer().getWidth(), canvas.getMainLayer().getHeight());
 		
 		this.drawingLayer = new DrawingLayer(drawingImg);
-		layers.add(drawingLayer);	
+		layers.add(drawingLayer);
 	}
 
 	public void addLayer(LayerData layer) {
@@ -236,10 +236,16 @@ class LayersHandler implements CanvasObserver {
 		updateCanvas();
 	}
 
+	// clear() is ued to remove all the layers on the canvas and clear the drawingLayer to white color
 	public void clear() {
 		layers.clear();
 		drawingLayer.clear(Color.white);
 		layers.add(drawingLayer);
+	}
+
+	public void setDrawingLayer(DrawingLayer drawingLayer) {
+		this.drawingLayer = drawingLayer;
+		this.layers.set(0, drawingLayer);
 	}
 
 	// Observer Pattern //

@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import java.awt.image.*;
 
 // SaveAs is used Loads Images from the User's Computer into the Program
 class SaveAs{
@@ -27,19 +28,25 @@ class SaveAs{
             public void menuDeselected(MenuEvent e) {}
 
             public void menuSelected(MenuEvent e) {
-                    try {
-                        JFileChooser fileChooser = new JFileChooser();
-                        int fileResponse = fileChooser.showSaveDialog(null);
-                        if (fileResponse != JFileChooser.APPROVE_OPTION) return;
+                JFileChooser fileChooser = new JFileChooser();
+                int fileResponse = fileChooser.showSaveDialog(null);
+                if (fileResponse != JFileChooser.APPROVE_OPTION) return;
 
-                        String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                        ImageIO.write(canvas.getMainLayer().getImage(), "png", new File(filePath + ".png"));       //creates an image using the layer data
-                        System.out.println("image created");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                        System.out.println("ERROR... Image Not Created");
-                    }
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                saveImageAs(canvas.getMainLayer().getImage(), filePath);
+                
+                // ImageIO.write(canvas.getMainLayer().getImage(), "png", new File(filePath + ".png"));       //creates an image using the layer data
+                System.out.println("image created");
 			}
         });
+    }
+
+    public void saveImageAs(BufferedImage img, String filePath) {
+        try {
+            ImageIO.write(img, "png", new File(filePath + ".png")); //creates an image using the layer data
+        } catch (IOException e1) {
+            e1.printStackTrace();        
+            System.out.println("ERROR... Image Not Created");
+        }
     }
 }

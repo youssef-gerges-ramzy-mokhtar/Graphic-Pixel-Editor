@@ -36,24 +36,27 @@ class ImageLoader extends ClickableTool {
                 int fileResponse = fileChooser.showOpenDialog(null);
                 if (fileResponse != JFileChooser.APPROVE_OPTION) return;
 
-				loadImage(fileChooser.getSelectedFile().getAbsolutePath());                
+				lastLoadedImg = new ImageLayer(loadImage(fileChooser.getSelectedFile().getAbsolutePath(), true), new Point(0, 0));                
+                LayersHandler.getLayersHandler(canvas).addLayer(lastLoadedImg);
+                LayersHandler.getLayersHandler(canvas).updateCanvas();
+    
                 recordChange();
                 updateLayerObserver();
 			}
         });
     }
 
-    // loadImage takes the filePath and loads the image and notify the LayersHandler to add the loaded image to a separate layer
-    private void loadImage(String filePath) {
+    // loadImage takes the filePath and loads the image from this filePath and returns the loaded image
+    public BufferedImage loadImage(String filePath, boolean scaleImg) {
     	try {
     		File imgFile = new File(filePath);
             BufferedImage img = ImageIO.read(imgFile);
-            img = scaleImage(img);
-            lastLoadedImg = new ImageLayer(img);
-
-            LayersHandler.getLayersHandler(canvas).addLayer(lastLoadedImg);
-            LayersHandler.getLayersHandler(canvas).updateCanvas();
-        } catch (Exception e) {}
+            if (scaleImg) img = scaleImage(img);
+            
+            return img;
+        } catch (Exception e) {
+            return null; // if image couldn't be loaded from the user computer we return null
+        }
     }
 
     // scaleImage() is used to change the width & height of the loaded image if the loaded image size is larger than the canvas size

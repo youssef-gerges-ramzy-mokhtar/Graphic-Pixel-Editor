@@ -25,6 +25,19 @@ class DrawingLayer extends LayerData {
 		return copy;
 	}
 
+	// getLayerInfo() returns a String containg all the information of this drawing layer
+	public String getLayerInfo(char seperator, int layerPos) {
+		String drawingSymbol = "d";
+		String xCoord = Integer.toString(this.getX());
+		String yCoord = Integer.toString(this.getY());
+		String imgFilePath = Integer.toString(layerPos) + ".png";
+
+		return 
+			drawingSymbol + seperator + 
+			xCoord + seperator + 
+			yCoord + seperator + 
+			imgFilePath + "\n";
+	}
 }
 
 /* 

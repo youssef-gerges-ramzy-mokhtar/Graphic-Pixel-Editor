@@ -21,7 +21,6 @@ class TriangleTool extends ShapeTool {
 		triangleLayer.setStrokeCol(strokeCol);
 	    triangleLayer.setFillCol(strokeCol);
 		
-
 		return triangleLayer;
 	}
 }

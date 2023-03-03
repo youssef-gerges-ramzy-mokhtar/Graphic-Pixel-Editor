@@ -28,7 +28,8 @@ class ToolsManager {
     private CutterTool cutter;
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
-	private Help helpMenu;
+    private ProjectSaver prjoectSaver;
+    private ProjectLoader projectLoader;
     private LayersHandler layersHandler;
 
     private MenuPanel menuPanel;
@@ -46,6 +47,7 @@ class ToolsManager {
 		initState();
         initToolPanel();
 		initObservers();
+		initMenus();
 	}
 
 	public void changeCanvas(int canvasNum) {
@@ -123,7 +125,10 @@ class ToolsManager {
 		this.helpMenu = new Help(canvas);
         this.imageLoader = new ImageLoader(layersOptions, canvas, undo); // For Loading Images from the user computer
         this.imageSaver = new SaveAs(canvas); // For Saving Images to the User computer
-        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver, helpMenu); // MenuPanel for Dispalying the Buttons associated with the loading and saving classes
+        this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver); // MenuPanel for Dispalying the Buttons associated with the loading and saving classes
+		this.prjoectSaver = new ProjectSaver(canvas); // For Saving a Project to the User Computer
+		this.projectLoader = new ProjectLoader(layersOptions, canvas, undo); // For Loading a Project from the User Computer
+
 		this.hamzaFooter = new Footer(layersOptions, undo, canvas);
 
         this.clickableContainers = new ArrayList<ClickableTool>(); // contains all the tools that are accessed through a clickable component
@@ -160,6 +165,12 @@ class ToolsManager {
         
         canvas.addObserver(toolsPanel); // So whenver the canvas is being resized it will notify the toolsPanel to deselect any button that is being active
 	} 
+
+	// initMenus() is used to add Menu Buttons of every menu Tool to the menu panel
+	private void initMenus() {
+		menuPanel.add(prjoectSaver.getSaveProjectMenu());
+		menuPanel.add(projectLoader.getOpenProjectMenu());
+	}
 
 	// Getters //
 	public JPanel getToolsPanel() {

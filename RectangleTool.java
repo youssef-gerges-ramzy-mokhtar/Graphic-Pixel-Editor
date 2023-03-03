@@ -19,6 +19,8 @@ class RectangleTool extends ShapeTool {
 	protected ShapeLayer createShapeLayer(Point layerPos) {
 		RectangleLayer rectangleLayer = new RectangleLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
 		rectangleLayer.setStrokeCol(strokeCol);
+	    rectangleLayer.setFillCol(strokeCol);
+
 		return rectangleLayer;
 	}
 }

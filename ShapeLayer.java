@@ -74,6 +74,26 @@ abstract class ShapeLayer extends LayerData {
 		return rasterizedShape;
 	}
 
+	// getLayerInfo() returns a String containg all the information of this shape layer
+	public String getLayerInfo(char seperator, int layerPos) {
+		String shapeSymbol = getShapeSymbol();
+		String width = Integer.toString(this.getWidth());
+		String height = Integer.toString(this.getHeight());
+		String xCoord = Integer.toString(this.getX());
+		String yCoord = Integer.toString(this.getY());
+		String rgbFillCol = Integer.toString(getImage().getRGB(getImage().getWidth() / 2, getImage().getHeight() / 2));
+
+		String endl = "\n";
+		return
+			shapeSymbol + seperator + 
+			width + seperator + 
+			height + seperator + 
+			xCoord + seperator + 
+			yCoord + seperator + 
+			rgbFillCol + endl;
+	}
+
 	protected abstract SpecificGraphic getSpecificGraphic(int width, int heights);
 	protected abstract ShapeLayer getShapeLayerCopy();
+	protected abstract String getShapeSymbol();
 }
