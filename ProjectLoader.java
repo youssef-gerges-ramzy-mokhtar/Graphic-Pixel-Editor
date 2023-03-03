@@ -9,12 +9,14 @@ class ProjectLoader extends ClickableTool {
 	private JMenu openProjectMenu;
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
+	private ImageLoader imgLoader;
 
 	public ProjectLoader(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.openProjectMenu = new JMenu("Open Project");
+		this.imgLoader = new ImageLoader(layerObserver, canvas, undo);
 
 		addMenuListener();
 	}
@@ -52,15 +54,13 @@ class ProjectLoader extends ClickableTool {
 
 		this.layersHandler.clear();
 
-		File projectFile;
-		projectFile = new File(filePath);
+		File projectFile = new File(filePath);
+		String projectFolderPath = filePath.replace(".scc210", ".project");
 	
 		try {
 			BufferedReader projectReader = new BufferedReader(new FileReader(projectFile));
 			String line;
 			while ((line = projectReader.readLine()) != null) {
-				// System.out.println(line);
-
 				String[] info = line.split(",");
 				System.out.println("Printing Info: " +  info[0]);
 				if (info[0].equals("r")) {
@@ -85,7 +85,7 @@ class ProjectLoader extends ClickableTool {
 
 				if (info[0].equals("i")) {
 					System.out.println("Loading Image");
-					loadImage(info);
+					loadImage(info, projectFolderPath);
 				}
 			}
 		} catch (Exception e) {
@@ -109,7 +109,6 @@ class ProjectLoader extends ClickableTool {
 		rectangleGraphics.setFillColor(new Color(rgb));
 		rectangleLayer.updateGraphics(rectangleGraphics);
 		
-		System.out.println(rectangleLayer);
 		layersHandler.addLayer(rectangleLayer);
 	}
 
@@ -124,8 +123,8 @@ class ProjectLoader extends ClickableTool {
 		TriangleGraphics triangleGraphics = new TriangleGraphics(new Point(0, 0));
 		triangleGraphics.setDimension(width, height);
 		triangleGraphics.setFillColor(new Color(rgb));
-		
 		triangleLayer.updateGraphics(triangleGraphics);
+		
 		layersHandler.addLayer(triangleLayer);
 	}
 
@@ -140,17 +139,20 @@ class ProjectLoader extends ClickableTool {
 		CircleGraphics circleGraphics = new CircleGraphics(new Point(0, 0));
 		circleGraphics.setDimension(width, height);
 		circleGraphics.setFillColor(new Color(rgb));
-		
 		circleLayer.updateGraphics(circleGraphics);
+		
 		layersHandler.addLayer(circleLayer);
 	}
 
-	private void loadImage(String[] imgInfo) {
-
+	private void loadImage(String[] imgInfo, String projectFolderPath) {
+		String imgPath = projectFolderPath + "/" + imgInfo[imgInfo.length - 1];
+		int xCoord = Integer.parseInt(imgInfo[1]);
+		int yCoord = Integer.parseInt(imgInfo[2]);
+		imgLoader.loadImage(imgPath, false, xCoord, yCoord);
 	}
 
 	private void loadDrawing(String[] drawingInfo) {
-		
+
 	}
 
 	public JMenu getOpenProjectMenu() {

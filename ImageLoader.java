@@ -36,7 +36,9 @@ class ImageLoader extends ClickableTool {
                 int fileResponse = fileChooser.showOpenDialog(null);
                 if (fileResponse != JFileChooser.APPROVE_OPTION) return;
 
-				loadImage(fileChooser.getSelectedFile().getAbsolutePath());                
+				loadImage(fileChooser.getSelectedFile().getAbsolutePath(), true);                
+                LayersHandler.getLayersHandler(canvas).updateCanvas();
+    
                 recordChange();
                 updateLayerObserver();
 			}
@@ -44,15 +46,18 @@ class ImageLoader extends ClickableTool {
     }
 
     // loadImage takes the filePath and loads the image and notify the LayersHandler to add the loaded image to a separate layer
-    private void loadImage(String filePath) {
+    public void loadImage(String filePath, boolean scaleImg) {
+        this.loadImage(filePath, scaleImg, 0, 0);
+    }
+
+    public void loadImage(String filePath, boolean scaleImg, int xCoord, int yCoord) {
     	try {
     		File imgFile = new File(filePath);
             BufferedImage img = ImageIO.read(imgFile);
-            img = scaleImage(img);
-            lastLoadedImg = new ImageLayer(img);
+            if (scaleImg) img = scaleImage(img);
+            lastLoadedImg = new ImageLayer(img, new Point(xCoord, yCoord));
 
             LayersHandler.getLayersHandler(canvas).addLayer(lastLoadedImg);
-            LayersHandler.getLayersHandler(canvas).updateCanvas();
         } catch (Exception e) {}
     }
 
