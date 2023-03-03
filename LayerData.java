@@ -479,8 +479,13 @@ abstract class LayerData {
 		layerCopy.updateSelectionLayer();
 	}
 
+	public String getLayerInfo(int layerPos) {
+		return this.getLayerInfo(',', layerPos);
+	}
+
 	// resize() & getCopy() are abastract and should be defined by every concrete Layer
 	abstract void resize(int width, int height);
 	abstract void resize(Point newLayerEndPos);
 	abstract public LayerData getCopy();
+	abstract public String getLayerInfo(char seperator, int layerPos);
 }

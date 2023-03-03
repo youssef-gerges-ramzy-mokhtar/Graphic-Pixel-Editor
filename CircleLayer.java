@@ -19,4 +19,8 @@ class CircleLayer extends ShapeLayer {
 		CircleLayer copy = new CircleLayer(layerWidth(), layerHeight(), Constants.transparentColor);
 		return copy;
 	}
+
+	protected String getShapeSymbol() {
+		return "c";
+	}
 }

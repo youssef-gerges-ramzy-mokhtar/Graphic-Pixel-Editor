@@ -19,4 +19,8 @@ class RectangleLayer extends ShapeLayer {
 		RectangleLayer copy = new RectangleLayer(layerWidth(), layerHeight(), Constants.transparentColor);
 		return copy;
 	}
+
+	protected String getShapeSymbol() {
+		return "r";
+	}
 }

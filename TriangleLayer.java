@@ -20,4 +20,8 @@ class TriangleLayer extends ShapeLayer {
 		TriangleLayer copy = new TriangleLayer(layerWidth(), layerHeight(), Constants.transparentColor);
 		return copy;
 	}
+
+	protected String getShapeSymbol() {
+		return "t";
+	}
 }

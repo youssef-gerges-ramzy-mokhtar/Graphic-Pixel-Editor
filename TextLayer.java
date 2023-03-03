@@ -127,4 +127,20 @@ class TextLayer extends LayerData {
 		resetLayerProperties(copy);
 		return copy;
 	}
+
+	public String getLayerInfo(char seperator, int layerPos) {
+		char textSymbol = 't';
+		String width = Integer.toString(this.getWidth());
+		String height = Integer.toString(this.getHeight());
+		String xCoord = Integer.toString(this.getX());
+		String yCoord = Integer.toString(this.getY());
+
+		return
+			textSymbol + seperator + 
+			width + seperator + 
+			height + seperator + 
+			xCoord + seperator + 
+			yCoord + seperator + 
+			text + '\n';
+	}
 }

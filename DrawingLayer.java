@@ -25,6 +25,16 @@ class DrawingLayer extends LayerData {
 		return copy;
 	}
 
+	public String getLayerInfo(char seperator, int layerPos) {
+		String drawingSymbol = "d";
+		String xCoord = Integer.toString(this.getX());
+		String yCoord = Integer.toString(this.getY());
+
+		return 
+			drawingSymbol + seperator + 
+			xCoord + seperator + 
+			yCoord + '\n'; 
+	}
 }
 
 /* 

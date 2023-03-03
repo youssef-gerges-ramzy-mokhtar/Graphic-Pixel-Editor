@@ -20,6 +20,8 @@ class CircleTool extends ShapeTool {
 	protected ShapeLayer createShapeLayer(Point layerPos) {
 		CircleLayer circleLayer = new CircleLayer(layerWidth, layerHeight, Color.white, layerPos); // Color will change in the future
 		circleLayer.setStrokeCol(strokeCol);
+		circleLayer.setFillCol(strokeCol);
+
 		return circleLayer;
 	}
 }
