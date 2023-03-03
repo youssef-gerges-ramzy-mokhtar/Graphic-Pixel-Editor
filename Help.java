@@ -43,14 +43,14 @@ class Help {
           BufferedReader br = new BufferedReader(fr);
           JFrame menu = new JFrame();
           JPanel panel = new JPanel();
-          menu.setBounds(100, 100, 600, 600);
-          panel.setBounds(100, 400, 600, 200);
+          menu.setBounds(100, 100, 600, 700);
+          panel.setBounds(400, 400, 500, 200);
           panel.setBackground(Color.WHITE);
           menu.add(panel);
           JLabel label[] = new JLabel[18];
           for (int num = 0; num < 18; num++) {
             label[num] = new JLabel();
-            label[num].setText(br.readLine() + "                                                                 ");
+            label[num].setText("     " + br.readLine() + "                                                            ");
             panel.add(label[num]);
           }
           br.close();
