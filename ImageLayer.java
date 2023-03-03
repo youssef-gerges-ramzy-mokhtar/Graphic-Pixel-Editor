@@ -41,7 +41,7 @@ class ImageLayer extends LayerData {
 	}
 
 	public String getLayerInfo(char seperator, int layerPos) {
-		char imgSymbol = 'i';
+		String imgSymbol = "i";
 		String xCoord = Integer.toString(this.getX());
 		String yCoord = Integer.toString(this.getY());
 		String imgFilePath = Integer.toString(layerPos) + ".png";
@@ -49,6 +49,7 @@ class ImageLayer extends LayerData {
 		return 
 			imgSymbol + seperator + 
 			xCoord + seperator + 
-			yCoord + '\n';
+			yCoord + seperator +
+			imgFilePath + "\n";
 	}
 }

@@ -35,19 +35,19 @@ class ProjectSaver {
     }
 
 	private void saveProject(String filePath) {
-		System.out.println("HI");
-		File projectFile;
-		projectFile = new File(filePath + ".scc210");
+		File projectFile = new File(filePath + ".scc210");
+		File projectFolder = new File(filePath + ".project");
 
 		try {
 			projectFile.createNewFile();
+			projectFolder.mkdirs();
 		} catch (IOException e) {
 			System.out.println("An Error Occured");
 			projectFile = null;
 		}
 
 		if (projectFile == null) {
-			// output an error message to the user
+			// output an error message to the user (error occured while creating project files)
 			return;
 		}
 
@@ -55,7 +55,7 @@ class ProjectSaver {
 		try {
 			fileWriter = new FileWriter(projectFile);
 
-			String layersInfo = getLayersInfo();
+			String layersInfo = this.getLayersInfo(filePath + ".project/");
 			System.out.println(layersInfo);
 
 			fileWriter.write(layersInfo);
@@ -65,19 +65,29 @@ class ProjectSaver {
 		}
 
 		if (fileWriter == null) {
-			// output an error message to the user
+			// output an error message to the user (error occured while saving project information)
 			return;
 		}
 	}
 
-	public String getLayersInfo() {
+	private String getLayersInfo(String filePath) {
 		AbstractList<LayerData> layers = layersHandler.getLayers();
 
 		String layersInfo = "";
-		for (int layerPos = 0; layerPos < layers.size(); layerPos++)
-			layersInfo += layers.get(layerPos).getLayerInfo(layerPos);
+		for (int layerPos = 0; layerPos < layers.size(); layerPos++) {
+			LayerData currentLayer = layers.get(layerPos);
+			layersInfo += currentLayer.getLayerInfo(layerPos);
+
+			if (currentLayer instanceof DrawingLayer || currentLayer instanceof ImageLayer)
+				this.saveImage(currentLayer, layerPos, filePath);
+		}
 
 		return layersInfo;
+	}
+
+	private void saveImage(LayerData layer, int layerPos, String filePath) {
+		SaveAs imageSaver = new SaveAs(canvas);
+		imageSaver.saveImageAs(layer.getImage(), filePath + Integer.toString(layerPos));
 	}
 
 	public JMenu getSaveProjectMenu() {
