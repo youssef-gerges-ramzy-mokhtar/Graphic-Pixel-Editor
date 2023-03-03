@@ -38,7 +38,7 @@ class LayerOption extends JPanel {
 		try {
 			BufferedImage none = new BufferedImage(12, 12, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = (Graphics2D) none.getGraphics();
-			g2d.setBackground(new Color(0, 0, 0, 0));
+			g2d.setBackground(Constants.transparentColor);
 			g2d.clearRect(0, 0, layer.getWidth(), layer.getHeight());
 
 			ImageIcon noneIcon = new ImageIcon(none);

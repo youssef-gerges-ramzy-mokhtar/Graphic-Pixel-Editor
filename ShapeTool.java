@@ -61,8 +61,8 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 				if (layerWidth == 0 || layerHeight == 0) return;
 
 				ShapeLayer prevLayer = shapeLayer;
-				shapeLayer = createShapeLayer(validPoint(pivot, finalPoint));
-				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, validPoint(pivot, finalPoint));
+				shapeLayer = createShapeLayer(LayerData.validTopLeftPoint(pivot, finalPoint));
+				SpecificGraphic shapeGraphics = getSpecificGrahic(shapeLayer, LayerData.validTopLeftPoint(pivot, finalPoint));
 
 				shapeLayer.updateGraphics(shapeGraphics);
 				layersHandler.addLayer(shapeLayer);
@@ -70,26 +70,6 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 				layersHandler.updateCanvas();
 			}
 		});
-	}
-
-	private Point validPoint(Point p1, Point p2) {
-		int x1 = p1.x;
-		int y1 = p1.y;
-		int x2 = p2.x;
-		int y2 = p2.y;
-		if (y2 > y1 && x2 > x1){
-			return p1;
-		}
-		if (y2 < y1 && x2 > x1){
-			return new Point(x1, y2);
-		}
-		if(x2 < x1 && y2 < y1){
-			return p2;
-		}
-		if(x2 < x1 && y2 > y1){
-		return new Point(x2, y1);
-		}
-		return null;
 	}
 
 	// getSpecificGrahic() is used by all a Specific Shape to define its own Graphical Properties

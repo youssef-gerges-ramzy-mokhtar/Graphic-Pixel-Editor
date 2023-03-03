@@ -6,7 +6,7 @@ public class Display extends JFrame {
     private ToolsManager toolsManager;
 
     public Display() {
-        this.toolsManager = new ToolsManager(this);
+        this.toolsManager = new ToolsManager();
         initFrameProperties();
         initFrameLayout();
     }

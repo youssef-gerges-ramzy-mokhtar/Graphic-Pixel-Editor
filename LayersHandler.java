@@ -105,8 +105,9 @@ class LayersHandler implements CanvasObserver {
 		canvas.clearCanvas();
 		for (LayerData layerData: layers) {
 			if (layerData.isHidden()) continue;
-			canvas.drawLayer(layerData);
-			if (layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
+			
+			if (!(layerData instanceof DrawingLayer) && layerData == selectedLayer) canvas.drawSelectedLayer(layerData);
+			else canvas.drawLayer(layerData);
 		}
 	}
 
@@ -210,6 +211,23 @@ class LayersHandler implements CanvasObserver {
 		if (prevLayer == selectedLayer) selectedLayer = newLayer;
 	}
 
+	public LayerData mergeAll() {
+		LayerData mergedLayer = new ImageLayer(drawingLayer.getWidth(), drawingLayer.getHeight(), Color.white);
+
+		for (LayerData layer: layers)
+			mergedLayer.mergeLayer(layer);
+
+		layers.clear();
+		drawingLayer.clear(Color.white);
+		mergedLayer.updateSelectionLayer();
+
+		layers.add(drawingLayer);
+		layers.add(mergedLayer);
+
+		changeSelectedLayer(0);
+		return mergedLayer;
+	}
+
 	// zoomAllLayers is used to resize all layers based on the factor
 	public void zoomAllLayers(double factor) {
 		for (LayerData layer: layers)
@@ -220,6 +238,7 @@ class LayersHandler implements CanvasObserver {
 
 	public void clear() {
 		layers.clear();
+		drawingLayer.clear(Color.white);
 		layers.add(drawingLayer);
 	}
 
