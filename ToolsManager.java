@@ -29,6 +29,7 @@ class ToolsManager {
     private ImageLoader imageLoader;
     private SaveAs imageSaver;
     private ProjectSaver prjoectSaver;
+    private ProjectLoader projectLoader;
     private LayersHandler layersHandler;
 
     private MenuPanel menuPanel;
@@ -125,6 +126,7 @@ class ToolsManager {
         this.imageSaver = new SaveAs(canvas); // For Saving Images to the User computer
         this.menuPanel = new MenuPanel(canvas, imageLoader, imageSaver); // MenuPanel for Dispalying the Buttons associated with the loading and saving classes
 		this.prjoectSaver = new ProjectSaver(canvas);
+		this.projectLoader = new ProjectLoader(layersOptions, canvas, undo);
 
 		this.hamzaFooter = new Footer(layersOptions, undo, canvas);
 
@@ -165,6 +167,7 @@ class ToolsManager {
 
 	private void initMenus() {
 		menuPanel.add(prjoectSaver.getSaveProjectMenu());
+		menuPanel.add(projectLoader.getOpenProjectMenu());
 	}
 
 	// Getters //

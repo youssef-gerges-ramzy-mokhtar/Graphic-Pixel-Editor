@@ -35,7 +35,7 @@ class DrawingLayer extends LayerData {
 			drawingSymbol + seperator + 
 			xCoord + seperator + 
 			yCoord + seperator + 
-			imgFilePath + "\n"; 
+			imgFilePath + "\n";
 	}
 }
 
