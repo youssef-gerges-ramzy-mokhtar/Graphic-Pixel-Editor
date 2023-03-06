@@ -20,7 +20,7 @@ class UndoTool extends ClickableTool {
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
 		this.layersUndoHistory = new LinkedList<ArrayList<LayerData>>();
 		this.layersRedoHistory = new LinkedList<ArrayList<LayerData>>();
-		this.historyLimit = 10; // a history limit of 10 means that the user can go back a.k.a. undo in history by a maximum of 10 only
+		this.historyLimit = 30; // a history limit of 10 means that the user can go back a.k.a. undo in history by a maximum of 10 only
 
 		this.recordHistory();
 		addCanvasListener();
