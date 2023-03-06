@@ -17,6 +17,8 @@ class LayerOption extends JPanel {
 	private boolean ctrlClicked = false; // ctrlClicked is used to check if the ctrl key is currently clicked or not
 	private boolean selected = false; // selected is used to mark the current layer as selected
 
+	private KeyEventDispatcher keyEventDispatcher;
+
 	public LayerOption(LayerObserver layerObserver, LayersHandler layersHandler, LayerData layer, UndoTool undo) {
 		this.layersHandler = layersHandler;
 		this.layer = layer;
@@ -25,6 +27,11 @@ class LayerOption extends JPanel {
 
 		initLayerOption();
 		addBtnListeners();
+	}
+
+	// this method purpose only is to prevent memory leaks
+	public void deleteObject() {
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this.keyEventDispatcher);
 	}
 
 	// initLayerOption() is used to initialize the graphical look of any Layer Option
@@ -104,12 +111,13 @@ class LayerOption extends JPanel {
 		});
 
 		// Here we are just checking if the ctrl key is clicked or not
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-	  		public boolean dispatchKeyEvent(KeyEvent e) {
-	        	ctrlClicked = e.isControlDown();
-	        	return false;
-	      	}
-		});
+		this.keyEventDispatcher = new KeyEventDispatcher() {
+			public boolean dispatchKeyEvent(KeyEvent e) {
+		        ctrlClicked = e.isControlDown();
+				return false;
+			}
+		};
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
 	}
 
 

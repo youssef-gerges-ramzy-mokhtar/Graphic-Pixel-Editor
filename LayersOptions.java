@@ -33,6 +33,11 @@ class LayersOptions extends JPanel implements LayerObserver {
     // update() is used to clear the layer panel and re-create the layers again whenever the layers in the layers handler is changed
     // to make the right panel always in sync with the current state of the layers
     public void update() {
+        // This is to prevent memory leaks
+        for (LayerOption layerOption: layersOptions)
+            layerOption.deleteObject();
+        Runtime.getRuntime().gc(); // running the garbage collector
+
         layersOptions.clear();
         removeAll();
         revalidate();
