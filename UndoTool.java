@@ -13,6 +13,11 @@ class UndoTool extends ClickableTool {
 	private LinkedList<ArrayList<LayerData>> layersRedoHistory;
 	private int historyLimit;
 	
+	/**
+	 * Undo Tool is responsible for performing undo and redo on the canvas
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 */
 	public UndoTool(LayerObserver layerObserver, OurCanvas canvas) {
 		super(layerObserver, null);
 		this.canvas = canvas;
@@ -26,6 +31,11 @@ class UndoTool extends ClickableTool {
 		addCanvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Undo & Redo Tools
+	 * The Undo & Redo Tools Affects the Layers Panel
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	// initTool initialize the properties of the Undo & Redo Tool
 	/*
 		- The Undo & Redo Tools Affects the Layers Panel
@@ -71,6 +81,10 @@ class UndoTool extends ClickableTool {
 		});
 	}
 
+	/**
+	 * used to record the history whenever a change occurs
+	 * this allows us to go back in history or in other words this allows us to undo
+	 */
 	// recordHistory() is used to save changes from the undo
 	public void recordHistory() {
 		if (layersUndoHistory.size() == historyLimit) layersUndoHistory.removeFirst();
@@ -137,7 +151,7 @@ class UndoTool extends ClickableTool {
 
 	// Temporary Helper Function for Debugging Purpose
 	// Although we don't need this function anymore but it will be useful for any future bugs associated with the Undo Tool
-	void undo_debug(String msg, LinkedList<ArrayList<LayerData>> historyToDebug) {
+	private void undo_debug(String msg, LinkedList<ArrayList<LayerData>> historyToDebug) {
 		System.out.println(msg);
 
 		System.out.println("{");

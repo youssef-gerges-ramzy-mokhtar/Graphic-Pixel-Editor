@@ -10,6 +10,14 @@ class TextLayer extends LayerData {
 	private String text;
 	private int canvasWidth;
 
+	/**
+	 * TextLayer represents any Text Layer on the Canvas
+	 * @param layerLocation defines the position/location of the text layer on the screen/canvas
+	 * @param fontCol text font color
+	 * @param fontSz text font size
+	 * @param text the text that the text layer will represent
+	 * @param canvasWidth the current canvas width
+	 */
 	public TextLayer(Point layerLocation, Color fontCol, int fontSz, String text, int canvasWidth) {
 		super(1, 1, Color.white, layerLocation);
 		this.fontCol = fontCol;
@@ -34,6 +42,10 @@ class TextLayer extends LayerData {
 		updateGraphics(textGraphics);
 	}
 
+	/**
+	 * returns the height of a single line of text
+	 * @return the height of one sentence
+	 */
 	// getTextHeight returns the height of a single line of text
 	public int getTextHeight() {
     	BufferedImage dummyImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -48,6 +60,10 @@ class TextLayer extends LayerData {
     	return (int) Math.ceil(r2d.getHeight());
     } 
 
+    /**
+     * returns the width needed by the text as a whole
+     * @return the width of the whole text
+     */
     // getTextWidth returns the width needed by the text as a whole
     public int getTextWidth() {
     	BufferedImage dummyImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -101,6 +117,11 @@ class TextLayer extends LayerData {
 		runs the wordsDivider() function to reposition the text based on the new width and height
 	*/	
 
+	/**
+	 * used to display the text in a text layer to reach the desired coordinate on the screen/canvas
+	 * Note: resize here doesn't change the font size or how big the text appears
+	 * @param newLayerEndPos the new coordinate in which you want the text layer to be displayed in
+	 */
 	// resize() is used to represent the text layer to the specified width and height
 	public void resize(Point newLayerEndPos) {
 		int layerWidth = Math.abs(newLayerEndPos.x - getX());
@@ -109,6 +130,12 @@ class TextLayer extends LayerData {
 		setLocation(validTopLeftPoint(getCoords(), newLayerEndPos));
 	}
 
+	/**
+	 * used to display the text in a text layer in the specified width and height
+	 * Note: resize here doesn't change the font size or how big the text appears
+	 * @param width the new width you want the text to be displayed in
+	 * @param height the new height you want the text to be displayed in
+	 */
 	// resize() is used to get a coordinate on the canvas and resize the text layer to reach this coordinate
 	public void resize(int width, int height) {
 		if (width <= 0 || height <= 0) return;
@@ -121,6 +148,10 @@ class TextLayer extends LayerData {
 		updateGraphics(textGraphics);
 	}
 
+	/**
+	 * returns a Deep Copy of the Text Layer
+	 * @return returns a Deep Copy of the Text Layer
+	 */
 	// getCopy return a Deep Copy of the Text Layer
 	public LayerData getCopy() {
 		TextLayer copy = new TextLayer(new Point(getX(), getY()), fontCol, fontSz, text, canvasWidth);
@@ -128,6 +159,12 @@ class TextLayer extends LayerData {
 		return copy;
 	}
 
+	/**
+	 * returns a String containg all the information of this text layer
+	 * @param seperator each piece of information is seperated by the seperator character
+	 * @param layerPos the position of the text layer on the Screen/Canvas
+	 * @return a String containg the text layer information
+	 */
 	// getLayerInfo() returns a String containg all the information of this text layer
 	public String getLayerInfo(char seperator, int layerPos) {
 		String textSymbol = "s";
