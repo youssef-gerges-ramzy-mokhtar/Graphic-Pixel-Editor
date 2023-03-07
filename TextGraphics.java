@@ -10,7 +10,7 @@ public class TextGraphics extends LayerGraphics {
 	/**
 	 * TextGraphics is used to store the properties of a Text and is used to define how is a Text drawn into the Screen/Canvas
 	 * @param position represent the text position on the screen/canvas
-	 * @param sentences defines the text structure specifically (the words in a sentence & the number of sentences)
+	 * @param sentences defines the text structure specifically (the words in a sentence and the number of sentences)
 	 */
 	public TextGraphics(Point position, ArrayList<ArrayList<String>> sentences) {
 		this(position, sentences, 50, Color.black);
@@ -19,7 +19,7 @@ public class TextGraphics extends LayerGraphics {
 	/**
 	 * TextGraphics is used to store the properties of a Text and is used to define how is a Text drawn into the Screen/Canvas
 	 * @param position represent the text position on the screen/canvas
-	 * @param sentences defines the text structure specifically (the words in a sentence & the number of sentences)
+	 * @param sentences defines the text structure specifically (the words in a sentence and the number of sentences)
 	 * @param fontSz the font size of the text
 	 * @param fontCol the font color of the text
 	 */
@@ -48,7 +48,7 @@ public class TextGraphics extends LayerGraphics {
 
 	/**
 	 * used to draw the text sentences structure into the Graphics2D object
-	 * @param Graphics2D used to render the text into the Graphics2D object
+	 * @param g used to render the text into the Graphics2D object
 	 */
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));

@@ -4,7 +4,8 @@ import java.awt.*;
 public class CircleGraphics extends ShapeLayerGraphics {
 	/**
 	 * CircleGraphics is used to store the properties of a Circle and is used to define how is a circle drawn
-	 * @param Point represent the circle position on the screen/canvas
+	 * @param position
+	 * represent the circle position on the screen/canvas
 	 */
 	public CircleGraphics(Point position) {
 		super(position);
@@ -12,7 +13,8 @@ public class CircleGraphics extends ShapeLayerGraphics {
 
 	/**
 	 * used to draw a circle into the Graphics2D object
-	 * @param Graphics2D is used to render a circle into the Graphics2D object
+	 * @param g
+	 *  used to render a circle into the Graphics2D object
 	 */
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));

@@ -57,7 +57,7 @@ public class LineGraphics extends SpecificGraphic {
 
 	/**
 	 * used to draw a line into the Graphics2D object
-	 * @param Graphics2D used to render a line into the Graphics2D object
+	 * @param g used to render a line into the Graphics2D object
 	 */
 	public void draw(Graphics2D g) {
 		if (firstPoint.equals(secondPoint)) return;

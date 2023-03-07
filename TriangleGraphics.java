@@ -4,7 +4,7 @@ import java.awt.*;
 public class TriangleGraphics extends ShapeLayerGraphics {
 	/**
 	 * TriangleGraphics is used to store the properties of a Triangle and is used to define how is a triangle drawn
-	 * @param Point represent the triangle position on the screen/canvas
+	 * @param position represent the triangle position on the screen/canvas
 	 */
 	public TriangleGraphics(Point position) {
 		super(position);
@@ -12,7 +12,7 @@ public class TriangleGraphics extends ShapeLayerGraphics {
 
 	/**
 	 * used to draw a triangle into the Graphics2D object
-	 * @param Graphics2D is used to render a triangle into the Graphics2D object
+	 * @param g is used to render a triangle into the Graphics2D object
 	 */
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));

@@ -16,9 +16,12 @@ public class BlurTool extends ClickableTool implements Observer{
     
 	/**
 	 * Constructor
-	 * @param layerObserver
+	 * @param layerObserver 
+	 * layerObserver is an object that observers changes that happens to the layers structure
 	 * @param canvas
+	 * Current canvas which holds all layers
 	 * @param undo
+	 * the tool which manages the undo and redo of the application
 	 */
     public BlurTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
@@ -139,6 +142,7 @@ public class BlurTool extends ClickableTool implements Observer{
 	/**
 	 * Used to change thickness of Blur tool
 	 * @param thickness
+	 * Thickness of pen
 	 */
     public void update(int thickness) {    
        

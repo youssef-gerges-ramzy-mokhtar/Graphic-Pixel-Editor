@@ -34,7 +34,7 @@ abstract class LayerGraphics extends SpecificGraphic {
 
 	/**
 	 * draw is an abstract method that defines how a layer is drawn into the Screen/Canvas
-	 * @param Graphics2D is used to render the layer draw behaviour into the Graphics2D object
+	 * @param g is used to render the layer draw behaviour into the Graphics2D object
 	 */
 	public abstract void draw(Graphics2D g);
 }

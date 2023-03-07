@@ -4,7 +4,7 @@ import java.awt.*;
 abstract class SpecificGraphic {
 	/**
 	 * draw is an abstract method used to define the drawing behaviour of any entity that is rendered into the Screen/Canvas
-	 * @param Graphics2D used to render the entity into the Graphics2D object
+	 * @param g used to render the entity into the Graphics2D object
 	 */
 	public abstract void draw(Graphics2D g);
 }

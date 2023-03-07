@@ -8,7 +8,8 @@ abstract class ShapeLayerGraphics extends LayerGraphics {
 
 	/**
 	 * ShapeLayerGraphics is a general class used to store the graphics properties of any shape
-	 * @param position represent the shape position on the screen/canvas 
+	 * @param position 
+	 * represent the shape position on the screen/canvas 
 	 */
 	public ShapeLayerGraphics(Point position) {
 		super(position);
@@ -18,7 +19,8 @@ abstract class ShapeLayerGraphics extends LayerGraphics {
 
 	/**
 	 * sets the outer stroke size of the shape
-	 * @param sz stroke size
+	 * @param sz 
+	 * stroke size
 	 */
 	public void setStrokeSize(float sz) {
 		this.stroke_sz = sz;
@@ -26,7 +28,8 @@ abstract class ShapeLayerGraphics extends LayerGraphics {
 
 	/**
 	 * sets the stroke color of the shape
-	 * @param col stroke color
+	 * @param col
+	 *  stroke color
 	 */
 	public void setStrokeColor(Color col) {
 		
@@ -36,7 +39,8 @@ abstract class ShapeLayerGraphics extends LayerGraphics {
 
 	/**
 	 * sets the fill color of the shape
-	 * @param col fill color
+	 * @param col
+	 *  fill color
 	 */
 	public void setFillColor(Color col) {
 		this.fillCol = col;
@@ -44,7 +48,8 @@ abstract class ShapeLayerGraphics extends LayerGraphics {
 
 	/**
 	 * draw is an abstract method that defines how a shape is drawn into the Screen/Canvas
-	 * @param Graphics2D is used to render the shape draw behaviour into the Graphics2D object
+	 * @param g 
+	 * used to render the shape draw behaviour into the Graphics2D object
 	 */
 	public abstract void draw(Graphics2D g);
 }

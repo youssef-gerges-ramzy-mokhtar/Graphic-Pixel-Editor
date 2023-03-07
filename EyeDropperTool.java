@@ -10,7 +10,7 @@ public class EyeDropperTool extends ClickableTool implements Observable {
     private Color col;
 
     /**
-     * EyeDropperTool is responsible for detecing & picking colors on the Screen/Canvas
+     * EyeDropperTool is responsible for detecing and picking colors on the Screen/Canvas
      * @param canvas is the current canvas that holds and displays all the layers
      */
     public EyeDropperTool(OurCanvas canvas) {

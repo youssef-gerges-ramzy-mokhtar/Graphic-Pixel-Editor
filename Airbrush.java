@@ -20,8 +20,11 @@ public class Airbrush extends ClickableTool implements Observable, Observer
      * Constructor for airbrush.
      * Allows airbrush to be used.
      * @param layerObserver
+     *  layerObserver is an object that observers changes that happens to the layers structure
      * @param canvas
+     * Current canvas which holds all layers
      * @param undo
+     * the tool which manages the undo and redo of the application
      */
     public Airbrush(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
@@ -38,6 +41,7 @@ public class Airbrush extends ClickableTool implements Observable, Observer
      * Adds key binding
      * Adds undo tool.
      * @param undo
+     * The tool which manages the undo and redo of the application
      */
     protected void initTool(UndoTool undo) {
         this.airBrushBtn = new Clickable("Air Brush");
@@ -83,7 +87,9 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     /**
      * Randomly selects points around x,y within pensize range
      * @param x
+     * X coordinate of where to generate points
      * @param y
+     * Y coordinate of where to generate points
      */
     public void AddPoints(double x,double y)
     {

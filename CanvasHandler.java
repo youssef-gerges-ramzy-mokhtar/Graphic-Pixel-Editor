@@ -24,8 +24,11 @@ public class CanvasHandler {
     /**
      * Constructor add buttons and copies undo tool
      * @param canvas
+     * Cuurent canvas containing all layers
      * @param canvasButtons
+     * Array of all buttons of the difference canvases
      * @param layersOptions
+     * LayerOptions class with all buttons and options
      */
     public CanvasHandler(OurCanvas canvas, JButton[] canvasButtons, LayersOptions layersOptions)
     {

@@ -4,7 +4,7 @@ import java.awt.*;
 public class RectangleGraphics extends ShapeLayerGraphics {
 	/**
 	 * RectangleGraphics is used to store the properties of a Rectangle and is used to define how is a Rectangle drawn
-	 * @param Point represent the rectangle position on the screen/canvas
+	 * @param position represent the rectangle position on the screen/canvas
 	 */
 	public RectangleGraphics(Point position) {
 		super(position);
@@ -12,7 +12,7 @@ public class RectangleGraphics extends ShapeLayerGraphics {
 
 	/**
 	 * used to draw a rectangle into the Graphics2D object
-	 * @param Graphics2D used to render a rectangle into the Graphics2D object
+	 * @param g used to render a rectangle into the Graphics2D object
 	 */
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
