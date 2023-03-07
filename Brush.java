@@ -54,17 +54,17 @@ abstract class Brush {
 	}
 
 	/**
-	 * @param newPenPos represent the new brush position
 	 * sets the brush position on the screen/canvas
+	 * @param newPenPos represent the new brush position
 	 */
 	public void setPos(Point newPenPos) {
 		pos = newPenPos;
 	}
 
 	/**
+	 * sets the brush position on the screen/canvas
 	 * @param x represent the new brush x-coord position
 	 * @param y represent the new brush y-coord position
-	 * sets the brush position on the screen/canvas
 	 */
 	public void setPos(int x, int y) {
 		pos.setLocation(x, y);

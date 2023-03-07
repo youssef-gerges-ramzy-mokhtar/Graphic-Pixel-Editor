@@ -11,6 +11,10 @@ class Clickable implements Observable {
 	private Color selectorCol;
 	private ArrayList<Character> keyBindings;
 
+	/**
+	 * Clickable is used to represent a Button associated with a Tool and all the behaviour associated with this button
+	 * @param title represent the tool/button name
+	 */
 	public Clickable(String title) {
 		this.clickObservers = new ArrayList<Observer>();
 		this.btnActive = false;
@@ -21,21 +25,35 @@ class Clickable implements Observable {
 		addBtnListener();
 	}
 
+	/**
+	 * returns a boolean value stating if the button is selected or not
+	 * @return boolean value representing if the button activity
+	 */
 	// isActive checks if a button is currently selected or not
 	public boolean isActive() {
 		return btnActive;
 	}
 
+	/**
+	 * used to de-select a button
+	 */
 	// deSelect deSelects the button
 	public void deSelect() {
 		btnActive = false;
 		deSelectBtn();
 	}
 
+	/**
+	 * @return the JButton associated with a Tool
+	 */
 	public JButton getBtn() {
 		return btn;
 	}
 
+	/**
+	 * @param key the shortcut value
+	 * used to set the shortcut associated with this button/tool
+	 */
 	// addKeyBinding() sets the shortcut of the button
 	public void addKeyBinding(Character key) {
 		keyBindings.add(key);
@@ -61,6 +79,10 @@ class Clickable implements Observable {
 		});
 	}
 
+	/**
+	 * updates the button title
+	 * @param txt button text
+	 */
 	public void setText(String txt) {
 		btn.setText(txt);
 	}
@@ -82,6 +104,9 @@ class Clickable implements Observable {
 	}
 
 
+	/**
+	 * used to notify all observers once the button is selected
+	 */
 	/* Observer Pattern: Used to notify the observers whenver a button is clicked //
 	notifyObservers() is used to notify the Tools Panel that this button is selected to deselect the other buttons */
 	public void notifyObservers() {
@@ -89,10 +114,18 @@ class Clickable implements Observable {
 			observer.update3();
 	}
 
+	/**
+	 * used to add an observer observing the button selection
+	 * @param observer an observer observing the button
+	 */
 	public void addObserver(Observer observer) {
 		clickObservers.add(observer);
 	}
 
+	/**
+	 * used to remove an observer that was observing the button selection
+	 * @param observer an observer observing the button
+	 */
 	public void removeObserver(Observer observer) {
 		clickObservers.remove(observer);
 	}

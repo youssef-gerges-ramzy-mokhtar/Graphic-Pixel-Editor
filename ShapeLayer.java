@@ -24,7 +24,6 @@ abstract class ShapeLayer extends LayerData {
 
 		specificGraphic = getSpecificGraphic(width, height);
 		
-		
 		BufferedImage oldLayer = getImage();
 
 		setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
