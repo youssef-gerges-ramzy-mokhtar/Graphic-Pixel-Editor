@@ -13,6 +13,10 @@ class LayersOptions extends JPanel implements LayerObserver {
     private JButton moveDown;
     private JButton merge;
 
+    /**
+     * LayersOptions is the Layers Panel Displaying all the Layers that currently exist on the Canvas
+     * @param layersHandler the layers handler that handles all layers on the canvas
+     */
     public LayersOptions(LayersHandler layersHandler) {
         this.layersHandler = layersHandler;
         this.layersOptions = new ArrayList<LayerOption>();
@@ -30,6 +34,10 @@ class LayersOptions extends JPanel implements LayerObserver {
         addBtnListeners();
     }
 
+    /**
+     * used to update the layer panel whenever the layers in the layers handler is changed
+     * to make the layer panel always in sync with the current state of the layers
+     */
     // update() is used to clear the layer panel and re-create the layers again whenever the layers in the layers handler is changed
     // to make the right panel always in sync with the current state of the layers
     public void update() {
@@ -102,6 +110,9 @@ class LayersOptions extends JPanel implements LayerObserver {
         });
     }
 
+    /**
+     * used to copy all the layers that are selected
+     */
     // copyLayerOptions() is used to copy all the layers that are selected
     public void copyLayerOptoins() {
         for (LayerOption layerOption: layersOptions) {
@@ -112,6 +123,9 @@ class LayersOptions extends JPanel implements LayerObserver {
         updateState();
     }
 
+    /**
+     * used to delete all the layers that are selected
+     */
     // deleteLayerOptions() is used to delete all the layers that are selected
     public void deleteLayerOptions() {
         for (LayerOption layerOption: layersOptions) {
@@ -122,6 +136,9 @@ class LayersOptions extends JPanel implements LayerObserver {
         updateState();
     }
 
+    /**
+     * used to merge all layers that are selected for merge into one layer and adds the merged layer to the canvas and removes the old layers that were merged from the canvas
+     */
     // mergeLayers() is used to merge all layers that are selected for merge into one layer and adds the merged layer to the canvas
     // and removes the old layers that were merged from the canvas
     public void mergeLayers() {
@@ -157,6 +174,9 @@ class LayersOptions extends JPanel implements LayerObserver {
         updateState();
     }
 
+    /**
+     * used when the user decides to merge the layers thorugh the right-click pop-up menu
+     */
     // mergeLayerOptions() is used when the user decides to merge the layers thorugh the right-click pop-up menu
     public void mergeLayerOptions() {
         int layersMergeCount = 0;
@@ -183,6 +203,10 @@ class LayersOptions extends JPanel implements LayerObserver {
         if (undo != null) undo.recordHistory();
     }
 
+    /**
+     * sets the undo
+     * @param undo the tool that manages how the undo and redo works
+     */
     public void setUndo(UndoTool undo) {
         this.undo = undo;
     }
