@@ -21,6 +21,12 @@ public class CanvasHandler {
     private LinkedList<ArrayList<LayerData>> undo3 = new LinkedList<ArrayList<LayerData>>();
 	private LinkedList<ArrayList<LayerData>> redo3 = new LinkedList<ArrayList<LayerData>>();
 
+    /**
+     * Constructor add buttons and copies undo tool
+     * @param canvas
+     * @param canvasButtons
+     * @param layersOptions
+     */
     public CanvasHandler(OurCanvas canvas, JButton[] canvasButtons, LayersOptions layersOptions)
     {
       
@@ -65,6 +71,10 @@ public class CanvasHandler {
         return(new ImageIcon(dimg));
     }
 
+    /**
+     * Changes the canvas with corrosponding layers and undo redo
+     * @param canvasNum
+     */
     public void updateCanvas(int canvasNum)
     {
         // ImageIcon icon = changeIconSize(layersHandler.getSelectedLayer().getImage());
@@ -97,12 +107,20 @@ public class CanvasHandler {
        
     }
 
-    //returns the canvas number between 0 and 2.
+    /**
+     * 
+     * @return
+     * CurrentCanvasNumber (0-2)
+     */
     public int getCurrentCanvasNumber()
     {
         return(currentCanvasNum);
     }
 
+    /**
+     * Used to get reference to undo
+     * @param undo
+     */
     public void setUndo(UndoTool undo)
     {
         this.undo = undo;

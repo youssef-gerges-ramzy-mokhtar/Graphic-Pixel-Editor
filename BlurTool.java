@@ -14,6 +14,12 @@ public class BlurTool extends ClickableTool implements Observer{
     private OurCanvas canvas;
     private int pensize=1;
     
+	/**
+	 * Constructor
+	 * @param layerObserver
+	 * @param canvas
+	 * @param undo
+	 */
     public BlurTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
     	super(layerObserver, undo);
@@ -122,12 +128,18 @@ public class BlurTool extends ClickableTool implements Observer{
 	}
 
     
-
+	/**
+	 * @return
+	 * blurBtn 
+	 */
     public Clickable getClickable() {
         return blurBtn;
     }
 
-
+	/**
+	 * Used to change thickness of Blur tool
+	 * @param thickness
+	 */
     public void update(int thickness) {    
        
 		pensize = thickness;

@@ -17,6 +17,13 @@ class ImageFilters extends JFrame implements ActionListener {
 
     private LayerData selectedLayer = null;
 
+    /**
+     * ImageFilters is used to apply filters on imported images on the canvas 
+     * To apply a filter you right click on the image and select the filter you want to apply
+     * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+     */
     public ImageFilters(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
         this.canvas = canvas;
         this.layersHandler = layersHandler.getLayersHandler(canvas);
@@ -70,7 +77,10 @@ class ImageFilters extends JFrame implements ActionListener {
         filter8.setActionCommand("blue");
         popMenu.add(filter8);
 
-        // Drop down menu only appears when there's a right click on an image
+        /** 
+         * addMouseListener() attachs a mouse listener
+         * This is so that the drop down menu only appears when there's a right click on an image
+         */
         canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -107,7 +117,7 @@ class ImageFilters extends JFrame implements ActionListener {
             break;
         case "sepia":
             if (img == null) return;
-            img.setImage(sepiaFilter.processImage(img.getImage()));  // inverts the image
+            img.setImage(sepiaFilter.processImage(img.getImage()));  //  makes the image sepia
             layersHandler.updateCanvas();
             break;
         case "sharpen":
@@ -117,17 +127,17 @@ class ImageFilters extends JFrame implements ActionListener {
             break;
         case "red":
             if (img == null) return;
-            img.setImage(redFilter.processImage(img.getImage())); // sharpens the image
+            img.setImage(redFilter.processImage(img.getImage())); //  makes the image red
             layersHandler.updateCanvas();
             break;
         case "green":
             if (img == null) return;
-            img.setImage(greenFilter.processImage(img.getImage())); // sharpens the image
+            img.setImage(greenFilter.processImage(img.getImage())); // makes the image green
             layersHandler.updateCanvas();
             break;
         case "blue":
             if (img == null) return;
-            img.setImage(blueFilter.processImage(img.getImage())); // sharpens the image
+            img.setImage(blueFilter.processImage(img.getImage())); // makes the image blue
             layersHandler.updateCanvas();
             break;
         }
@@ -139,6 +149,10 @@ class ImageFilters extends JFrame implements ActionListener {
         public abstract BufferedImage processImage(BufferedImage image);
     }
 
+    /**
+     * Applies blur filter onto the selected image
+     * @return the blur image
+     */
     class BlurFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
             Kernel kernel = new Kernel(3, 3, new float[] { 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f });
@@ -147,6 +161,13 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies greyscale filter onto the selected image
+     * Makes the image black and white by extracting the RBG values of 
+     * each pixel and calculating it's average. Then replace the RGB
+     * values with the average.
+     * @return the greyscale image 
+     */ 
     class GreyscaleFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
@@ -157,7 +178,7 @@ class ImageFilters extends JFrame implements ActionListener {
                 for(int x = 0; x < width; x++){
                     int pixel = image.getRGB(x,y); // getting the value of the pixel
 
-                    // extracting the ARBG values of each pixel
+                    // extracting the ARGB values of each pixel
                     int alpha = (pixel >> 24) &0xff;
                     int red = (pixel >> 16) &0xff;
                     int green = (pixel >> 8) &0xff;
@@ -173,6 +194,12 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies invert filter onto the selected image
+     * Converts the colour pixels into the negative by subtracting the RGB 
+     * value from 255.
+     * @return the invert image 
+     */
     class InvertFilter implements MyFilter { // convert colour pixel into negative subtract RGB value from 255 
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
@@ -183,7 +210,7 @@ class ImageFilters extends JFrame implements ActionListener {
                 for(int x = 0; x < width; x++){
                     int pixel = image.getRGB(x,y); // getting the value of the pixel
 
-                    // extracts the ARBG values of each pixel
+                    // extracts the ARGB values of each pixel
                     int alpha = (pixel >> 24) & 0xff;
                     int red = (pixel >> 16) & 0xff;
                     int green = (pixel >> 8) & 0xff;
@@ -202,6 +229,12 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies sepia filter onto the selected image
+     * This is done by extracting the RGB values of each pixel, calculating the values
+     * and then comparing the values to the condition for sepia.
+     * @return the sepia image 
+     */
     class SepiaFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
@@ -248,6 +281,10 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies sharpen filter onto the selected image
+     * @return the sharpen image 
+     */
     class SharpenFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
             Kernel kernel = new Kernel (3,3, new float[]{ // 3 by 3 kernel that sharpens the selected image
@@ -259,6 +296,11 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies red filter onto the selected image
+     * This is done by setting the green and blue values of each pixel to 0
+     * @return the red image 
+     */
     class RedFilter implements MyFilter { // For a red filter you need to set the green and blue values to 0
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
@@ -281,6 +323,11 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies green filter onto the selected image
+     * This is done by setting the red and blue values of each pixel to 0
+     * @return the green image 
+     */
     class GreenFilter implements MyFilter { // For a green filter you need to set the red and blue values to 0
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
@@ -303,6 +350,11 @@ class ImageFilters extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Applies blue filter onto the selected image
+     * This is done by setting the red and green values of each pixel to 0
+     * @return the blue image 
+     */
     class BlueFilter implements MyFilter { // For a blue filter you need to set the red and green values to 0
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
