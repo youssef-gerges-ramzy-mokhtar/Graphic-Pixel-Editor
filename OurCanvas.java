@@ -15,6 +15,9 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	private ArrayList<Observer> observers;
 	private final int spacingRange;
 
+	/**
+	 * OurCanvas represents the Main area in the program that the user uses to draw, add shapes, add images and so on...
+	 */
 	public OurCanvas() {
 		this.width = 800;
 		this.height = 600;
@@ -80,12 +83,21 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		notifyCanvasObservers();
 	}
 
+	/**
+	 * changes the canvas dimensions
+	 * @param newWidth the new width of the cavnas
+	 * @param newHeight the new height of the canvas
+	 */
 	public void updateCanvasSize(int newWidth, int newHeight) {
 		this.width = newHeight;
 		this.height = newHeight;
 		updateCanvasSz();
 	}
 
+	/**
+	 * used to zoom the canvas based on a factor
+	 * @param factor the zoom factor
+	 */
 	public void zoom(double factor) {
 		width = (int) Math.floor(factor * width);
 		height = (int) Math.floor(factor * height);
@@ -97,61 +109,106 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 		g.drawImage(mainLayer.getImage(), 0, 0, null);
 	}
 
+	/**
+	 * return the color of the canvas
+	 * @return canvas color
+	 */
 	public Color getCanvasColor() {
 		return col;
 	}
 
+	/**
+	 * merges/draws a layer into the canvas
+	 * @param img the layer that will be drawn into the canvas
+	 */
 	// drawLayer() merges/draws a layer into the canvas
 	public void drawLayer(LayerData img) {
 		mainLayer.mergeLayer(img);
 		repaint();
 	}
 
+	/**
+	 * merges/draws a selected layer into the canvas
+	 * @param img the layer that will be drawn as a selection into the canvas
+	 */
 	public void drawSelectedLayer(LayerData img) {
 		mainLayer.mergeLayerSelection(img);
 		repaint();
 	}
 
+	/**
+	 * changes all the pixels in the canvas to the initial canvas color
+	 */
 	// clearCanvas() changes all the pixels in the canvas to col
 	public void clearCanvas() {
 		mainLayer.clear(col);
 		repaint();
 	}
 
+	/**
+	 * returns the mainLayer that is used by the canvas to display all other layers
+	 * @return returns the mainer layer
+	 */
 	public LayerData getMainLayer() {
 		return mainLayer;
 	}
 
+	/**
+	 * return the canvas dimensions
+	 * @param return the canvas dimensions
+	 */
 	public Dimension getDimensions() {
 		return new Dimension(mainLayer.getWidth(), mainLayer.getHeight());
 	}
 
 	// Observer Pattern: Might change this part in the future //
-	
+
+	/**
+	 * used to notify the observers when the canvas is resized to increase the Drawing Area Size and refresh the canvas
+	 */	
 	// notifyCanvasObservers() is used to notify the observers when the canvas is resized to increase the Drawing Area Size and refresh the canvas
 	public void notifyCanvasObservers() {
 		for (CanvasObserver observer: canvasObservers)
 			observer.update();
 	}
 
+	/**
+	 * adds a new Canvas Observer
+	 * @param observer a canvas observer that needs to be added
+	 */
 	public void addCanvasObserver(CanvasObserver observer) {
 		canvasObservers.add(observer);
 	}
 
+	/**
+	 * removes an existing Canvas Observer
+	 * @param observer a canvas observer that needs to be removed
+	 */
 	public void removeCanvasObserver(CanvasObserver observer) {
 		canvasObservers.remove(observer);
 	}
 
+	/**
+	 * used to notify the Tools Panel that the canvas is being resized to deselct all Tools
+	 */
 	// notifyObservers() is used to notify the Tools Panel that the canvas is being resized to deselct all Tools
 	public void notifyObservers() {
 		for (Observer observer: observers)
 			observer.update3();
 	}
 
+	/**
+	 * adds a new Observer observing the canvas when being resized
+	 * @param observer an observer that needs to be added
+	 */
 	public void addObserver(Observer observer) {
 		observers.add(observer);
 	}
 
+	/**
+	 * removes an existing Observer observing the canvas when being resized
+	 * @param observer an observer that needs to be removed
+	 */
 	public void removeObserver(Observer observer) {
 		observers.remove(observer);
 	}
