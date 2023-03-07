@@ -7,6 +7,12 @@ class Delete extends ClickableTool {
 	private LayersHandler layersHandler;
 	private Clickable deleteBtn;
 
+	/**
+	 * Delete Tool is used to delete shapes and layers in the canvas 
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public Delete(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 
@@ -15,6 +21,12 @@ class Delete extends ClickableTool {
 		addCanvasListener();	
 	}
 
+	/**
+	 * initTool initialize the properties of the Delete Tool
+	 * - The Delete Tool Affects the Undo Tool
+	 * - The TDelete Tool Affects the Layers Panel
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	protected void initTool(UndoTool undo) {
 		this.deleteBtn = new Clickable("Delete Shape");
 		deleteBtn.addKeyBinding('d');
@@ -24,7 +36,9 @@ class Delete extends ClickableTool {
 		setAsLayerChanger();
 	}
 
-	/** addCanvasListener() attachs an Event Listener to the canvas **/
+	/** 
+	 * addCanvasListener() attachs an Event Listener to the canvas
+	 */
 	private void addCanvasListener() {
 		canvas.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
