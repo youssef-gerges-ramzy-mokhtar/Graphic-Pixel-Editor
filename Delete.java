@@ -24,9 +24,14 @@ class Delete extends ClickableTool {
 	/**
 	 * initTool initialize the properties of the Delete Tool
 	 * - The Delete Tool Affects the Undo Tool
-	 * - The TDelete Tool Affects the Layers Panel
+	 * - The Delete Tool Affects the Layers Panel
 	 * @param undo is the tool that manages how the undo and redo works
 	 */
+	/*
+		- The Delete Tool Affects the Undo Tool
+		- The Delete Tool Affects the Layers Panel
+		- The Delete Tool has shortcut 'd'
+	*/
 	protected void initTool(UndoTool undo) {
 		this.deleteBtn = new Clickable("Delete Shape");
 		deleteBtn.addKeyBinding('d');

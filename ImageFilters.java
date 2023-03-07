@@ -151,6 +151,7 @@ class ImageFilters extends JFrame implements ActionListener {
 
     /**
      * Applies blur filter onto the selected image
+     * @return the blur image
      */
     class BlurFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
@@ -165,7 +166,8 @@ class ImageFilters extends JFrame implements ActionListener {
      * Makes the image black and white by extracting the RBG values of 
      * each pixel and calculating it's average. Then replace the RGB
      * values with the average.
-     */
+     * @return the greyscale image 
+     */ 
     class GreyscaleFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
             int width = image.getWidth(); // get image width
@@ -196,6 +198,7 @@ class ImageFilters extends JFrame implements ActionListener {
      * Applies invert filter onto the selected image
      * Converts the colour pixels into the negative by subtracting the RGB 
      * value from 255.
+     * @return the invert image 
      */
     class InvertFilter implements MyFilter { // convert colour pixel into negative subtract RGB value from 255 
         public BufferedImage processImage(BufferedImage image) {
@@ -230,6 +233,7 @@ class ImageFilters extends JFrame implements ActionListener {
      * Applies sepia filter onto the selected image
      * This is done by extracting the RGB values of each pixel, calculating the values
      * and then comparing the values to the condition for sepia.
+     * @return the sepia image 
      */
     class SepiaFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
@@ -279,6 +283,7 @@ class ImageFilters extends JFrame implements ActionListener {
 
     /**
      * Applies sharpen filter onto the selected image
+     * @return the sharpen image 
      */
     class SharpenFilter implements MyFilter {
         public BufferedImage processImage(BufferedImage image) {
@@ -294,6 +299,7 @@ class ImageFilters extends JFrame implements ActionListener {
     /**
      * Applies red filter onto the selected image
      * This is done by setting the green and blue values of each pixel to 0
+     * @return the red image 
      */
     class RedFilter implements MyFilter { // For a red filter you need to set the green and blue values to 0
         public BufferedImage processImage(BufferedImage image) {
@@ -320,6 +326,7 @@ class ImageFilters extends JFrame implements ActionListener {
     /**
      * Applies green filter onto the selected image
      * This is done by setting the red and blue values of each pixel to 0
+     * @return the green image 
      */
     class GreenFilter implements MyFilter { // For a green filter you need to set the red and blue values to 0
         public BufferedImage processImage(BufferedImage image) {
@@ -346,6 +353,7 @@ class ImageFilters extends JFrame implements ActionListener {
     /**
      * Applies blue filter onto the selected image
      * This is done by setting the red and green values of each pixel to 0
+     * @return the blue image 
      */
     class BlueFilter implements MyFilter { // For a blue filter you need to set the red and green values to 0
         public BufferedImage processImage(BufferedImage image) {
