@@ -81,6 +81,11 @@ class Clickable implements Observable {
 		btn.setBackground(new JButton().getBackground());
 	}
 
+	public void select()
+	{
+		selectBtn();
+	}
+
 
 	/* Observer Pattern: Used to notify the observers whenver a button is clicked //
 	notifyObservers() is used to notify the Tools Panel that this button is selected to deselect the other buttons */
