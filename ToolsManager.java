@@ -74,6 +74,7 @@ class ToolsManager {
 		clickableContainers.add(blur);
 		clickableContainers.add(cutter);
 		clickableContainers.add(clear);
+		
 
 		for (ClickableTool clickableContainer: clickableContainers)
 			for (Clickable clickable: clickableContainer.getClickables())
@@ -90,6 +91,8 @@ class ToolsManager {
                 for(int i=0; i<3; i++){if(source == canvasButtons[i]) changeCanvas(i);}
             }
         };
+
+		
 
 		for (int i = 0; i < 3; i++) {
 			canvasButtons[i] = new JButton();

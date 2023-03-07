@@ -9,6 +9,8 @@ class PenTool extends DrawingTool {
 
 		brush = new Pen(1, Color.black);
 		lineGraphic = new LineGraphics(brush.getThickness(), brush.getCol());
+		drawingBtn.select();
+		
 	}
 	
 	protected void setBrushProperties() {}
