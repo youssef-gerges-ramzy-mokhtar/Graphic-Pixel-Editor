@@ -47,8 +47,8 @@ class Help {
           panel.setBounds(400, 400, 500, 200);
           panel.setBackground(Color.WHITE);
           menu.add(panel);
-          JLabel label[] = new JLabel[18];
-          for (int num = 0; num < 18; num++) {
+          JLabel label[] = new JLabel[19];
+          for (int num = 0; num < 19; num++) {
             label[num] = new JLabel();
             label[num].setText("     " + br.readLine() + "                                                            ");
             panel.add(label[num]);

@@ -105,6 +105,11 @@ public class Airbrush extends ClickableTool implements Observable, Observer
          drawPointBrush(pen,points);
     }
 
+    /**
+     *  Physically points the random points generated from {@link #AddPoints() addPoints} into the screen.
+     * @param brush
+     * @param points
+     */
     //Physically paint selected points to screen
     private void drawPointBrush(Brush brush, Point[] points) {
         LayerData currentLayer = layersHandler.getSelectedLayer();

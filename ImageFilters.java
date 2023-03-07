@@ -94,6 +94,9 @@ class ImageFilters extends JFrame implements ActionListener {
             }
         });
     }
+    /**
+     * Filters an imported image based on selection
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {

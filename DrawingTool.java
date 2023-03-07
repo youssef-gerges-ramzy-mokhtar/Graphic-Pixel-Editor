@@ -38,10 +38,13 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 	 */
 	protected void initTool(UndoTool undo) {
 		drawingBtn = new Clickable("Default Drawing Tool");
+		
 		addToolBtn(drawingBtn);
 		setAsChangeMaker(undo);
 		setAsShapeRasterizer();
 		setAsLayerChanger();
+
+		
 	}
 
 	private void canvasListener() {

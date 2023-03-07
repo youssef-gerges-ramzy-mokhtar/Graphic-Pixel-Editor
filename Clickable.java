@@ -103,6 +103,11 @@ class Clickable implements Observable {
 		btn.setBackground(new JButton().getBackground());
 	}
 
+	public void select()
+	{
+		selectBtn();
+	}
+
 
 	/**
 	 * used to notify all observers once the button is selected
