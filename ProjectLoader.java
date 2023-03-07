@@ -1,6 +1,4 @@
 import java.io.*;
-import java.awt.event.*;
-import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -98,6 +96,7 @@ class ProjectLoader extends ClickableTool {
 				if (info[0].equals("i")) loadImage(info, projectFolderPath);
 				if (info[0].equals("s")) loadText(info);
 			}
+			projectReader.close();
 		} catch (Exception e) {
 			System.out.println("Error Occurred");
 			e.printStackTrace();
