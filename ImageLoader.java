@@ -6,13 +6,19 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 
-// ImageLoader is used Loads Images from the User's Computer into the Program
+// ImageLoader is used to Load Images from the User's Computer into the Program
 class ImageLoader extends ClickableTool {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
     private ImageLayer lastLoadedImg;
     private ArrayList<ImageObserver> observers;
 
+    /**
+     * ImageLoader is used to Load Images from the User's Computer into the Program
+     * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+     * @param canvas is the current canvas that holds all the layers
+     * @param undo is the tool that manages how the undo and redo works
+     */
     public ImageLoader(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
         super(layerObserver, undo);
     	this.canvas = canvas;
@@ -20,6 +26,13 @@ class ImageLoader extends ClickableTool {
         addOpenImageMenuListener();
     }
 
+
+    /**
+     * initTool initialize the properties of the Image Loader
+     * - The Image Loader Affects the Undo Tool
+     * - The Image Loader Affects the Layers Panel
+     * @param undo is the tool that manages how the undo and redo works
+     */
     protected void initTool(UndoTool undo) {
         setAsChangeMaker(undo);
         setAsLayerChanger();
@@ -46,6 +59,13 @@ class ImageLoader extends ClickableTool {
         });
     }
 
+    /**
+     * loads and image from the passed filePath and returns the loaded image
+     * scales the image down if it is too large to fit in the Screen/Canvas
+     * @param filePath the file path of the image that needes to be loaded
+     * @param scaleImg a boolean value indicating if you want to scale the image to fit the Screen/Canvas or not
+     * @return a BufferedImage that represents the loaded image from the user computer
+     */
     // loadImage takes the filePath and loads the image from this filePath and returns the loaded image
     public BufferedImage loadImage(String filePath, boolean scaleImg) {
     	try {
@@ -81,6 +101,10 @@ class ImageLoader extends ClickableTool {
         return img;
     }
 
+    /**
+     * return a menu button to allow the user to import images from his computer
+     * @return a menu button to access the Image Loader functionality
+     */
     public JMenu getMenu() {
     	return openImageMenu;
     }

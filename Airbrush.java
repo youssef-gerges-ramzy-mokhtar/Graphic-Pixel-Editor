@@ -16,6 +16,13 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     private LineGraphics lineGraphic;
     private LayersHandler layersHandler;
     
+    /**
+     * Constructor for airbrush.
+     * Allows airbrush to be used.
+     * @param layerObserver
+     * @param canvas
+     * @param undo
+     */
     public Airbrush(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo)
     {
         super(layerObserver, undo);
@@ -27,7 +34,11 @@ public class Airbrush extends ClickableTool implements Observable, Observer
         lineGraphic = new LineGraphics(pen.getThickness(), pen.getCol());
         canvasListener();
     }
-
+    /**
+     * Adds key binding
+     * Adds undo tool.
+     * @param undo
+     */
     protected void initTool(UndoTool undo) {
         this.airBrushBtn = new Clickable("Air Brush");
         airBrushBtn.addKeyBinding('a');
@@ -60,11 +71,17 @@ public class Airbrush extends ClickableTool implements Observable, Observer
 		});
     }
 
+    /**
+     * @return 
+     * button active
+     */
     public boolean isActive() {
 		return buttonSelected;
 	}
+
+    //Used to calculate a list of points which will be painted on
     /**
-     * This is used to randomly select points for the airbrush paint on.
+     * Randomly selects points around x,y within pensize range
      * @param x
      * @param y
      */

@@ -15,6 +15,9 @@ class PenOptionsPanel extends JPanel implements Observable {
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	private int currentBrushSz = 1;
 
+	/**
+	 * Pen Options Panel is the Panel to display brush properties, for now that is the Brush Size
+	 */
 	public PenOptionsPanel() {
 		setLayout(new BorderLayout());
 		sizeSlider.setValue(1);
@@ -86,15 +89,26 @@ class PenOptionsPanel extends JPanel implements Observable {
 	// Observer Design Pattern //
 	
 	// notifyObservers() is used to notify the Pen Tool and the Eraser Tool when the Size changes
+	/**
+	 * used to notify all tools that observer brush size changes when the Size changes
+	 */
 	public void notifyObservers() {
 		for (Observer observer : observers)
 			observer.update(currentBrushSz);
 	}
 
+	/**
+	 * adds an observer observing the brush size
+	 * @param observer an observer observing the brush size
+	 */
 	public void addObserver(Observer observer) {
 		observers.add(observer);
 	}
 
+	/**
+	 * used to remove an observer that was observing the brush size
+	 * @param observer an observer observing the brush size
+	 */
 	public void removeObserver(Observer observer) {
 		observers.remove(observer);
 	}

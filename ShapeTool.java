@@ -14,6 +14,12 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 	protected int layerWidth;
 	protected int layerHeight;
 
+	/**
+	 * ShapeTool is responsible for adding & handling any generic Shape to the cavnas
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public ShapeTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 		this.canvas = canvas;
@@ -25,6 +31,12 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 		addCanvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Shape Tool
+	 * - The Shape Tool Affects the Undo Tool
+	 * - The Shape Tool Affects the Layers Panel
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	protected void initTool(UndoTool undo) {
 		this.shapeBtn = new Clickable("Dummy Shape");
 
@@ -72,24 +84,28 @@ abstract class ShapeTool extends ClickableTool implements Observer {
 		});
 	}
 
+	/**
+	 * used by all a Specific Shapes to define their own Graphical Properties
+	 */
 	// getSpecificGrahic() is used by all a Specific Shape to define its own Graphical Properties
 	protected abstract SpecificGraphic getSpecificGrahic(ShapeLayer shapeLayer, Point coords);
 
+	/**
+	 * creates a specific shape layer to represent a specific shape
+	 */
 	// Creates a Layer to store a Shape
 	protected abstract ShapeLayer createShapeLayer(Point layerPos);
 
-	public ArrayList<Clickable> getClickable() {
-		ArrayList<Clickable> shapeToolBtn = new ArrayList<Clickable>();
-		shapeToolBtn.add(shapeBtn);
-		return shapeToolBtn;
-	}
-
 	// Observer Pattern //
+
+	/**
+	 * used to change the shape fill and stroke color based on the Color Chooser or the Eye Dropper
+	 * @param col new shape fill & stroke color
+	 */
 	// update2(Color col) is used to change the shape stroke color based on the Color Chooser or the Eye Dropper
 	public void update2(Color col) {
 		this.fillCol = col;
-		this.strokeCol = col;
-		
+		this.strokeCol = col;	
 	}
 
 	public void update(int val) {}

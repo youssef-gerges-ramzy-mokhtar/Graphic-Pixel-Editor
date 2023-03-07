@@ -11,6 +11,10 @@ class ProjectSaver {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 
+	/**
+	 * ProjectSaver is used to Save the Layers State for later user re-access 
+	 * @param canvas is the current canvas that holds all the layers
+	 */
 	public ProjectSaver(OurCanvas canvas) {
 		this.canvas = canvas;
 		this.layersHandler = LayersHandler.getLayersHandler(canvas);
@@ -96,6 +100,10 @@ class ProjectSaver {
 		imageSaver.saveImageAs(layer.getImage(), filePath + Integer.toString(layerPos));
 	}
 
+	/**
+     * return a menu button to allow the user to save projects
+     * @return a menu button to access the Project Saver functionality
+     */
 	public JMenu getMenu() {
 		return saveProjectMenu;
 	}

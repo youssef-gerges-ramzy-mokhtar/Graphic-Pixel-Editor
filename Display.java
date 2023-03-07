@@ -4,7 +4,11 @@ import java.awt.*;
 // Display is the Main Entry for the whole Program and it simply represents the Program Frame and all Gui Components on that Frame
 public class Display extends JFrame {
     private ToolsManager toolsManager;
+    private JPanel main;
 
+    /**
+     * Display is the Main Entry for the whole Program and it simply represents the Program Frame and all Gui Components on that Frame
+     */
     public Display() {
         this.toolsManager = new ToolsManager();
         initFrameProperties();
@@ -23,7 +27,6 @@ public class Display extends JFrame {
         getContentPane().setBackground(Constants.mainColor);  //change background colour
     }
 
-    JPanel main;
     // initrameLayout() adds the different Gui Components to the Frame
     private void initFrameLayout() {
         main = new JPanel(new BorderLayout());

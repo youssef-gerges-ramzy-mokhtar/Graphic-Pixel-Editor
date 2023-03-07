@@ -2,10 +2,18 @@ import java.awt.*;
 
 // RectangleGraphics is used to store properties of a Rectnalge and used to Draw a Rectnalge using a Layer's Graphics2D Object
 public class RectangleGraphics extends ShapeLayerGraphics {
+	/**
+	 * RectangleGraphics is used to store the properties of a Rectangle and is used to define how is a Rectangle drawn
+	 * @param Point represent the rectangle position on the screen/canvas
+	 */
 	public RectangleGraphics(Point position) {
 		super(position);
 	}
 
+	/**
+	 * used to draw a rectangle into the Graphics2D object
+	 * @param Graphics2D used to render a rectangle into the Graphics2D object
+	 */
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		g.fillRect(0, 0, width, height);

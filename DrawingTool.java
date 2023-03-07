@@ -12,6 +12,12 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 	private Point dragPoint;
 	private boolean released;
 
+	/**
+	 * Drawing Tool is an abstract class used to represent any Tool that draws into the Canvas
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public DrawingTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 
@@ -23,6 +29,13 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 		canvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Drawing Tool
+	 * - The Drawing Tool Affects the Undo Tool
+	 * - The Drawing Tool Affects the Layers Panel
+	 * - The Drawing Tool Rasterizes Shape Layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	protected void initTool(UndoTool undo) {
 		drawingBtn = new Clickable("Default Drawing Tool");
 		
@@ -101,17 +114,18 @@ abstract class DrawingTool extends ClickableTool implements Observer {
 		layersHandler.updateCanvas();
 	}
 
+	/**
+	 * an abstract method used by the all drawing tools to define the drawing tool own behavior
+	 */ 
 	// setBrushProperties() is an abstract method used by the all drawing tools to define the drawing tool own behavior
 	protected abstract void setBrushProperties();
 
-	public ArrayList<Clickable> getClickable() {
-		ArrayList<Clickable> drawingToolToolBtn = new ArrayList<Clickable>();
-		drawingToolToolBtn.add(drawingBtn);
-		return drawingToolToolBtn;
-	}
-
 	// Observer Pattern 
 	// update() is used to update the brush Thickness when the Pen Options Slider is Changed 
+	/**
+	 * used to update the brush Thickness when the Pen Options Slider is Changed
+	 * @param thickness the new brush thickness 
+	 */ 
 	public void update(int thickness) {
 		brush.setThickness(thickness);
 	}

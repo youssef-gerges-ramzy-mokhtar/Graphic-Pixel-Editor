@@ -9,6 +9,10 @@ class ColorGui implements Observable, Observer {
 	private Color currentColor;
 	private JButton colorBtn; // colorBtn is used to show the choosen color from the color wheel and from the Eye Dropper Tool
 
+	/**
+	 * ColorGui is used to represent the Color Wheel
+	 * used to display the currently selected color
+	 */
 	public ColorGui() {
 		colorBtn = new JButton();
 		colorBtn.setPreferredSize(new Dimension(50, 25));
@@ -30,31 +34,55 @@ class ColorGui implements Observable, Observer {
 	}
 
 	//////// Getters /////////
+	/**
+	 * used to return the current choosen color from the color chooser
+	 * @return choosen color from the color chooser
+	 */
 	public Color getColor() {
 		return currentColor;
 	}
 
+	/**
+	 * used to return the color preview button
+	 * @return color preview button
+	 */
 	public JButton getBtn() {
 		return colorBtn;
 	}
 	// Obsever Design Pattern //
 
+	/**
+	 * used to notify all observers that is observing color changes
+	 */
 	// notifyObservers() is used to notify the Pen, Fill, Rectangle & Circle whenver the Color is changed so their color changes
 	public void notifyObservers() {
 		for (Observer observer : observers)
 			observer.update2(currentColor);
 	}
 
+	/**
+	 * used to add an observer observing color changes
+	 * @param observer an observer observing color changes
+	 */
 	public void addObserver(Observer observer) {
 		observers.add(observer);
 	}
 
+	/**
+	 * used to remove an observer observing color changes
+	 * @param observer an observer observing color changes
+	 */
 	public void removeObserver(Observer observer) {
 		observers.remove(observer);
 	}
 
+
 	public void update(int val) {}
 
+	/**
+	 * used to change the button color whenever a color is choosen not through the color chooser
+	 * @param col is the color to set for the color preview button
+	 */
 	// update2() is used to change the button color whenver the Eye Dropper Tool is used
 	public void update2(Color col) {
 		currentColor = col;
