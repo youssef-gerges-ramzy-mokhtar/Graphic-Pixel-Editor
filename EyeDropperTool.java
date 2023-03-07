@@ -24,7 +24,6 @@ public class EyeDropperTool extends ClickableTool implements Observable {
 
     /**
      * initTool initialize the properties of the Eye Dropper Tool
-     * - The Eye Dropper Tool has shortcut 'i'
      * @param undo is the tool that manages how the undo and redo works
      */
     // initTool initialize the properties of the Eye Dropper Tool

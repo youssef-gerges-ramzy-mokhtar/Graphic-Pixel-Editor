@@ -41,7 +41,6 @@ class CutterTool extends ClickableTool {
 	 * - Both Tools Affects the Undo Tool
 	 * - Both Tools Affects the Layers Panel
 	 * - Both Tools Rasterizes Shape Layers
-	 * - The Cutter Tool has shortcut 'l'
 	 * - The Quick Cutter Tool has shortcut 'q'
 	 * @param undo is the tool that manages how the undo and redo works
 	 */

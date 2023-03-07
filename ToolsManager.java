@@ -44,6 +44,9 @@ class ToolsManager {
 
 	private Footer hamzaFooter;
 
+	/**
+	 * ToolsManager is like a Facade that is responsible for creating the Tools and linking the different tools to each othe
+	 */
 	public ToolsManager() {
 		initState();
         initToolPanel();
@@ -51,6 +54,10 @@ class ToolsManager {
 		initMenus();
 	}
 
+	/**
+	 * switches to a different canvas
+	 * @param canvasNum the canvas number that we will switch to
+	 */
 	public void changeCanvas(int canvasNum) {
 		canvasHandler.updateCanvas(canvasNum);
 	}
@@ -177,22 +184,43 @@ class ToolsManager {
 	}
 
 	// Getters //
+	/**
+	 * returns the tools panel containing all the tools
+	 * @return a JPanel containing all the Tools
+	 */
 	public JPanel getToolsPanel() {
 		return toolsPanel;
 	}
 
+
+	/**
+	 * returns the options panel
+	 * @return a JPanel representing the Options Panel
+	 */
 	public JPanel getOptionsPanel() {
 		return optionsPanel;
 	}
 
+	/**
+	 * returns the Menu Panel 
+	 * @return the menu panel
+	 */
 	public JMenuBar getMenuPanel() {
 		return menuPanel;
 	}
 
+	/**
+	 * returns the canvas
+	 * @return the canvas
+	 */
 	public JPanel getCanvas() {
 		return canvas;
 	}
 
+	/**
+	 * returns the Layer Options Panel
+	 * @return a JPanel representing the Layers Options Panel
+	 */
 	public JPanel getLayerOptionsPanel() {
 		return layersOptions;
 	}
@@ -201,6 +229,10 @@ class ToolsManager {
 		return canvasButtons;
 	}
 
+	/**
+	 * returns the footer
+	 * @return the Footer
+	 */
 	public Footer getFooter() {
 		return hamzaFooter;
 	}

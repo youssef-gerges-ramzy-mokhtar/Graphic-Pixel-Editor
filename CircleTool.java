@@ -3,7 +3,7 @@ import java.awt.*;
 // CircleTool is a ShapeTool and is mainly used to set the shortcut specific to the Circle Tool and define the Graphical Properties of a Circle
 class CircleTool extends ShapeTool {
 	/**
-	 * CircleTool is used to represent a user-interface to make the user able to add Circle Layers
+	 * CircleTool is used to represent a user-interface to make the user able to add Circle Layers to the Screen/Canvas
 	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
 	 * @param canvas is the current canvas that holds all the layers
 	 * @param undo is the tool that manages how the undo and redo works

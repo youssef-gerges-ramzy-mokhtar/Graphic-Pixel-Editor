@@ -29,7 +29,6 @@ class FillTool extends ClickableTool implements Observer {
 	 * initTool initialize the properties of the Fill Tool
 	 * - The Fill Tool Affects the Undo Tool
 	 * - The Fill Tool Affects the Layers Panel
-	 * - The Fill Tool has shortcut 'f'
 	 * @param undo is the tool that manages how the undo and redo works
 	 */
 	// initTool initialize the properties of the Fill Tool

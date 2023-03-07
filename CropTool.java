@@ -33,7 +33,6 @@ class CropTool extends ClickableTool {
 	 * - The Crop Tool Affects the Undo Tool
 	 * - The Crop Tool Affects the Layers Panel
 	 * - The Crop Tool Rasterizes Shape Layers
-	 * - The Crop Tool has shortcut 'w'
 	 * @param undo is the tool that manages how the undo and redo works
 	 */
 	// initTool initialize the properties of the Crop Tool
