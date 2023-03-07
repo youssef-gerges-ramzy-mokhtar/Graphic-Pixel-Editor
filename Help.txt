@@ -16,3 +16,4 @@ Cutter: l
 Redo: (ctrl + y) or just y
 Undo: (ctrl + z) or just z
 Image Filters: Right Click on imported image
+Click eye on layers panel to hide layer
