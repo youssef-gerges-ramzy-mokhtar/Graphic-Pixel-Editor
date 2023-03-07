@@ -11,6 +11,12 @@ class CropTool extends ClickableTool {
 	private Resize cropType;
 	private final int spacingRange; // spacingRange is used to specify the amount of space from the cursor to the layer that the user is allowed to move within to crop a layer
 
+	/**
+	 * CropTool is simply used to reprsent the Crop Tool
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public CropTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 
@@ -22,6 +28,14 @@ class CropTool extends ClickableTool {
 		addCanvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Crop Tool
+	 * - The Crop Tool Affects the Undo Tool
+	 * - The Crop Tool Affects the Layers Panel
+	 * - The Crop Tool Rasterizes Shape Layers
+	 * - The Crop Tool has shortcut 'w'
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	// initTool initialize the properties of the Crop Tool
 	/*
 		- The Crop Tool Affects the Undo Tool

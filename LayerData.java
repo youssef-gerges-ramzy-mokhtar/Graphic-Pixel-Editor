@@ -488,6 +488,6 @@ abstract class LayerData {
 	abstract void resize(Point newLayerEndPos);
 	abstract public LayerData getCopy();
 
-	// getLayerInfo() is used to return a String containing all the information of a specific Layer and each piece of information if seperated by the seperator character
+	// getLayerInfo() is used to return a String containing all the information of a specific Layer and each piece of information is seperated by the seperator character
 	abstract public String getLayerInfo(char seperator, int layerPos); 
 }

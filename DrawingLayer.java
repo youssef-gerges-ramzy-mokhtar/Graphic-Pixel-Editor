@@ -3,28 +3,49 @@ import java.awt.*;
 
 // The DrawingLayer is used to represent the Base/Background Layer 
 class DrawingLayer extends LayerData {
-	public DrawingLayer(BufferedImage layer) {
-		super(layer);
-	}
-	public DrawingLayer(BufferedImage layer, Point layerPos) {
-		super(layer, layerPos);
-	}
-	public DrawingLayer(int width, int height, Color col) {
-		super(width, height, col);
-	}
-	public DrawingLayer(int width, int height, Color col, Point layerPos) {
-		super(width, height, col, layerPos);
-	}
+	/**
+	 * DrawingLayer is used to reprsent the Base/Background Layer on the Screen/Canvas
+	 * @param layer is the image representing the drawing layer
+	 */
+	public DrawingLayer(BufferedImage layer) {super(layer);}
+	
+	/**
+	 * DrawingLayer is used to reprsent the Base/Background Layer on the Screen/Canvas
+	 * @param layer the image representing the drawing layer
+	 * @param layerPos the layer position on the screen/canvas
+	 */
+	public DrawingLayer(BufferedImage layer, Point layerPos) {super(layer, layerPos);}
 
-	public void resize(int width, int height) {}
-	public void resize(Point newLayerEndPos) {}
+	/**
+	 * DrawingLayer is used to reprsent the Base/Background Layer on the Screen/Canvas
+	 * @param width the width of the Drawing Layer
+	 * @param height the height of the Drawing Layer
+	 * @param col the fill color of the Drawing Layer
+	 */
+	public DrawingLayer(int width, int height, Color col) {super(width, height, col);}
+	
+	/**
+	 * DrawingLayer is used to reprsent the Base/Background Layer on the Screen/Canvas
+	 * @param width the width of the Drawing Layer
+	 * @param height the height of the Drawing Layer
+	 * @param col the fill color of the Drawing Layer
+	 * @param layerPos the layer position on the screen/canvas
+	 */
+	public DrawingLayer(int width, int height, Color col, Point layerPos) {super(width, height, col, layerPos);}
 
+	/
 	public DrawingLayer getCopy() {
 		DrawingLayer copy = new DrawingLayer(layerWidth(), layerHeight(), Color.white);
 		resetLayerProperties(copy);
 		return copy;
 	}
 
+	/**
+	 * returns a String containg all the information of this drawing layer
+	 * @param seperator each piece of information is seperated by the seperator character
+	 * @param layerPos the position of the drawing layer on the Screen/Canvas
+	 * @return a String containg the drawing layer information
+	 */
 	// getLayerInfo() returns a String containg all the information of this drawing layer
 	public String getLayerInfo(char seperator, int layerPos) {
 		String drawingSymbol = "d";
@@ -38,6 +59,9 @@ class DrawingLayer extends LayerData {
 			yCoord + seperator + 
 			imgFilePath + "\n";
 	}
+
+	public void resize(int width, int height) {}
+	public void resize(Point newLayerEndPos) {}
 }
 
 /* 
