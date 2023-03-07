@@ -1,4 +1,7 @@
 // Resize is used to define some values related to resizing
+/**
+ * Fixed Resize Locations
+ */
 enum Resize {
 	BOTTOMRIGHT, // Can Resize from Bottom Right Corner 
 	BOTTOMLEFT, // Can Resize from Bottom Left Corner

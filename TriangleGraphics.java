@@ -2,10 +2,18 @@ import java.awt.*;
 
 // TriangleGraphics is used to store properties of a Triangle and used to Draw a Triangle using a Layer's Graphics2D Object
 public class TriangleGraphics extends ShapeLayerGraphics {
+	/**
+	 * TriangleGraphics is used to store the properties of a Triangle and is used to define how is a triangle drawn
+	 * @param Point represent the triangle position on the screen/canvas
+	 */
 	public TriangleGraphics(Point position) {
 		super(position);
 	}
 
+	/**
+	 * used to draw a triangle into the Graphics2D object
+	 * @param Graphics2D is used to render a triangle into the Graphics2D object
+	 */
 	public void draw(Graphics2D g) {
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		g.fillRect(0, 0, width, height);

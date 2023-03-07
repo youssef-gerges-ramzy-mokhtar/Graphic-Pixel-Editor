@@ -12,6 +12,12 @@ class SelectionTool extends ClickableTool {
 	private boolean changeMade;
 	private final int spacingRange;
 
+	/**
+	 * SelectionTool is used to move & resize layers in the canvas
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public SelectionTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 
@@ -23,6 +29,12 @@ class SelectionTool extends ClickableTool {
 		addCanvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Selection Tool
+	 * - The Selection Tool Affects the Undo Tool
+	 * - The Selection Tool Affects the Layers Panel
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	// initTool initialize the properties of the Selection Tool
 	/*
 		- The Selection Tool Affects the Undo Tool
@@ -104,11 +116,11 @@ class SelectionTool extends ClickableTool {
 		} catch(Exception e) {}
 	}
 
-	public CanvasObserver getCanvasObserver() {
-		return layersHandler;
-	}
-
+	/**
+	 * gets the Layers Handler
+	 * @return layers handler
+	 */
 	public LayersHandler getLayerHandler() {
 		return layersHandler;
-	}	
+	}
 }

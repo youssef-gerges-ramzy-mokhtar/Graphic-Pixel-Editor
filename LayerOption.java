@@ -19,6 +19,13 @@ class LayerOption extends JPanel {
 
 	private KeyEventDispatcher keyEventDispatcher;
 
+	/**
+	 * LayerOption is used to represent the look and feel of a single layer in the layers panel
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param layersHandler contains and handles all layers on the Screen/Canvas
+	 * @param layer is the layer that we we to display in the layers panel
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public LayerOption(LayerObserver layerObserver, LayersHandler layersHandler, LayerData layer, UndoTool undo) {
 		this.layersHandler = layersHandler;
 		this.layer = layer;
@@ -121,12 +128,18 @@ class LayerOption extends JPanel {
 	}
 
 
+	/**
+	 * used to create a copy of the Layer and the Layer Option Panel
+	 */
 	// copy() is used to create a copy of the Layer and the Layer Option Panel
 	public void copy() {
 		if (isSelected()) ((LayersOptions) layerObserver).copyLayerOptoins();	
 		else {copyOperation(); update();}
 	}
 
+	/**
+	 * contains the logic of copying a layer
+	 */
 	// copyOperation contains the logic of copying a layer
 	public void copyOperation() {
 		LayerData layerCopy = layer.getCopy();
@@ -134,17 +147,26 @@ class LayerOption extends JPanel {
 		layersHandler.addLayer(layerCopy);
 	}
 
+	/**
+	 * used to delete the layer and the layer option panel that represente the layer
+	 */
 	// delete() is used to delete the layer and the layer option panel that represente the layer
 	public void delete() {
 		if (isSelected()) ((LayersOptions) layerObserver).deleteLayerOptions();
 		else {deleteOperation(); update();}
 	}
 
+	/**
+	 * contains the logic of deleting a layer
+	 */
 	// deleteOperation() contains the logic of deleting a layer
 	public void deleteOperation() {
 		layersHandler.removeLayer(layer);
 	}
 
+	/**
+	 * used to call mergeLayerOptions on the layerObserver to merge all the selected layers
+	 */
 	// merge() is used to call mergeLayerOptions on the layerObserver to merge all the selected layers 
 	public void merge() {
 		if (!isSelected()) return;
@@ -163,15 +185,27 @@ class LayerOption extends JPanel {
 		if (undo != null) undo.recordHistory();
 	}
 
+	/**
+	 * used to mark the Layer Option as selected and change its color to indicate that it is selected
+	 */
 	// select() is used to mark the Layer Option as selected and change its color to indicate that it is selected
 	public void select() {
 		setBackground(new Color(126, 126, 126));
 		selected = true;
 	}
+
+	/**
+	 * returns if the this layer option is selected or not
+	 * @return a boolean value indicating if this layer option is selected or not
+	 */
 	public boolean isSelected() {
 		return selected;
 	}
 
+	/**
+	 * returns the layer that this layer option represent/holds
+	 * @return the layer that this layer option represent
+	 */
 	public LayerData getLayer() {
 		return layer;
 	}
@@ -184,6 +218,9 @@ class LayerOptionPopUp extends JPopupMenu {
 	private JMenuItem copy;
 	private JMenuItem merge;
 
+	/**
+	 * LayerOptionPopUp is used to represent the Popup Menu that appears when right clicking on a Layer Option
+	 */
 	public LayerOptionPopUp() {
 		initOptionChoices();
 		attachEventHandlers();

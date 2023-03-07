@@ -13,6 +13,12 @@ class ProjectLoader extends ClickableTool {
 	private LayersHandler layersHandler;
 	private ImageLoader imgLoader;
 
+	/**
+	 * ProjectLoader is used to load a saved project into the canvas
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public ProjectLoader(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 		this.canvas = canvas;
@@ -23,7 +29,14 @@ class ProjectLoader extends ClickableTool {
 		addMenuListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Project Loader
+	 * - The Project Loader Affects the Undo Tool
+	 * - The Project Loader Affects the Layers Panel
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	protected void initTool(UndoTool undo) {
+		setAsChangeMaker(undo);
         setAsLayerChanger();
     }
 
@@ -183,6 +196,10 @@ class ProjectLoader extends ClickableTool {
 		layersHandler.addLayer(textLayer);
 	}
 
+	/**
+     * return a menu button to allow the user to load projects
+     * @return a menu button to access the Project Loader functionality
+     */
 	public JMenu getMenu() {
 		return openProjectMenu;
 	}

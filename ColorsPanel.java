@@ -12,6 +12,10 @@ class ColorsPanel extends JPanel {
 	private final int cols;
 	private final int swatchSz;
 
+	/**
+	 * Colors Panel is used to Display the Color Swatchs and the Color Chooser
+	 * @param colorGui the Color Chooser
+	 */
 	public ColorsPanel(ColorGui colorGui) {
 		rows = 3;
 		cols = 6;

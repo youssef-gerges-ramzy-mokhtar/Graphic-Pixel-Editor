@@ -10,6 +10,12 @@ import java.awt.*;
 class OptionsPanel extends JPanel {
 	private PenOptionsPanel penOptionsPanel;
 
+	/**
+	 * OptionsPanel represents all the options at the top panel, and for now this options are the following:
+	 * - Color Watchs and Color Chooser
+	 * - Pen Size Slider
+	 * - Layer Chooser
+	 */
 	public OptionsPanel(ColorGui colorGui) {
 		penOptionsPanel = new PenOptionsPanel();
 
@@ -34,6 +40,11 @@ class OptionsPanel extends JPanel {
 		return main;
 	}
 
+	/**
+	 * returns the Pen Options panel
+	 * the pen options panel contain the brush size slider
+	 * @return pen options panel
+	 */
 	public PenOptionsPanel getPenOptionsPanel() {
 		return penOptionsPanel;
 	}

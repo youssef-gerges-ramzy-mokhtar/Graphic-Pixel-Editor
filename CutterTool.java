@@ -20,6 +20,14 @@ class CutterTool extends ClickableTool {
 	private ImageLayer selectionOutline;
 	private ImageLayer prevSelectionOutline;
 
+	/**
+	 * CutterTool represents the following 2 Tools:
+	 * 1. Quick Cutter Tool: Merges all layers and cuts part of the merged layer based on the user choice and puts the selected part into its own layer
+	 * 2. Cutter Tool: Same idea as Quick Cutter Tool but acts on each layer independtly. Simply used to cut part of a layer and add the cutted part into its own layer 
+	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	public CutterTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 
@@ -28,6 +36,14 @@ class CutterTool extends ClickableTool {
 		addCanvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Cutter Tools
+	 * - Both Tools Affects the Undo Tool
+	 * - Both Tools Affects the Layers Panel
+	 * - Both Tools Rasterizes Shape Layers
+	 * - The Quick Cutter Tool has shortcut 'q'
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	// initTool initialize the properties of the Cutter Tool & the Quick Cutter Tool
  	/*
 		- Both Tools Affects the Undo Tool
