@@ -63,8 +63,11 @@ public class Airbrush extends ClickableTool implements Observable, Observer
     public boolean isActive() {
 		return buttonSelected;
 	}
-
-    //Used to calculate a list of points which will be painted on
+    /**
+     * This is used to randomly select points for the airbrush paint on.
+     * @param x
+     * @param y
+     */
     public void AddPoints(double x,double y)
     {
         Point[] points = new Point[31];
@@ -85,6 +88,11 @@ public class Airbrush extends ClickableTool implements Observable, Observer
          drawPointBrush(pen,points);
     }
 
+    /**
+     *  Physically points the random points generated from {@link #AddPoints() addPoints} into the screen.
+     * @param brush
+     * @param points
+     */
     //Physically paint selected points to screen
     private void drawPointBrush(Brush brush, Point[] points) {
         LayerData currentLayer = layersHandler.getSelectedLayer();

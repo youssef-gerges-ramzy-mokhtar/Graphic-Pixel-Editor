@@ -17,6 +17,12 @@ class ImageFilters extends JFrame implements ActionListener {
 
     private LayerData selectedLayer = null;
 
+    /**
+     * Constructor used to add an image filter menu.
+     * @param layerObserver
+     * @param canvas
+     * @param undo
+     */
     public ImageFilters(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
         this.canvas = canvas;
         this.layersHandler = layersHandler.getLayersHandler(canvas);
@@ -84,6 +90,9 @@ class ImageFilters extends JFrame implements ActionListener {
             }
         });
     }
+    /**
+     * Filters an imported image based on selection
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {

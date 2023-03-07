@@ -65,6 +65,11 @@ public class CanvasHandler {
         return(new ImageIcon(dimg));
     }
 
+    /**
+     * Used to change the current canvas, assigned undo redo list and the layers.
+     * @param canvasNum
+     */
+
     public void updateCanvas(int canvasNum)
     {
         // ImageIcon icon = changeIconSize(layersHandler.getSelectedLayer().getImage());
@@ -97,6 +102,10 @@ public class CanvasHandler {
        
     }
 
+    /**
+     * 
+     * @return currentcanvasNumber
+     */
     //returns the canvas number between 0 and 2.
     public int getCurrentCanvasNumber()
     {

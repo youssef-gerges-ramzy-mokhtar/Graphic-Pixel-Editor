@@ -20,10 +20,10 @@ class FillTool extends ClickableTool implements Observer {
 	}
 
 	// initTool initialize the properties of the Fill Tool
-	/*
-		- A Fill Tool Affects the Undo Tool
-		- A Fill Tool Affects the Layers Panel
-		- A Fill Tool has shortcut 'f'
+	/**
+		* A Fill Tool Affects the Undo Tool
+		* A Fill Tool Affects the Layers Panel
+		* A Fill Tool has shortcut 'f'
 	*/
 	protected void initTool(UndoTool undo) {
 		this.fillBtn = new Clickable("Fill");
