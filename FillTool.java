@@ -10,6 +10,12 @@ class FillTool extends ClickableTool implements Observer {
 	private Color fillCol;
     private LayersHandler layersHandler;
 
+    /**
+     * FillTool is used to pour large areas of paint onto the Canvas that expand until they find a border they cannot flow over.
+     * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
+	 * @param canvas is the current canvas that holds all the layers
+	 * @param undo is the tool that manages how the undo and redo works
+     */
 	public FillTool(LayerObserver layerObserver, OurCanvas canvas, UndoTool undo) {
 		super(layerObserver, undo);
 		this.canvas = canvas;
@@ -19,11 +25,18 @@ class FillTool extends ClickableTool implements Observer {
 		addCanvasListener();
 	}
 
+	/**
+	 * initTool initialize the properties of the Fill Tool
+	 * - The Fill Tool Affects the Undo Tool
+	 * - The Fill Tool Affects the Layers Panel
+	 * - The Fill Tool has shortcut 'f'
+	 * @param undo is the tool that manages how the undo and redo works
+	 */
 	// initTool initialize the properties of the Fill Tool
 	/*
-		- A Fill Tool Affects the Undo Tool
-		- A Fill Tool Affects the Layers Panel
-		- A Fill Tool has shortcut 'f'
+		- The Fill Tool Affects the Undo Tool
+		- The Fill Tool Affects the Layers Panel
+		- The Fill Tool has shortcut 'f'
 	*/
 	protected void initTool(UndoTool undo) {
 		this.fillBtn = new Clickable("Fill");
@@ -90,6 +103,9 @@ class FillTool extends ClickableTool implements Observer {
 	// Observer Pattern
     public void update(int val) {}
     
+    /**
+     * used to change the fill color whenver the Eye Dropper Tool or the Color Picker are used
+     */
     // update2() is used to change the fill color whenver the Eye Dropper Tool or the Color Picker are used
     public void update2(Color col) {
     	fillCol = col;

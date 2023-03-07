@@ -33,7 +33,10 @@ class DrawingLayer extends LayerData {
 	 */
 	public DrawingLayer(int width, int height, Color col, Point layerPos) {super(width, height, col, layerPos);}
 
-	/
+	/**
+	 * returns a Deep Copy of the Drawing Layer
+	 * @return returns a Deep Copy of the Drawing Layer
+	 */
 	public DrawingLayer getCopy() {
 		DrawingLayer copy = new DrawingLayer(layerWidth(), layerHeight(), Color.white);
 		resetLayerProperties(copy);
