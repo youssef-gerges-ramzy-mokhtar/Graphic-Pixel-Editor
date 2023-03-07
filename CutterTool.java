@@ -12,7 +12,6 @@ class CutterTool extends ClickableTool {
 	private LayersHandler layersHandler;
 	private Clickable cutterBtn;
 	private Clickable quickCutterBtn;
-	private boolean canDrag;
 
 	private Point startPoint;
 	private Point endPoint;
