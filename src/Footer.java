@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-class Footer extends JMenuBar {
+public class Footer extends JMenuBar {
     private OurCanvas canvas;
     private LayersHandler layersHandler;
     private JSlider magnifySlider;

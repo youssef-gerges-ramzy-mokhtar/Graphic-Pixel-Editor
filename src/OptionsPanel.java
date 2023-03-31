@@ -7,7 +7,7 @@ import java.awt.*;
 	- Pen Size Slider
 	- Layer Chooser
 */
-class OptionsPanel extends JPanel {
+public class OptionsPanel extends JPanel {
 	private PenOptionsPanel penOptionsPanel;
 
 	/**

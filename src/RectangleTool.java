@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // RectangleTool is a ShapeTool and is mainly used to set the shortcut specific to the Rectangle Tool and define the Graphical Properties of a Rectangle
-class RectangleTool extends ShapeTool {
+public class RectangleTool extends ShapeTool {
 	/**
 	 * RectangleTool is used to represent a user-interface to make the user able to add rectangle Layers to the Screen/Canvas
 	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure

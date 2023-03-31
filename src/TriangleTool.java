@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // TriangleTool is a ShapeTool and is mainly used to set the shortcut specific to the Triangle Tool and define the Graphical Properties of a Triangle
-class TriangleTool extends ShapeTool {
+public class TriangleTool extends ShapeTool {
 	/**
 	 * TriangleTool is used to represent a user-interface to make the user able to add Triangle Layers to the Screen/Canvas
 	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure

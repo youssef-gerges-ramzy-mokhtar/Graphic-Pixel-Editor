@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // TriangleLayer simply represents any Triangle Layer on the Canvas
-class TriangleLayer extends ShapeLayer {
+public class TriangleLayer extends ShapeLayer {
 	/**
 	 * Creates a new TriangleLayer which is used to represent a triangle on the screen/canvas
 	 * @param width defines the width of the triangle layer

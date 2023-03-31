@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.*;
 
 // LayersHandler is used to handle all the layers on the Canvas
-class LayersHandler implements CanvasObserver {
+public class LayersHandler implements CanvasObserver {
 	private ArrayList<LayerData> layers; // Here the Top Layer is the Layer at the end of the Array List
 	private OurCanvas canvas;
 	private int verticalOffset;

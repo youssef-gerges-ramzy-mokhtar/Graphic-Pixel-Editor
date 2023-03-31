@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // ShapeLayerGraphics is a general class used to represent all common properties between all Shapes Graphics
-abstract class ShapeLayerGraphics extends LayerGraphics {
+public abstract class ShapeLayerGraphics extends LayerGraphics {
 	protected float stroke_sz;
 	protected Color stroke_col;
 	protected Color fillCol = Color.BLACK;

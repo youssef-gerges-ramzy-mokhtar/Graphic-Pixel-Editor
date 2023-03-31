@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 // SelectionTool is used to move & resize layers in the canvas
-class SelectionTool extends ClickableTool {
+public class SelectionTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private LayerData layerToMove;
@@ -13,7 +13,7 @@ class SelectionTool extends ClickableTool {
 	private final int spacingRange;
 
 	/**
-	 * SelectionTool is used to move & resize layers in the canvas
+	 * SelectionTool is used to move and resize layers in the canvas
 	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure
 	 * @param canvas is the current canvas that holds all the layers
 	 * @param undo is the tool that manages how the undo and redo works

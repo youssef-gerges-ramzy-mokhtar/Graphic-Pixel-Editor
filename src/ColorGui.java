@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // ColorGui is used to represent the Color Wheel
-class ColorGui implements Observable, Observer {
+public class ColorGui implements Observable, Observer {
 	ArrayList<Observer> observers = new ArrayList<>();
 	private Color currentColor;
 	private JButton colorBtn; // colorBtn is used to show the choosen color from the color wheel and from the Eye Dropper Tool

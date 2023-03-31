@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 
 // LayerOption is a JPanel representing the look and feel of a single layer in the layers panel
-class LayerOption extends JPanel {
+public class LayerOption extends JPanel {
 	private LayerData layer;
 	private LayersHandler layersHandler;
 	private LayerObserver layerObserver;

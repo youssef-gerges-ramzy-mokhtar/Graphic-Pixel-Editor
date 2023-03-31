@@ -8,7 +8,7 @@ import javax.swing.*;
 	- Does the Tool Rasterize Shape Layers by modifying them (for example drawing on a shape layer)
 	- Does the Tool needs to update the Layers Panel when used
 */
-abstract class ClickableTool {
+public abstract class ClickableTool {
 	private ArrayList<Clickable> toolBtns;
 	private Display display;
 	private boolean toolMakesChanges;

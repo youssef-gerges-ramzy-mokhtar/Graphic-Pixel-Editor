@@ -7,7 +7,7 @@ import java.awt.image.*;
 		1. Quick Cutter Tool: Merges all layers and cuts part of the merged layer based on the user choice and puts the selected part into its own layer
 		2. Cutter Tool: Same idea as Quick Cutter Tool but acts on each layer independtly. Simply used to cut part of a layer and add the cutted part into its own layer 
 */
-class CutterTool extends ClickableTool {
+public class CutterTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Clickable cutterBtn;

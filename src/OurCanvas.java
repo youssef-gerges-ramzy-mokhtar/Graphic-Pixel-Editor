@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // OurCanvas represents the Main area in the program that the user uses to draw, add shapes, add images and so on...
-class OurCanvas extends JPanel implements CanvasObservable, Observable {
+public class OurCanvas extends JPanel implements CanvasObservable, Observable {
 	// In the future mainLayer might be part of the LayersHandler Class
 	private int width;
 	private int height;
@@ -155,7 +155,7 @@ class OurCanvas extends JPanel implements CanvasObservable, Observable {
 
 	/**
 	 * return the canvas dimensions
-	 * @param return the canvas dimensions
+	 * @return the canvas dimensions
 	 */
 	public Dimension getDimensions() {
 		return new Dimension(mainLayer.getWidth(), mainLayer.getHeight());

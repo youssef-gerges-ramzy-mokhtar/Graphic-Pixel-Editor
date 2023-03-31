@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.geom.*;
 
 // TextLayer simply represents any Text Layer on the Canvas
-class TextLayer extends LayerData {
+public class TextLayer extends LayerData {
 	private Color fontCol;
 	private int fontSz;
 	private String text;

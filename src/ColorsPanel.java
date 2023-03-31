@@ -5,7 +5,7 @@ import javax.swing.border.*;
 import java.util.*;
 
 // Colors Panel is used to Display the Color Swatches and the Color Chooser
-class ColorsPanel extends JPanel {
+public class ColorsPanel extends JPanel {
 	private ArrayList<Color> colorSwatches;
 	private ColorGui colorGui;
 	private final int rows;

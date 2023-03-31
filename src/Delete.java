@@ -2,7 +2,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 /** DeleteTool is used to delete shapes and layers in the canvas **/
-class Delete extends ClickableTool {
+public class Delete extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Clickable deleteBtn;

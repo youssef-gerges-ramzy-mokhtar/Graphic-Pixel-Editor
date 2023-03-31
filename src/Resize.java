@@ -2,7 +2,7 @@
 /**
  * Fixed Resize Locations
  */
-enum Resize {
+public enum Resize {
 	BOTTOMRIGHT, // Can Resize from Bottom Right Corner 
 	BOTTOMLEFT, // Can Resize from Bottom Left Corner
 	TOPRIGHT, // Can Resize from Top Right Corner

@@ -2,7 +2,7 @@ import java.awt.image.*;
 import java.awt.*;
 
 // The DrawingLayer is used to represent the Base/Background Layer 
-class DrawingLayer extends LayerData {
+public class DrawingLayer extends LayerData {
 	/**
 	 * DrawingLayer is used to reprsent the Base/Background Layer on the Screen/Canvas
 	 * @param layer is the image representing the drawing layer

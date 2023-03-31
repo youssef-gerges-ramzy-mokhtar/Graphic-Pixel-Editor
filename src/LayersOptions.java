@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // LayersOptions is the Layer Panel on the Right Displaying all the Layers that currently exist on the Canvas
-class LayersOptions extends JPanel implements LayerObserver {
+public class LayersOptions extends JPanel implements LayerObserver {
 	private LayersHandler layersHandler;
     private UndoTool undo;
     private ArrayList<LayerOption> layersOptions;

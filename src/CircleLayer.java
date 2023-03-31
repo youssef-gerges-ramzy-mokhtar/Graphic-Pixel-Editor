@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // CircleLayer simply represents any Circle Layer on the Canvas
-class CircleLayer extends ShapeLayer {
+public class CircleLayer extends ShapeLayer {
 	/**
 	 * Creates a new CircleLayer which is used to represent a circle on the screen/canvas
 	 * @param width defines the width of the circle layer

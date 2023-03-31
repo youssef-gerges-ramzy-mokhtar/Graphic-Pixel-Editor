@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // Pen is used to represent the Properties of a Pen
-class Pen extends Brush {
+public class Pen extends Brush {
 	/**
 	 * used to represent the Properties of a Pen
 	 * @param thickness pen thicknes

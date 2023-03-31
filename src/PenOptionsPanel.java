@@ -5,7 +5,7 @@ import javax.swing.event.*;
 import java.util.*;
 
 // Pen Options Panel is the Panel to display brush properties, for now that is the Brush Size
-class PenOptionsPanel extends JPanel implements Observable {
+public class PenOptionsPanel extends JPanel implements Observable {
 	// The code in this class will be changed in the future to be more DRY, and to look more better
 	private final int maxBrushSz = 50;
 	private JLabel title = new JLabel("Thickness");

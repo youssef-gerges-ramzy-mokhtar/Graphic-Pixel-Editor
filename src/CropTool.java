@@ -2,7 +2,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 // Crop Tool is simply used to represent the Crop Tool
-class CropTool extends ClickableTool {
+public class CropTool extends ClickableTool {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private LayerData layerToCrop;

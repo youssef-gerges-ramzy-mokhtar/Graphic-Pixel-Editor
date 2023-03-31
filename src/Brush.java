@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // Brush is an abstract class used to represent common properties that is shared between all brushes
-abstract class Brush {
+public abstract class Brush {
 	private int thickness;
 	private Color col;
 	private Point pos;

@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.lang.Runtime;
 
-class UndoTool extends ClickableTool {
+public class UndoTool extends ClickableTool {
 	private OurCanvas canvas;
 	private Clickable undoBtn;
 	private Clickable redoBtn;
@@ -32,13 +32,13 @@ class UndoTool extends ClickableTool {
 	}
 
 	/**
-	 * initTool initialize the properties of the Undo & Redo Tools
-	 * The Undo & Redo Tools Affects the Layers Panel
+	 * initTool initialize the properties of the Undo and Redo Tools
+	 * The Undo and Redo Tools Affects the Layers Panel
 	 * @param undo is the tool that manages how the undo and redo works
 	 */
-	// initTool initialize the properties of the Undo & Redo Tool
+	// initTool initialize the properties of the Undo and Redo Tool
 	/*
-		- The Undo & Redo Tools Affects the Layers Panel
+		- The Undo and Redo Tools Affects the Layers Panel
 		- The Undo Tool has shortcut 'ctrl + z'
 		- The Redo Tool has shortcut 'ctrl + y'
 	*/

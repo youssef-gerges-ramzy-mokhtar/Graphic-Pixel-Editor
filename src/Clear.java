@@ -1,7 +1,7 @@
 import java.awt.event.*;
 
 /** Clear Tool is used to clear everything in the canvas **/
-class Clear extends ClickableTool  implements CanvasObserver {
+public class Clear extends ClickableTool  implements CanvasObserver {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Clickable clearBtn;

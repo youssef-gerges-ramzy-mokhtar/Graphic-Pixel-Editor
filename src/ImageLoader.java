@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 // ImageLoader is used to Load Images from the User's Computer into the Program
-class ImageLoader extends ClickableTool {
+public class ImageLoader extends ClickableTool {
     private JMenu openImageMenu = new JMenu("Open Image");
     private OurCanvas canvas;
     private ImageLayer lastLoadedImg;

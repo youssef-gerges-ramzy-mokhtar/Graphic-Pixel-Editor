@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.util.*;
 
 // FillTool is used to pour large areas of paint onto the Canvas that expand until they find a border they cannot flow over.
-class FillTool extends ClickableTool implements Observer {
+public class FillTool extends ClickableTool implements Observer {
     private OurCanvas canvas;
     private Clickable fillBtn;
 	private Color barrierCol;

@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.image.*;
 import java.awt.event.*;
 
-class ImageFilters extends JFrame implements ActionListener {
+public class ImageFilters extends JFrame implements ActionListener {
     protected OurCanvas canvas;
 	private LayersHandler layersHandler;
     private MyFilter blurFilter = new BlurFilter();

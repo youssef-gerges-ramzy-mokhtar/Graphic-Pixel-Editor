@@ -3,7 +3,7 @@ import java.awt.*;
 import java.util.*;
 
 // ToolsPanel is the Left Panel used to shows all the Tools Buttons
-class ToolsPanel extends JPanel implements Observer {
+public class ToolsPanel extends JPanel implements Observer {
     private ArrayList<Clickable> clickables;
 
     /**

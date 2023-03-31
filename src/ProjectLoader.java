@@ -5,7 +5,7 @@ import javax.swing.event.*;
 import java.awt.image.*;
 
 // ProjectLoader is used to load a saved project into the canvas
-class ProjectLoader extends ClickableTool {
+public class ProjectLoader extends ClickableTool {
 	private JMenu openProjectMenu;
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;

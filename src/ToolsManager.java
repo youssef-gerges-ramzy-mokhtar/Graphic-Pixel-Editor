@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;  
 
 // ToolsManager is like a Facade that is responsible for creating the Tools and linking the different tools to each other
-class ToolsManager {
+public class ToolsManager {
 	private OurCanvas canvas;
 	private ToolsPanel toolsPanel;
     private ColorGui colorGui;

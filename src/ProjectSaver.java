@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 // ProjectSaver is used to Save the Layers State for later user re-access 
-class ProjectSaver {
+public class ProjectSaver {
 	private JMenu saveProjectMenu;
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;

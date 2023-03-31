@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.*;
 
 // SaveAs is used Loads Images from the User's Computer into the Program
-class SaveAs{
+public class SaveAs{
     private JMenu saveMenu = new JMenu("Save As");
     private OurCanvas canvas;
 

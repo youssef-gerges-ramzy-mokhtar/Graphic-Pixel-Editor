@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.*;
 
 // Help is used Loads Images from the User's Computer into the Program
-class Help {
+public class Help {
   private JMenu helpMenu = new JMenu("Help");
 
   /**

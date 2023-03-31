@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // LayerGraphics is a general class used to represent all common properties between all Layer Graphics
-abstract class LayerGraphics extends SpecificGraphic {
+public abstract class LayerGraphics extends SpecificGraphic {
 	protected int width;
 	protected int height;
 	protected Point position;

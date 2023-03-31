@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // PenTool is used to represent the Pen Tool
-class PenTool extends DrawingTool {
+public class PenTool extends DrawingTool {
 	/**
 	 * Pen Tool is used to represent the Pen
 	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure

@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // RectangleLayer simply represents any Rectangle Layer on the Canvas
-class RectangleLayer extends ShapeLayer {
+public class RectangleLayer extends ShapeLayer {
 	/**
 	 * Creates a new RectangleLayer which is used to represent a rectangle on the screen/canvas
 	 * @param width defines the width of the rectangle layer

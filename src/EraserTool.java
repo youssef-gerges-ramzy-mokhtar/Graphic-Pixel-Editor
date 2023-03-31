@@ -1,7 +1,7 @@
 import java.awt.*;
 
 // Eraser is used to represent the Eraser Tool
-class EraserTool extends DrawingTool {
+public class EraserTool extends DrawingTool {
 	/**
 	 * Eraser Tool is used to represent the Eraser
 	 * @param layerObserver a layerObserver is an object that observers changes that happens to the layers structure

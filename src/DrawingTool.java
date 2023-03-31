@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 // Drawing Tool is an abstract class used to represent any Tool that draws into the Canvas
-abstract class DrawingTool extends ClickableTool implements Observer {
+public abstract class DrawingTool extends ClickableTool implements Observer {
 	protected Clickable drawingBtn;
 	protected Brush brush;
 	protected LineGraphics lineGraphic;

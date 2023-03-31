@@ -3,7 +3,7 @@ import java.awt.*;
 import javax.swing.JOptionPane; 
 
 // Text Tool is used to add text into the canvas
-class TextTool extends ClickableTool implements Observer {
+public class TextTool extends ClickableTool implements Observer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Clickable textBtn;

@@ -2,7 +2,7 @@ import java.awt.image.*;
 import java.awt.*;
 
 // ShapeLayer is used to represent the common propertiese of all shape layers
-abstract class ShapeLayer extends LayerData {
+public abstract class ShapeLayer extends LayerData {
 	private SpecificGraphic specificGraphic;
 	protected Color strokeCol;
 	protected Color fillCol;

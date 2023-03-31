@@ -2,7 +2,7 @@ import java.awt.image.*;
 import java.awt.*;
 
 // ImageLayer simply represents any Image Layer on the Canvas
-class ImageLayer extends LayerData {
+public class ImageLayer extends LayerData {
 	/**
 	 * ImageLayer is used to reprsent any Image on the Screen/Canvas
 	 * @param layer is the image representing the image layer

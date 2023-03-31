@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 // ShapeTool is responsible for adding & handling any generic Shape to the cavnas
-abstract class ShapeTool extends ClickableTool implements Observer {
+public abstract class ShapeTool extends ClickableTool implements Observer {
 	private OurCanvas canvas;
 	private LayersHandler layersHandler;
 	private Point pivot;

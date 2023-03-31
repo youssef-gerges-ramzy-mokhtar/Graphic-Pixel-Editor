@@ -2,7 +2,7 @@ import java.awt.image.*;
 import java.awt.*;
 
 // LayerData is a generic class used to represent the common properties and behaviour that is shared among all existing layers
-abstract class LayerData {
+public abstract class LayerData {
 	protected BufferedImage layer; // layer holds all the pixels that represent any layer
 	protected BufferedImage originalLayer; // originalLayer is used mainly for avoiding image pixilation during resizing
 	private BufferedImage layerSelection; // layer holds all the pixels that represent any layer plus a selectin border
