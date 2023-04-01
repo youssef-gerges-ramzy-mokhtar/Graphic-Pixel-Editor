@@ -12,7 +12,7 @@
 - Compile the code using the following command "javac *.java"
 - the main method is in the Display Class type the following command to start using the program "Java Display"
 
-### That is a group Project and the following people worked on developing the project. Contributors to the Project:
+### The following people worked on developing the project. Contributors to the Project:
 - Tomas Ditchfield Ogle
 - Louis Silsby
 - Hamza Mohsin
