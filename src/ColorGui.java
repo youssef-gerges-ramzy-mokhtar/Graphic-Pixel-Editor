@@ -25,6 +25,10 @@ public class ColorGui implements Observable, Observer {
 	private void addColorBtnListener() {
 		colorBtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
+				JColorChooser colorChooser = new JColorChooser();
+				currentColor = JColorChooser.showDialog(null, "Pick a Color", currentColor);
+				if (currentColor == null) return;
+
 				colorBtn.setBackground(currentColor);
 				notifyObservers();
 			}
