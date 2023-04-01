@@ -13,7 +13,7 @@
 - the main method is in the Display Class type the following command to start using the program "Java Display"
 
 ### The following people worked on developing the project. Contributors to the Project:
-- Tomas Ditchfield Ogle
+- Tomas Ditchfield-Ogle
 - Louis Silsby
 - Hamza Mohsin
 - Nicoletta Nadine Rudy
