@@ -1,4 +1,5 @@
 # Graphics Pixel Editor SSC210 (Group Project)
+![App Screenshoot](https://github.com/youssef-gerges-ramzy-mokhtar/Graphic-Pixel-Editor/blob/main/screenshots/program.png)
 
 ### This is a Group Project University Coursework
 
