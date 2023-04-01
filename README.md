@@ -1,8 +1,6 @@
 # Graphics Pixel Editor SSC210 (Group Project)
 ![App Screenshoot](https://github.com/youssef-gerges-ramzy-mokhtar/Graphic-Pixel-Editor/blob/main/screenshots/program.png)
 
-### This is a Group Project University Coursework
-
 ### A multi purpose pixel editing application, that supports many common features users would expect from a pixel editing application such as drawing, importing images and additional features consisting of layering and layer operations to give users more flexibility while using the program.
 
 ### A manual of the project is available in Manual Folder. The manual states the features offered by the project and a description of every feature.
