@@ -11,8 +11,8 @@ A manual of the project is available in Manual Folder. The manual states the fea
 - Clone this repo into your local machine
 - Go to the "src" Folder
 - You must have Java Installed on your Machine to compile the code
-- Compile the code using the following command "javac *.java"
-- the main method is in the Display Class type the following command to start using the program "Java Display"
+- Compile the code using the following command ```javac *.java```
+- the main method is in the Display Class type the following command to start using the program ```Java Display```
 
 ## The following people worked on developing the project. Contributors to the Project:
 - Tomas Ditchfield-Ogle
