@@ -12,7 +12,7 @@ public class Display extends JFrame {
     public Display() {
         this.toolsManager = new ToolsManager();
         initFrameProperties();
-        // initFrameLayout();
+        initFrameLayout();
     }
 
     // initFrameProperties() sets the Frame Properties
